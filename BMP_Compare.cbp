@@ -22,9 +22,28 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="main.c">
+		<Unit filename="BMP_Compare.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="app_cfg.h" />
+		<Unit filename="functions.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="functions.h" />
+		<Unit filename="includes.h" />
+		<Unit filename="lib_img.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lib_img.h" />
+		<Unit filename="motiondetect.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="motiondetect.h" />
+		<Unit filename="motorcontrol.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="motorcontrol.h" />
+		<Unit filename="usertype.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
