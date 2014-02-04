@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1391074835 source:c:\users\pluvinage\documents\developpement\source\codeblocks\bmp_compare\main.c
+	<stdio.h>
+	<stdlib.h>
+
