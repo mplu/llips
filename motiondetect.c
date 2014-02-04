@@ -143,10 +143,10 @@ void printf_area(t_area * area)
     area->BotRight.y);
 }
 
-t_vect evaluate_move(t_img * p_img_base,t_img * p_img_target,t_area area_1,t_area area_2)
+t_vect evaluate_move(t_img * p_img_base,t_img * p_img_target,t_area area_1,t_area area_2, t_vect * p_movement_origin)
 {
     t_vect ret = {0};
-    t_pixel temporary_pixel_1,temporary_pixel_2;
+    t_pixel temporary_pixel_1,temporary_pixel_2,temporary_pixel_3;
     t_area area_1_center,area_2_center,area_test;
     int i;
 
@@ -167,6 +167,9 @@ t_vect evaluate_move(t_img * p_img_base,t_img * p_img_target,t_area area_1,t_are
 
     temporary_pixel_2.x = (area_2.BotLeft.x + area_2.TopRight.x)/2 ;
     temporary_pixel_2.y = (area_2.BotLeft.y + area_2.TopRight.y)/2 ;
+
+    temporary_pixel_3.x = p_img_base->wi / 2;
+    temporary_pixel_3.y = p_img_base->he / 2;
 
     area_1_center.TopLeft.x    = temporary_pixel_1.x - 1;
     area_1_center.TopLeft.y    = temporary_pixel_1.y + 1;
@@ -191,13 +194,24 @@ t_vect evaluate_move(t_img * p_img_base,t_img * p_img_target,t_area area_1,t_are
     highlight_area(p_img_target,&area_2,SetRGB(0,255,0));
     highlight_area(p_img_target,&area_2_center,SetRGB(0,255,0));
 
-    ret = highlight_line(p_img_target,temporary_pixel_1,temporary_pixel_2,SetRGB(0,127,255));
+    ret = pixels_to_vector(temporary_pixel_1,temporary_pixel_2);
+    *p_movement_origin = pixels_to_vector(temporary_pixel_3,temporary_pixel_1);
 
     return ret;
 }
 
 
 t_vect highlight_line(t_img * img,t_pixel pix1,t_pixel pix2,unsigned long RGB)
+{
+    t_vect move;
+
+    move.x = pix2.x - pix1.x ;
+    move.y = pix2.y - pix1.y ;
+    //draw the line... I don't know how...
+    return move;
+}
+
+t_vect pixels_to_vector(t_pixel pix1,t_pixel pix2)
 {
     t_vect move;
 

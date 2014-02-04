@@ -13,6 +13,7 @@ int main(int argc , char *argv[])
     //t_img img_out_move;
 
     t_vect movement;
+    t_vect movement_origin;
 
     unsigned char img_in1_err,img_in2_err,img_in3_err,img_out1_err,img_out2_err,img_out_move_err;
     unsigned char img_diff_1_2=0,img_diff_2_3=0;
@@ -34,7 +35,6 @@ int main(int argc , char *argv[])
         }
     }else
     {/*nothing*/}
-    g_debug_mode = DEF_ENABLED;
 
     if (argc < 3)
 	{
@@ -130,17 +130,17 @@ int main(int argc , char *argv[])
             }else
             {
             }
-            printf("1\n");
+            //printf("1\n");
         }else
         {
 
-            printf("0\n");
+            //printf("0\n");
         }
 
 
     }else
     {
-        printf("0\n");
+        //printf("0\n");
     }
 
     if ((img_in2_err == NO_ERROR) && (img_in3_err == NO_ERROR))
@@ -163,17 +163,17 @@ int main(int argc , char *argv[])
             }else
             {
             }
-            printf("1\n");
+            //printf("1\n");
         }else
         {
 
-            printf("0\n");
+            //printf("0\n");
         }
 
 
     }else
     {
-        printf("0\n");
+        //printf("0\n");
     }
 
     /* Determine mouvement */
@@ -182,15 +182,19 @@ int main(int argc , char *argv[])
         init_img(&img_out2);
         //evaluate_move(&img_in2,&img_out_move,change_1_2,change_2_3);
         //img_out_move_err = write_img(MOVE,&img_out_move);
-        movement = evaluate_move(&img_in2,&img_out2,change_1_2,change_2_3);
+        movement = evaluate_move(&img_in2,&img_out2,change_1_2,change_2_3,&movement_origin);
         img_out_move_err = write_img(MOVE,&img_out2);
         if(img_out_move_err == NO_ERROR)
         {
-            printf("Movement image created, %d detected\n",movement.x);
+            printf("1\t%d\t%d\n",movement.x,movement_origin.x);
         }else
         {
+            printf("0\t0\t0\n");
         }
 
+    }else
+    {
+        printf("0\t0\t0\n");
     }
 
     return 0;

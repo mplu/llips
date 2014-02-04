@@ -63,19 +63,19 @@
 
 1391511621 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\lib_img.h
 
-1391519840 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\motiondetect.h
+1391525690 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\motiondetect.h
 
 1391511622 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\motorcontrol.h
 
 1391511621 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\lib_img.c
 	"includes.h"
 
-1391520972 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\motiondetect.c
+1391526376 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\motiondetect.c
 	"includes.h"
 
 1391511622 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\motorcontrol.c
 	"includes.h"
 
-1391520949 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\bmp_compare.c
+1391525767 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\bmp_compare.c
 	"includes.h"
 
