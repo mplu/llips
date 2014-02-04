@@ -2,14 +2,12 @@
 
 extern unsigned char g_debug_mode;
 
-unsigned char search_diff(unsigned char tolerance,unsigned short quantity, t_img * img_in1,t_img * img_in2,t_img * img_out)
+unsigned char search_diff(unsigned char tolerance,unsigned short quantity, t_img * img_in1,t_img * img_in2,t_img * img_out,t_area * change_img)
 {
     unsigned char ret = NO_DIFF;
     int i,j;
     unsigned int raw_tolerance,raw_quantity;
     unsigned int quantity_of_diff_pixel = 0;
-
-    t_area change_img1;
 
     // calculte raw tolerance and quantity
     raw_quantity = ((img_in1->he * img_in1->wi)*quantity)/1000;
@@ -17,7 +15,7 @@ unsigned char search_diff(unsigned char tolerance,unsigned short quantity, t_img
 
     if((img_in1->he == img_in2->he) && (img_in1->wi == img_in2->wi))
     {
-        init_area(&change_img1,img_in1->wi,img_in1->he);
+        init_area(change_img,img_in1->wi,img_in1->he);
 
         //Write Header
         for(i=0;i<img_in2->FileHeader_size;i++)
@@ -59,14 +57,14 @@ unsigned char search_diff(unsigned char tolerance,unsigned short quantity, t_img
                     quantity_of_diff_pixel ++;
 
                     /* identify area of change */
-                    change_img1.BotLeft.x   = min(change_img1.BotLeft.x,j);
-                    change_img1.BotLeft.y   = min(change_img1.BotLeft.y,i);
-                    change_img1.BotRight.x  = max(change_img1.BotRight.x,j);
-                    change_img1.BotRight.y  = min(change_img1.BotRight.y,i);
-                    change_img1.TopLeft.x   = min(change_img1.TopLeft.x,j);
-                    change_img1.TopLeft.y   = max(change_img1.TopLeft.y,i);
-                    change_img1.TopRight.x  = max(change_img1.TopRight.x,j);
-                    change_img1.TopRight.y  = max(change_img1.TopRight.y,i);
+                    change_img->BotLeft.x   = min(change_img->BotLeft.x,j);
+                    change_img->BotLeft.y   = min(change_img->BotLeft.y,i);
+                    change_img->BotRight.x  = max(change_img->BotRight.x,j);
+                    change_img->BotRight.y  = min(change_img->BotRight.y,i);
+                    change_img->TopLeft.x   = min(change_img->TopLeft.x,j);
+                    change_img->TopLeft.y   = max(change_img->TopLeft.y,i);
+                    change_img->TopRight.x  = max(change_img->TopRight.x,j);
+                    change_img->TopRight.y  = max(change_img->TopRight.y,i);
 
                 }else
                 {
@@ -92,12 +90,10 @@ unsigned char search_diff(unsigned char tolerance,unsigned short quantity, t_img
     }else{/*nothing*/}
 
 
-    highlight_area(img_out,&change_img1,SetRGB(255,0,0));
+    highlight_area(img_out,change_img,SetRGB(255,0,0));
 
     return ret;
 }
-
-
 
 void init_area(t_area * area,unsigned short maxwidth,unsigned short maxheight)
 {
@@ -145,4 +141,83 @@ void printf_area(t_area * area)
     area->BotLeft.y,
     area->BotRight.x,
     area->BotRight.y);
+}
+
+t_vect evaluate_move(t_img * p_img_base,t_img * p_img_target,t_area area_1,t_area area_2)
+{
+    t_vect ret = {0};
+    t_pixel temporary_pixel_1,temporary_pixel_2;
+    t_area area_1_center,area_2_center,area_test;
+    int i;
+
+    //Write Header for target img, base on base img data
+    for(i=0;i<p_img_base->FileHeader_size;i++)
+    {
+        p_img_target->FileHeader[i] = p_img_base->FileHeader[i];
+    }
+    p_img_target->signature = p_img_base->signature;
+    p_img_target->depth = p_img_base->depth;
+    p_img_target->wi = p_img_base->wi;
+    p_img_target->he = p_img_base->he;
+    p_img_target->FileHeader_size = p_img_base->FileHeader_size;
+
+
+    temporary_pixel_1.x = (area_1.BotLeft.x + area_1.TopRight.x)/2 ;
+    temporary_pixel_1.y = (area_1.BotLeft.y + area_1.TopRight.y)/2 ;
+
+    temporary_pixel_2.x = (area_2.BotLeft.x + area_2.TopRight.x)/2 ;
+    temporary_pixel_2.y = (area_2.BotLeft.y + area_2.TopRight.y)/2 ;
+
+    area_1_center.TopLeft.x    = temporary_pixel_1.x - 1;
+    area_1_center.TopLeft.y    = temporary_pixel_1.y + 1;
+    area_1_center.TopRight.x   = temporary_pixel_1.x + 1;
+    area_1_center.TopRight.y   = temporary_pixel_1.y + 1;
+    area_1_center.BotLeft.x    = temporary_pixel_1.x - 1;
+    area_1_center.BotLeft.y    = temporary_pixel_1.y - 1;
+    area_1_center.BotRight.x   = temporary_pixel_1.x + 1;
+    area_1_center.BotRight.y   = temporary_pixel_1.y - 1;
+
+    area_2_center.TopLeft.x    = temporary_pixel_2.x - 1;
+    area_2_center.TopLeft.y    = temporary_pixel_2.y + 1;
+    area_2_center.TopRight.x   = temporary_pixel_2.x + 1;
+    area_2_center.TopRight.y   = temporary_pixel_2.y + 1;
+    area_2_center.BotLeft.x    = temporary_pixel_2.x - 1;
+    area_2_center.BotLeft.y    = temporary_pixel_2.y - 1;
+    area_2_center.BotRight.x   = temporary_pixel_2.x + 1;
+    area_2_center.BotRight.y   = temporary_pixel_2.y - 1;
+
+    highlight_area(p_img_target,&area_1,SetRGB(255,0,0));
+    highlight_area(p_img_target,&area_1_center,SetRGB(255,0,0));
+    highlight_area(p_img_target,&area_2,SetRGB(0,255,0));
+    highlight_area(p_img_target,&area_2_center,SetRGB(0,255,0));
+
+    ret = highlight_line(p_img_target,temporary_pixel_1,temporary_pixel_2,SetRGB(0,127,255));
+
+    return ret;
+}
+
+
+t_vect highlight_line(t_img * img,t_pixel pix1,t_pixel pix2,unsigned long RGB)
+{
+    t_vect move;
+
+    move.x = pix2.x - pix1.x ;
+    move.y = pix2.y - pix1.y ;
+
+    return move;
+}
+
+t_area pixel_to_area(t_pixel pix)
+{
+    t_area ret;
+    ret.TopLeft.x  = pix.x;
+    ret.TopLeft.y  = pix.y;
+    ret.TopRight.x = pix.x;
+    ret.TopRight.y = pix.y;
+    ret.BotLeft.x  = pix.x;
+    ret.BotLeft.y  = pix.y;
+    ret.BotRight.x = pix.x;
+    ret.BotRight.y = pix.y;
+
+    return ret;
 }

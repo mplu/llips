@@ -5,12 +5,20 @@ unsigned char g_debug_mode = DEF_DISABLED;
 int main(int argc , char *argv[])
 {
 
-    t_img img1;
-    t_img img2;
-    t_img img3;
+    t_img img_in1;
+    t_img img_in2;
+    t_img img_in3;
+    t_img img_out1;
+    t_img img_out2;
+    //t_img img_out_move;
 
-    unsigned char img1_err,img2_err,img3_err;
-    unsigned char img_diff;
+    t_vect movement;
+
+    unsigned char img_in1_err,img_in2_err,img_in3_err,img_out1_err,img_out2_err,img_out_move_err;
+    unsigned char img_diff_1_2=0,img_diff_2_3=0;
+
+    t_area change_1_2;
+    t_area change_2_3;
 
 
     int tolerance, quantity;
@@ -59,157 +67,73 @@ int main(int argc , char *argv[])
         printf("Init data\n");
     }else{/*nothing*/}
 
-    init_img(&img1);
-    init_img(&img2);
-    init_img(&img3);
+    init_img(&img_in1);
+    init_img(&img_in2);
+    init_img(&img_in3);
+    init_img(&img_out1);
+    init_img(&img_out2);
+    //init_img(&img_out_move);
 
-    img1_err = decode_img(BASE, &img1);
-    if (img1_err == NO_ERROR)
+    img_in1_err = decode_img(OLD, &img_in1);
+    if (img_in1_err == NO_ERROR)
     {
-        if (g_debug_mode == DEF_ENABLED)
-        {
-            // Display info
-            printf("Image %s is valid :\n%x signature\n%d depth\n%d width\n%d height\n\n"  \
-                    ,BASE,img1.signature,img1.depth,(short int)img1.wi,(short int)img1.he);
-            // Display Image
-            display_img_value(&img1,/*HEADER|BLUE|GREEN|RED|*/0);
-        }else{/*nothing*/}
-
     }else
     {
         if (g_debug_mode == DEF_ENABLED)
         {
-            printf("Image %s not supported - err : %x\n",BASE,img1_err);
+            printf("Image %s not supported - err : %x\n",OLD,img_in1_err);
         }else{/*nothing*/}
 
     }
 
-    img2_err = decode_img(NEW, &img2);
-    if (img2_err == NO_ERROR)
+    img_in2_err = decode_img(BASE, &img_in2);
+    if (img_in2_err == NO_ERROR)
     {
-        if (g_debug_mode == DEF_ENABLED)
-        {
-            // Display info
-            printf("Image %s is valid :\n%x signature\n%d depth\n%d width\n%d height\n\n"  \
-                    ,NEW,img2.signature,img2.depth,(short int)img2.wi,(short int)img2.he);
-            // Display Image
-            display_img_value(&img1,/*HEADER|BLUE|GREEN|RED|*/0);
-        }else{/*nothing*/}
-
     }else
     {
         if (g_debug_mode == DEF_ENABLED)
         {
-            printf("Image %s not supported - err : %x\n",NEW,img2_err);
+            printf("Image %s not supported - err : %x\n",BASE,img_in2_err);
         }else{/*nothing*/}
 
     }
 
-    if ((img2_err == NO_ERROR) && (img2_err == NO_ERROR))
+    img_in3_err = decode_img(NEW, &img_in3);
+    if (img_in3_err == NO_ERROR)
     {
-
-        img_diff = search_diff((unsigned char)tolerance,(unsigned char)quantity,&img1,&img2,&img3);
+    }else
+    {
         if (g_debug_mode == DEF_ENABLED)
         {
-            printf("Images %s and %s comparison report :\n",BASE,NEW);
-            printf("img_diff = %2x\n",img_diff);
+            printf("Image %s not supported - err : %x\n",NEW,img_in2_err);
         }else{/*nothing*/}
 
-        if (img_diff == NO_DIFF)
-        {
-            if (g_debug_mode == DEF_ENABLED)
-            {
-                printf("Seems Identical\n");
-            }else{/*nothing*/}
+    }
 
+    if ((img_in1_err == NO_ERROR) && (img_in2_err == NO_ERROR))
+    {
+
+        img_diff_1_2 = search_diff((unsigned char)tolerance,(unsigned char)quantity,&img_in1,&img_in2,&img_out1,&change_1_2);
+        if (img_diff_1_2 == NO_DIFF)
+        {
         }else
         {
-            if (g_debug_mode == DEF_ENABLED)
-            {
-                printf("Different on ");
-            }else{/*nothing*/}
-
-            if((img_diff & DIFF_SIZE)!=0)
-            {
-                if (g_debug_mode == DEF_ENABLED)
-                {
-                    printf("size ");
-                }else{/*nothing*/}
-            }
-            if((img_diff & DIFF_BLUE)!=0)
-            {
-                if (g_debug_mode == DEF_ENABLED)
-                {
-                    printf("blue pixels ");
-                }else{/*nothing*/}
-            }
-            if((img_diff & DIFF_GREEN)!=0)
-            {
-                if (g_debug_mode == DEF_ENABLED)
-                {
-                    printf("green pixels ");
-                }else{/*nothing*/}
-            }
-            if((img_diff & DIFF_RED)!=0)
-            {
-                if (g_debug_mode == DEF_ENABLED)
-                {
-                    printf("red pixels ");
-                }else{/*nothing*/}
-            }
-            if (g_debug_mode == DEF_ENABLED)
-            {
-                printf("\n");
-            }else{/*nothing*/}
-
         }
 
-        //display_img_value(&img3,HEADER|BLUE|GREEN|RED|0);
-        if((img_diff & DIFF_HIGH_QUANTITY)!=0)
+        //display_img_value(&img_out1,HEADER|BLUE|GREEN|RED|0);
+        if((img_diff_1_2 & DIFF_HIGH_QUANTITY)!=0)
         {
-
-            if (g_debug_mode == DEF_ENABLED)
-            {
-                printf("Too many differences observed\n");
-            }else{/*nothing*/}
             // save a copy
-            img3_err = write_img(NEW_DIFF,&img3);
-            if(img3_err == NO_ERROR)
+            img_out1_err = write_img(NEW_DIFF_1,&img_out1);
+            if(img_out1_err == NO_ERROR)
             {
-                if (g_debug_mode == DEF_ENABLED)
-                {
-                    printf("Write Successful\n");
-                }else{/*nothing*/}
             }else
             {
-                if (g_debug_mode == DEF_ENABLED)
-                {
-                    printf("Write output image error\n");
-                }else{/*nothing*/}
             }
             printf("1\n");
         }else
         {
 
-            if (g_debug_mode == DEF_ENABLED)
-            {
-                printf("Not enough differences using actuel parameters\n");
-                // save a copy
-                img3_err = write_img(NEW_DIFF,&img3);
-                if(img3_err == NO_ERROR)
-                {
-                    if (g_debug_mode == DEF_ENABLED)
-                    {
-                        printf("Write Successful\n");
-                    }else{/*nothing*/}
-                }else
-                {
-                    if (g_debug_mode == DEF_ENABLED)
-                    {
-                        printf("Write output image error\n");
-                    }else{/*nothing*/}
-                }
-            }else{/*nothing*/}
             printf("0\n");
         }
 
@@ -217,6 +141,56 @@ int main(int argc , char *argv[])
     }else
     {
         printf("0\n");
+    }
+
+    if ((img_in2_err == NO_ERROR) && (img_in3_err == NO_ERROR))
+    {
+
+        img_diff_2_3 = search_diff((unsigned char)tolerance,(unsigned char)quantity,&img_in2,&img_in3,&img_out2,&change_2_3);
+        if (img_diff_2_3 == NO_DIFF)
+        {
+        }else
+        {
+        }
+
+        //display_img_value(&img_out1,HEADER|BLUE|GREEN|RED|0);
+        if((img_diff_2_3 & DIFF_HIGH_QUANTITY)!=0)
+        {
+            // save a copy
+            img_out2_err = write_img(NEW_DIFF_2,&img_out2);
+            if(img_out2_err == NO_ERROR)
+            {
+            }else
+            {
+            }
+            printf("1\n");
+        }else
+        {
+
+            printf("0\n");
+        }
+
+
+    }else
+    {
+        printf("0\n");
+    }
+
+    /* Determine mouvement */
+    if(((img_diff_1_2 & DIFF_HIGH_QUANTITY)!=0) && ((img_diff_2_3 & DIFF_HIGH_QUANTITY)!=0))
+    {
+        init_img(&img_out2);
+        //evaluate_move(&img_in2,&img_out_move,change_1_2,change_2_3);
+        //img_out_move_err = write_img(MOVE,&img_out_move);
+        movement = evaluate_move(&img_in2,&img_out2,change_1_2,change_2_3);
+        img_out_move_err = write_img(MOVE,&img_out2);
+        if(img_out_move_err == NO_ERROR)
+        {
+            printf("Movement image created, %d detected\n",movement.x);
+        }else
+        {
+        }
+
     }
 
     return 0;
