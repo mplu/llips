@@ -3,3 +3,41 @@
 	<stdio.h>
 	<stdlib.h>
 
+1391503966 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\motorcontrol.c
+	"includes.h"
+
+1391504936 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\includes.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"usertype.h"
+	"app_cfg.h"
+	"functions.h"
+	"lib_img.h"
+	"motiondetect.h"
+	"motorcontrol.h"
+
+1391503494 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\usertype.h
+
+1391504086 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\app_cfg.h
+
+1391504033 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\lib_img.h
+
+1391507683 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\motiondetect.h
+
+1391503771 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\motorcontrol.h
+
+1391504122 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\lib_img.c
+	"includes.h"
+
+1391504124 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\bmp_compare.c
+	"includes.h"
+
+1391504894 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\functions.h
+
+1391504944 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\functions.c
+	"includes.h"
+
+1391507601 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\motiondetect.c
+	"includes.h"
+
