@@ -4,7 +4,9 @@ unsigned char g_debug_mode = DEF_DISABLED;
 
 int main(int argc , char *argv[])
 {
-
+    int i = 1;
+    clock_t start, finish;
+    double duration;
     t_img img_in1;
     t_img img_in2;
     t_img img_in3;
@@ -23,6 +25,9 @@ int main(int argc , char *argv[])
 
 
     int tolerance, quantity;
+    while(i--)
+    {
+    start = clock();
 
     // checking debug argument
 	if (argc == 4)
@@ -186,7 +191,7 @@ int main(int argc , char *argv[])
         img_out_move_err = write_img(MOVE,&img_out2);
         if(img_out_move_err == NO_ERROR)
         {
-            printf("1\t%d\t%d\n",movement.x,movement_origin.x);
+            //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
         }else
         {
             printf("0\t0\t0\n");
@@ -197,6 +202,10 @@ int main(int argc , char *argv[])
         printf("0\t0\t0\n");
     }
 
+    finish = clock();
+    duration = (double)(finish - start) / CLOCKS_PER_SEC;
+    printf( "duration : %f seconds\n", duration );
+    }
     return 0;
 }
 

@@ -44,10 +44,11 @@
 1391511621 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\functions.c
 	"includes.h"
 
-1391511621 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\includes.h
+1392209884 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\includes.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	<time.h>
 	"usertype.h"
 	"app_cfg.h"
 	"functions.h"
@@ -76,6 +77,6 @@
 1391511622 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\motorcontrol.c
 	"includes.h"
 
-1391525767 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\bmp_compare.c
+1392209892 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\bmp_compare.c
 	"includes.h"
 
