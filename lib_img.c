@@ -278,3 +278,135 @@ unsigned char write_img(char * imgname, t_img * img)
     }
     return ret;
 }
+
+t_vect highlight_line(t_img * img,t_pixel pix1,t_pixel pix2,unsigned long RGB)
+{
+    t_vect move;
+
+    move.x = pix2.x - pix1.x ;
+    move.y = pix2.y - pix1.y ;
+    //draw the line... I don't know how...
+    return move;
+}
+
+t_vect pixels_to_vector(t_pixel pix1,t_pixel pix2)
+{
+    t_vect move;
+
+    move.x = pix2.x - pix1.x ;
+    move.y = pix2.y - pix1.y ;
+
+    return move;
+}
+
+t_area pixel_to_area(t_pixel pix)
+{
+    t_area ret;
+    ret.TopLeft.x  = pix.x;
+    ret.TopLeft.y  = pix.y;
+    ret.TopRight.x = pix.x;
+    ret.TopRight.y = pix.y;
+    ret.BotLeft.x  = pix.x;
+    ret.BotLeft.y  = pix.y;
+    ret.BotRight.x = pix.x;
+    ret.BotRight.y = pix.y;
+
+    return ret;
+}
+
+void init_area(t_area * area,unsigned short maxwidth,unsigned short maxheight)
+{
+    area->BotLeft.x = maxwidth;
+    area->BotLeft.y = maxheight;
+    area->BotRight.x = 0;
+    area->BotRight.y = maxheight;
+    area->TopLeft.x = maxwidth;
+    area->TopLeft.y = 0;
+    area->TopRight.x = 0;
+    area->TopRight.y = 0;
+}
+
+void highlight_area(t_img * img,t_area * area,unsigned long RGB)
+{
+    int i,j;
+
+    for(i=0;i< img->he ;i++)
+    {
+        for(j=0 ; j< img->wi ;j++)
+        {
+            if  (
+                    (((j >= area->BotLeft.x)  && (j <= area->BotRight.x)) && ((i == area->BotLeft.y)  || (i == area->BotRight.y)))
+                ||  (((j >= area->TopLeft.x)  && (j <= area->TopRight.x)) && ((i == area->TopLeft.y)  || (i == area->TopRight.y)))
+                ||  (((i >= area->BotLeft.y)  && (i <= area->TopLeft.y) ) && ((j == area->BotLeft.x)  || (j == area->TopLeft.x)) )
+                ||  (((i >= area->BotRight.y) && (i <= area->TopRight.y)) && ((j == area->BotRight.x) || (j == area->TopRight.x)))
+                )
+            {
+                img->Green[i][j]= GetGreen(RGB);
+                img->Blue[i][j] = GetBlue(RGB);
+                img->Red[i][j]  = GetRed(RGB);
+            }
+        }
+    }
+}
+
+void printf_area(t_area * area)
+{
+    printf("\n%d,%d\t- \t-\t-\t - %d,%d\n| \t- \t-\t-\t - |\n| \t- \t-\t-\t - |\n%d,%d\t- \t-\t-\t - %d,%d\n\n",
+    area->TopLeft.x,
+    area->TopLeft.y,
+    area->TopRight.x,
+    area->TopRight.y,
+    area->BotLeft.x,
+    area->BotLeft.y,
+    area->BotRight.x,
+    area->BotRight.y);
+}
+
+unsigned char color_filter(t_img * img_in,t_img * img_out, unsigned long color)
+{
+    unsigned char ret = NO_ERROR;
+    int i,j;
+
+    //Write Header
+    for(i=0;i<img_in->FileHeader_size;i++)
+    {
+        img_out->FileHeader[i] = img_in->FileHeader[i];
+    }
+    img_out->signature = img_in->signature;
+    img_out->depth = img_in->depth;
+    img_out->wi = img_in->wi;
+    img_out->he = img_in->he;
+    img_out->FileHeader_size = img_in->FileHeader_size;
+
+    //
+    for(i=0;i< (img_in->he - 1) ;i++)
+    {
+        for(j=0 ; (j< img_in->wi );j++)
+        {
+            if ((color & RED)!=0)
+            {
+                img_out->Red[i][j] = img_in->Red[i][j];
+            }else
+            {
+                img_out->Red[i][j] = 0;
+            }
+            if ((color & GREEN)!=0)
+            {
+                img_out->Green[i][j] = img_in->Green[i][j];
+            }else
+            {
+                img_out->Green[i][j] = 0;
+            }
+            if ((color & BLUE)!=0)
+            {
+                img_out->Blue[i][j] = img_in->Blue[i][j];
+            }else
+            {
+                img_out->Blue[i][j] = 0;
+            }
+        }
+    }
+
+
+    return ret;
+}

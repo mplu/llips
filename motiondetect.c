@@ -95,59 +95,12 @@ unsigned char search_diff(unsigned char tolerance,unsigned short quantity, t_img
     return ret;
 }
 
-void init_area(t_area * area,unsigned short maxwidth,unsigned short maxheight)
-{
-    area->BotLeft.x = maxwidth;
-    area->BotLeft.y = maxheight;
-    area->BotRight.x = 0;
-    area->BotRight.y = maxheight;
-    area->TopLeft.x = maxwidth;
-    area->TopLeft.y = 0;
-    area->TopRight.x = 0;
-    area->TopRight.y = 0;
-}
-
-void highlight_area(t_img * img,t_area * area,unsigned long RGB)
-{
-    int i,j;
-
-    for(i=0;i< img->he ;i++)
-    {
-        for(j=0 ; j< img->wi ;j++)
-        {
-            if  (
-                    (((j >= area->BotLeft.x)  && (j <= area->BotRight.x)) && ((i == area->BotLeft.y)  || (i == area->BotRight.y)))
-                ||  (((j >= area->TopLeft.x)  && (j <= area->TopRight.x)) && ((i == area->TopLeft.y)  || (i == area->TopRight.y)))
-                ||  (((i >= area->BotLeft.y)  && (i <= area->TopLeft.y) ) && ((j == area->BotLeft.x)  || (j == area->TopLeft.x)) )
-                ||  (((i >= area->BotRight.y) && (i <= area->TopRight.y)) && ((j == area->BotRight.x) || (j == area->TopRight.x)))
-                )
-            {
-                img->Green[i][j]= GetGreen(RGB);
-                img->Blue[i][j] = GetBlue(RGB);
-                img->Red[i][j]  = GetRed(RGB);
-            }
-        }
-    }
-}
-
-void printf_area(t_area * area)
-{
-    printf("\n%d,%d\t- \t-\t-\t - %d,%d\n| \t- \t-\t-\t - |\n| \t- \t-\t-\t - |\n%d,%d\t- \t-\t-\t - %d,%d\n\n",
-    area->TopLeft.x,
-    area->TopLeft.y,
-    area->TopRight.x,
-    area->TopRight.y,
-    area->BotLeft.x,
-    area->BotLeft.y,
-    area->BotRight.x,
-    area->BotRight.y);
-}
 
 t_vect evaluate_move(t_img * p_img_base,t_img * p_img_target,t_area area_1,t_area area_2, t_vect * p_movement_origin)
 {
     t_vect ret = {0};
     t_pixel temporary_pixel_1,temporary_pixel_2,temporary_pixel_3;
-    t_area area_1_center,area_2_center,area_test;
+    t_area area_1_center,area_2_center;
     int i;
 
     //Write Header for target img, base on base img data
@@ -201,37 +154,3 @@ t_vect evaluate_move(t_img * p_img_base,t_img * p_img_target,t_area area_1,t_are
 }
 
 
-t_vect highlight_line(t_img * img,t_pixel pix1,t_pixel pix2,unsigned long RGB)
-{
-    t_vect move;
-
-    move.x = pix2.x - pix1.x ;
-    move.y = pix2.y - pix1.y ;
-    //draw the line... I don't know how...
-    return move;
-}
-
-t_vect pixels_to_vector(t_pixel pix1,t_pixel pix2)
-{
-    t_vect move;
-
-    move.x = pix2.x - pix1.x ;
-    move.y = pix2.y - pix1.y ;
-
-    return move;
-}
-
-t_area pixel_to_area(t_pixel pix)
-{
-    t_area ret;
-    ret.TopLeft.x  = pix.x;
-    ret.TopLeft.y  = pix.y;
-    ret.TopRight.x = pix.x;
-    ret.TopRight.y = pix.y;
-    ret.BotLeft.x  = pix.x;
-    ret.BotLeft.y  = pix.y;
-    ret.BotRight.x = pix.x;
-    ret.BotRight.y = pix.y;
-
-    return ret;
-}

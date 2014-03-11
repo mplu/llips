@@ -2,7 +2,7 @@
 
 unsigned char g_debug_mode = DEF_DISABLED;
 
-int main(int argc , char *argv[])
+int main(int argc, char *argv[])
 {
     int i = 1;
     clock_t start, finish;
@@ -40,7 +40,7 @@ int main(int argc , char *argv[])
         }
     }else
     {/*nothing*/}
-
+    g_debug_mode = DEF_ENABLED;
     if (argc < 3)
 	{
 	    if (g_debug_mode == DEF_ENABLED)
@@ -206,6 +206,127 @@ int main(int argc , char *argv[])
     duration = (double)(finish - start) / CLOCKS_PER_SEC;
     printf( "duration : %f seconds\n", duration );
     }
+
+/*********************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
+    /* color filtering on BASE */
+    init_img(&img_in1);
+    img_in1_err = decode_img(BASE, &img_in1);
+    if (img_in1_err == NO_ERROR)
+    {
+    }else
+    {
+        if (g_debug_mode == DEF_ENABLED)
+        {
+            printf("Image %s not supported - err : %x\n",BASE,img_in1_err);
+        }else{/*nothing*/}
+
+    }
+
+    init_img(&img_out1);
+    color_filter(&img_in1,&img_out1, (RED));
+    img_out1_err = write_img(IMG_RED,&img_out1);
+    if(img_out1_err == NO_ERROR)
+    {
+        //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
+    }else
+    {
+        printf("write error\n");
+    }
+
+    init_img(&img_out1);
+    color_filter(&img_in1,&img_out1, (GREEN));
+    img_out1_err = write_img(IMG_GREEN,&img_out1);
+    if(img_out1_err == NO_ERROR)
+    {
+        //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
+    }else
+    {
+        printf("write error\n");
+    }
+
+    init_img(&img_out1);
+    color_filter(&img_in1,&img_out1, (BLUE));
+    img_out1_err = write_img(IMG_BLUE,&img_out1);
+    if(img_out1_err == NO_ERROR)
+    {
+        //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
+    }else
+    {
+        printf("write error\n");
+    }
+
+
+
+
+/*********************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
+    /* Contrast Detection on BASE */
+    init_img(&img_in1);
+    img_in1_err = decode_img(IMG_BLUE, &img_in1);
+    if (img_in1_err == NO_ERROR)
+    {
+    }else
+    {
+        if (g_debug_mode == DEF_ENABLED)
+        {
+            printf("Image %s not supported - err : %x\n",IMG_BLUE,img_in1_err);
+        }else{/*nothing*/}
+
+    }
+
+    init_img(&img_out1);
+
+    tolerance = 10;
+    search_contrast((unsigned char)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),(RED|GREEN|BLUE));
+    img_out1_err = write_img(CONTRAST_OUT,&img_out1);
+    if(img_out1_err == NO_ERROR)
+    {
+        //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
+    }else
+    {
+        printf("write error\n");
+    }
+
+
+    search_contrast((unsigned char)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),RED);
+    img_out1_err = write_img(CONTRAST_OUTR,&img_out1);
+    if(img_out1_err == NO_ERROR)
+    {
+        //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
+    }else
+    {
+        printf("write error\n");
+    }
+
+    search_contrast((unsigned char)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),GREEN);
+    img_out1_err = write_img(CONTRAST_OUTG,&img_out1);
+    if(img_out1_err == NO_ERROR)
+    {
+        //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
+    }else
+    {
+        printf("write error\n");
+    }
+
+    search_contrast((unsigned char)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),BLUE);
+    img_out1_err = write_img(CONTRAST_OUTB,&img_out1);
+    if(img_out1_err == NO_ERROR)
+    {
+        //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
+    }else
+    {
+        printf("write error\n");
+    }
+
+
+
+
+
     return 0;
 }
 

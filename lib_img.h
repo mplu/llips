@@ -16,6 +16,17 @@
 #define DEPTH_24bit                     24
 #define PIXEL_8bit_RANGE               255
 
+#define BLUE    0x0001
+#define GREEN   0x0010
+#define RED     0x0100
+#define HEADER  0x1000
+
+#define GetBlue(c)  0xFF&(c)
+#define GetGreen(c) 0xFF&(c>>8)
+#define GetRed(c)   0xFF&(c>>16)
+
+#define SetRGB(r,g,b)   ((0xFF&r)<<16) | ((0xFF&g)<<8 ) | (0xFF&b)
+
 typedef struct s_img
 {
     unsigned short  signature ;
@@ -30,8 +41,35 @@ typedef struct s_img
 
 }t_img;
 
+typedef struct s_pixel
+{
+    unsigned short  x ;
+    unsigned short  y ;
+}t_pixel;
+
+typedef struct s_vect
+{
+    short  x ;
+    short  y ;
+}t_vect;
+
+typedef struct s_area
+{
+    t_pixel BotLeft;
+    t_pixel BotRight;
+    t_pixel TopLeft;
+    t_pixel TopRight;
+}t_area;
 
 unsigned char decode_img(char * imgname, t_img * img);
 void init_img(t_img * img);
 void display_img_value(t_img * img,short int colors);
 unsigned char write_img(char * imgname, t_img * img);
+
+void init_area(t_area * area,unsigned short maxwidth,unsigned short maxheight);
+void highlight_area(t_img * img,t_area * area,unsigned long RGB);
+void printf_area(t_area * area);
+t_vect highlight_line(t_img * img,t_pixel pix1,t_pixel pix2,unsigned long RGB);
+t_area pixel_to_area(t_pixel pix);
+t_vect pixels_to_vector(t_pixel pix1,t_pixel pix2);
+unsigned char color_filter(t_img * img_in,t_img * img_out, unsigned long color);

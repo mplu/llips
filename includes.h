@@ -9,5 +9,6 @@
 
 #include "lib_img.h"
 #include "motiondetect.h"
+#include "contrastdetect.h"
 #include "motorcontrol.h"
 

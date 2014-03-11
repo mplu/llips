@@ -80,3 +80,48 @@
 1392209892 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\bmp_compare.c
 	"includes.h"
 
+1391511621 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\functions.c
+	"includes.h"
+
+1394463218 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\includes.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"usertype.h"
+	"app_cfg.h"
+	"functions.h"
+	"lib_img.h"
+	"motiondetect.h"
+	"contrastdetect.h"
+	"motorcontrol.h"
+
+1391511622 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\usertype.h
+
+1394524609 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\app_cfg.h
+
+1391511621 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\functions.h
+
+1394523899 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\lib_img.h
+
+1394463059 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\motiondetect.h
+
+1391511622 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\motorcontrol.h
+
+1394524390 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\lib_img.c
+	"includes.h"
+
+1394463238 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\motiondetect.c
+	"includes.h"
+
+1391511622 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\motorcontrol.c
+	"includes.h"
+
+1394524087 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\bmp_compare.c
+	"includes.h"
+
+1394523979 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\contrastdetect.h
+
+1394523976 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\contrastdetect.c
+	"includes.h"
+

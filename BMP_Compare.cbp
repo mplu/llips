@@ -26,6 +26,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="app_cfg.h" />
+		<Unit filename="contrastdetect.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="contrastdetect.h" />
 		<Unit filename="functions.c">
 			<Option compilerVar="CC" />
 		</Unit>

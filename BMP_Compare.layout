@@ -1,37 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
-	<File name="BMP_Compare.c" open="1" top="0" tabpos="1">
-		<Cursor position="4452" topLine="184" />
+	<File name="BMP_Compare.c" open="1" top="1" tabpos="1">
+		<Cursor position="5916" topLine="222" />
 	</File>
-	<File name="app_cfg.h" open="1" top="0" tabpos="5">
-		<Cursor position="620" topLine="0" />
+	<File name="app_cfg.h" open="0" top="0" tabpos="5">
+		<Cursor position="314" topLine="14" />
+	</File>
+	<File name="contrastdetect.c" open="1" top="0" tabpos="2">
+		<Cursor position="1083" topLine="3" />
+	</File>
+	<File name="contrastdetect.h" open="0" top="0" tabpos="0">
+		<Cursor position="140" topLine="0" />
 	</File>
 	<File name="functions.c" open="0" top="0" tabpos="0">
 		<Cursor position="234" topLine="0" />
 	</File>
-	<File name="functions.h" open="1" top="0" tabpos="8">
+	<File name="functions.h" open="0" top="0" tabpos="8">
 		<Cursor position="18" topLine="0" />
 	</File>
-	<File name="includes.h" open="1" top="1" tabpos="9">
-		<Cursor position="62" topLine="0" />
+	<File name="includes.h" open="0" top="0" tabpos="9">
+		<Cursor position="221" topLine="0" />
 	</File>
-	<File name="lib_img.c" open="1" top="0" tabpos="2">
-		<Cursor position="2822" topLine="36" />
+	<File name="lib_img.c" open="0" top="0" tabpos="2">
+		<Cursor position="3308" topLine="66" />
 	</File>
-	<File name="lib_img.h" open="1" top="0" tabpos="3">
-		<Cursor position="689" topLine="0" />
+	<File name="lib_img.h" open="0" top="0" tabpos="3">
+		<Cursor position="678" topLine="4" />
 	</File>
-	<File name="motiondetect.c" open="1" top="0" tabpos="6">
-		<Cursor position="3499" topLine="83" />
+	<File name="motiondetect.c" open="0" top="0" tabpos="6">
+		<Cursor position="497" topLine="0" />
 	</File>
-	<File name="motiondetect.h" open="1" top="0" tabpos="7">
-		<Cursor position="791" topLine="0" />
+	<File name="motiondetect.h" open="0" top="0" tabpos="7">
+		<Cursor position="152" topLine="0" />
 	</File>
 	<File name="motorcontrol.c" open="0" top="0" tabpos="0">
 		<Cursor position="59" topLine="0" />
 	</File>
-	<File name="usertype.h" open="1" top="0" tabpos="4">
+	<File name="usertype.h" open="0" top="0" tabpos="4">
 		<Cursor position="0" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
