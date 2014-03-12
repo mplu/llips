@@ -21,10 +21,6 @@
 #define RED     0x0100
 #define HEADER  0x1000
 
-#define MAX_WIDTH           4000
-#define MAX_HEIGHT          3000
-#define MAX_HEADER_size     200
-
 #define NO_ERROR            0x0000
 #define ERR_NOFILE          0x0001
 #define ERR_NOT_WINBMP      0x0002
@@ -47,6 +43,13 @@
 
 #define SetRGB(r,g,b)   ((0xFF&r)<<16) | ((0xFF&g)<<8 ) | (0xFF&b)
 
+/** lib img configuration **/
+#define MAX_WIDTH           4000
+#define MAX_HEIGHT          3000
+#define MAX_HEADER_size     200
+#define HISTO_LEVEL         64
+/***************************/
+
 typedef struct s_img
 {
     unsigned short  signature ;
@@ -57,9 +60,6 @@ typedef struct s_img
     unsigned char ** Green;
     unsigned char ** Red;
 
-    //unsigned char   Blue[MAX_HEIGHT][MAX_WIDTH];
-    //unsigned char   Green[MAX_HEIGHT][MAX_WIDTH];
-    //unsigned char   Red[MAX_HEIGHT][MAX_WIDTH];
     unsigned char   FileHeader[MAX_HEADER_size];
     unsigned char   FileHeader_size;
 
@@ -97,3 +97,4 @@ t_vect highlight_line(t_img * img,t_pixel pix1,t_pixel pix2,unsigned long RGB);
 t_area pixel_to_area(t_pixel pix);
 t_vect pixels_to_vector(t_pixel pix1,t_pixel pix2);
 unsigned char color_filter(t_img * img_in,t_img * img_out, unsigned long color);
+unsigned char histogram(t_img * img_in,t_img * img_out, unsigned long color);

@@ -80,7 +80,7 @@
 1392209892 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\bmp_compare.c
 	"includes.h"
 
-1394547413 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\functions.c
+1394619160 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\functions.c
 	"includes.h"
 
 1394463218 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\includes.h
@@ -98,17 +98,17 @@
 
 1391511622 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\usertype.h
 
-1394611750 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\app_cfg.h
+1394617236 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\app_cfg.h
 
-1394547271 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\functions.h
+1394619161 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\functions.h
 
-1394547845 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\lib_img.h
+1394617750 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\lib_img.h
 
 1394463059 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\motiondetect.h
 
 1391511622 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\motorcontrol.h
 
-1394548926 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\lib_img.c
+1394619243 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\lib_img.c
 	"includes.h"
 
 1394463238 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\motiondetect.c
@@ -117,7 +117,7 @@
 1391511622 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\motorcontrol.c
 	"includes.h"
 
-1394550558 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\bmp_compare.c
+1394617717 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\bmp_compare.c
 	"includes.h"
 
 1394545870 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\contrastdetect.h

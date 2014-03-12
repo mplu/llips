@@ -51,7 +51,6 @@ extern unsigned char g_debug_mode;
 
 void init_img(t_img * img)
 {
-    int i,j;
     img->signature = 0;
     img->depth = 0;
     img->wi = 0;
@@ -59,15 +58,6 @@ void init_img(t_img * img)
     img->Blue = createTable(MAX_HEIGHT,MAX_WIDTH);
     img->Green = createTable(MAX_HEIGHT,MAX_WIDTH);
     img->Red = createTable(MAX_HEIGHT,MAX_WIDTH);
-    /*for(i=0;i<MAX_HEIGHT;i++)
-    {
-        for(j=0;j<MAX_WIDTH;j++)
-        {
-           img->Blue[i][j] = 0;
-           img->Green[i][j] = 0;
-           img->Red[i][j] = 0;
-        }
-    }*/
 }
 
 unsigned char decode_img(char * imgname, t_img * img)
@@ -382,7 +372,7 @@ unsigned char color_filter(t_img * img_in,t_img * img_out, unsigned long color)
     img_out->FileHeader_size = img_in->FileHeader_size;
 
     //
-    for(i=0;i< (img_in->he - 1) ;i++)
+    for(i=0;i< (img_in->he ) ;i++)
     {
         for(j=0 ; (j< img_in->wi );j++)
         {
@@ -413,3 +403,107 @@ unsigned char color_filter(t_img * img_in,t_img * img_out, unsigned long color)
 
     return ret;
 }
+
+unsigned char histogram(t_img * img_in,t_img * img_out, unsigned long color)
+{
+    unsigned char ret = NO_ERROR;
+    int i,j;
+
+    unsigned long histowidth ;
+    unsigned long histoheigh ;
+    unsigned long histo_x = 1 ;
+    unsigned long histo_y = 1 ;
+    unsigned long redpixel[PIXEL_8bit_RANGE+1]={0};
+    unsigned long greenpixel[PIXEL_8bit_RANGE+1]={0};
+    unsigned long bluepixel[PIXEL_8bit_RANGE+1]={0};
+    unsigned long index,histomaxred=0,histomaxgreen=0,histomaxblue=0;
+
+    // configure historgam
+    histoheigh = 50 ;
+    histowidth = PIXEL_8bit_RANGE/2;
+
+    //Write Header
+    for(i=0;i<img_in->FileHeader_size;i++)
+    {
+        img_out->FileHeader[i] = img_in->FileHeader[i];
+    }
+    img_out->signature = img_in->signature;
+    img_out->depth = img_in->depth;
+    img_out->wi = img_in->wi;
+    img_out->he = img_in->he;
+    img_out->FileHeader_size = img_in->FileHeader_size;
+
+
+
+    //count distribution of red pixel
+    for(i=0;i< (img_in->he ) ;i++)
+    {
+        for(j=0 ; (j< img_in->wi );j++)
+        {
+            //getting red pixel
+            index = img_in->Red[i][j] / (PIXEL_8bit_RANGE/(histowidth-1));
+            redpixel[index]++;
+            histomaxred = Max_CPU_INT32U(histomaxred,redpixel[index]);
+            //getting green pixel
+            index = img_in->Green[i][j] / (PIXEL_8bit_RANGE/(histowidth-1));
+            greenpixel[index]++;
+            histomaxred = Max_CPU_INT32U(histomaxgreen,greenpixel[index]);
+            //getting red pixel
+            index = img_in->Blue[i][j] / (PIXEL_8bit_RANGE/(histowidth-1));
+            bluepixel[index]++;
+            histomaxred = Max_CPU_INT32U(histomaxblue,bluepixel[index]);
+
+        }
+    }
+
+
+    // normalize histogramme according to highest pixel distribution
+    // and height of histogram
+    for(i=0;i<histowidth;i++)
+    {
+        redpixel[i] = redpixel[i] * histoheigh / histomaxred ;
+        greenpixel[i] = greenpixel[i] * histoheigh / histomaxgreen ;
+        bluepixel[i] = bluepixel[i] * histoheigh / histomaxblue ;
+    }
+
+    //copy input img to output including histogram
+    for(i=0;i< (img_in->he ) ;i++)
+    {
+        for(j=0 ; (j< img_in->wi );j++)
+        {
+            // Looking
+            if(    ((j>=histo_y) && (j<=(histo_y+histowidth)))
+                && ((i>=histo_x) && (i<(histo_x+histoheigh)))
+              )
+            {
+                if(redpixel[j-histo_y] >= (i-histo_x))
+                {
+                    img_out->Red[i][j]   = 255;
+                    img_out->Green[i][j] = 0;
+                    img_out->Blue[i][j]  = 0;
+                }else
+                {
+                    img_out->Red[i][j]   = (img_in->Red[i][j])/2;
+                    img_out->Green[i][j] = (img_in->Green[i][j])/2;
+                    img_out->Blue[i][j]  = (img_in->Blue[i][j])/2;
+                }
+            }
+            else
+            {
+                img_out->Red[i][j]   = img_in->Red[i][j];
+                img_out->Green[i][j] = img_in->Green[i][j];
+                img_out->Blue[i][j]  = img_in->Blue[i][j];
+            }
+        }
+    }
+
+
+
+
+    return ret;
+}
+
+
+
+
+//calcul luminance     Y = 0,299 R + 0,587 G + 0,114 B

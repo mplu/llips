@@ -13,7 +13,7 @@
 #define IMG_RED             "imgred.bmp"
 #define IMG_GREEN           "imggreen.bmp"
 #define IMG_BLUE            "imgblue.bmp"
-#define IMG_HISTO           "imgblue.bmp"
+#define IMG_HISTO           "imgbasehisto.bmp"
 
 #define DEFAULT_TOLERANCE   11
 #define DEFAULT_QUANTITY    1

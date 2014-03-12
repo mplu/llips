@@ -7,10 +7,15 @@ int main(int argc, char *argv[])
     int i = 1;
     clock_t start, finish;
     double duration;
+
     t_img img_in1;
+    t_img img_out1;
+
+    unsigned char img_in1_err,img_out1_err,contrast_det=0;
+    /*
     t_img img_in2;
     t_img img_in3;
-    t_img img_out1;
+
     t_img img_out2;
 
 
@@ -18,11 +23,11 @@ int main(int argc, char *argv[])
     t_vect movement_origin;
 
     unsigned char img_in1_err,img_in2_err,img_in3_err,img_out1_err,img_out2_err,img_out_move_err;
-    unsigned char img_diff_1_2=0,img_diff_2_3=0,contrast_det=0;
+    unsigned char img_diff_1_2=0,img_diff_2_3=0;
 
     t_area change_1_2;
     t_area change_2_3;
-
+    */
     start = clock();
     int tolerance, quantity;
     while(i--)
@@ -319,10 +324,47 @@ int main(int argc, char *argv[])
         printf("write error\n");
     }
 
+
+/*********************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
+    /* histogram calculation on BASE */
+    init_img(&img_in1);
+    img_in1_err = decode_img(BASE, &img_in1);
+    if (img_in1_err == NO_ERROR)
+    {
+    }else
+    {
+        if (g_debug_mode == DEF_ENABLED)
+        {
+            printf("Image %s not supported - err : %x\n",BASE,img_in1_err);
+        }else
+        {
+            //nothing
+        }
+
+    }
+
+
+
+
+    init_img(&img_out1);
+    histogram(&img_in1,&img_out1, RED);
+    img_out1_err = write_img(IMG_HISTO,&img_out1);
+    if(img_out1_err == NO_ERROR)
+    {
+        //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
+    }else
+    {
+        printf("write error\n");
+    }
+
+
     finish = clock();
     duration = (double)(finish - start) / CLOCKS_PER_SEC;
     printf( "duration : %f seconds\n", duration );
-    system("pause");
+
     return 0;
 }
 

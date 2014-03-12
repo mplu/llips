@@ -43,3 +43,19 @@ void freeTable(int **tableau)
 	free(tableau[0]);
 	free(tableau);
 }
+
+
+unsigned long Max_CPU_INT32U(unsigned long a,unsigned long b)
+{
+    unsigned long int c;
+	if(a > b)
+	{
+		c = a;
+	}
+	else
+	{
+		c = b;
+	}
+
+	return c;
+}
