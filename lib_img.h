@@ -21,6 +21,26 @@
 #define RED     0x0100
 #define HEADER  0x1000
 
+#define MAX_WIDTH           4000
+#define MAX_HEIGHT          3000
+#define MAX_HEADER_size     200
+
+#define NO_ERROR            0x0000
+#define ERR_NOFILE          0x0001
+#define ERR_NOT_WINBMP      0x0002
+#define ERR_NOT_24bit       0x0003
+#define ERR_TOO_WIDTH       0x0004
+#define ERR_TOO_HEIGHT      0x0005
+#define ERR_HEADER_TOO_BIG  0x0006
+#define ERR_OPENFILE        0x0007
+
+#define NO_DIFF             0x0000
+#define DIFF_SIZE           0x0001
+#define DIFF_BLUE           0x0002
+#define DIFF_GREEN          0x0004
+#define DIFF_RED            0x0008
+#define DIFF_HIGH_QUANTITY  0x0010
+
 #define GetBlue(c)  0xFF&(c)
 #define GetGreen(c) 0xFF&(c>>8)
 #define GetRed(c)   0xFF&(c>>16)
@@ -33,9 +53,13 @@ typedef struct s_img
     unsigned short  depth ;
     unsigned long   wi ;
     unsigned long   he ;
-    unsigned char   Blue[MAX_WIDTH][MAX_HEIGHT];
-    unsigned char   Green[MAX_WIDTH][MAX_HEIGHT];
-    unsigned char   Red[MAX_WIDTH][MAX_HEIGHT];
+    unsigned char ** Blue;
+    unsigned char ** Green;
+    unsigned char ** Red;
+
+    //unsigned char   Blue[MAX_HEIGHT][MAX_WIDTH];
+    //unsigned char   Green[MAX_HEIGHT][MAX_WIDTH];
+    //unsigned char   Red[MAX_HEIGHT][MAX_WIDTH];
     unsigned char   FileHeader[MAX_HEADER_size];
     unsigned char   FileHeader_size;
 

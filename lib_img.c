@@ -56,15 +56,18 @@ void init_img(t_img * img)
     img->depth = 0;
     img->wi = 0;
     img->he = 0;
-    for(i=0;i<MAX_WIDTH;i++)
+    img->Blue = createTable(MAX_HEIGHT,MAX_WIDTH);
+    img->Green = createTable(MAX_HEIGHT,MAX_WIDTH);
+    img->Red = createTable(MAX_HEIGHT,MAX_WIDTH);
+    /*for(i=0;i<MAX_HEIGHT;i++)
     {
-        for(j=0;j<MAX_HEIGHT;j++)
+        for(j=0;j<MAX_WIDTH;j++)
         {
            img->Blue[i][j] = 0;
            img->Green[i][j] = 0;
            img->Red[i][j] = 0;
         }
-    }
+    }*/
 }
 
 unsigned char decode_img(char * imgname, t_img * img)
