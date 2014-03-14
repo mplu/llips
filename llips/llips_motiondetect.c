@@ -1,11 +1,56 @@
+/****************************************************************/
+/* Light Library for Image ProcesS                              */
+/* File : llips_motiondetec.h                                   */
+/* Description :                                                */
+/*   About importing and exporting image from/to storage        */
+/*                                                              */
+/* Author : MPE                                                 */
+/*                                                              */
+/****************************************************************/
+
+/****************************************************************/
+/**           Includes                                          */
+/****************************************************************/
 #include "llips_includes.h"
 
-unsigned char search_diff(unsigned char tolerance,unsigned short quantity, t_img * img_in1,t_img * img_in2,t_img * img_out,t_area * change_img)
+/****************************************************************/
+/**           Global variables                                  */
+/****************************************************************/
+
+/****************************************************************/
+/**           Functions                                         */
+/****************************************************************/
+
+/****************************************************************/
+/* search_diff()                                                */
+/* Description :                                                */
+/*   Search for difference between two images, using given      */
+/*   tolerance and quantity change criteria                     */
+/* Input:                                                       */
+/*   tolerance - tolerance in % between two pixel               */
+/*   quantity - quantity of pixel change to evaluate change     */
+/*   img_in1 - first image                                      */
+/*   img_in2 - second image                                     */
+/* Output:                                                      */
+/*   img_out - img_in2 including area of change                 */
+/*   change_img - aera containing pixel that changed between    */
+/*                img_in1 and img_in2                           */
+/* Return:                                                      */
+/*   status of operation, combination of                        */
+/*   NO_DIFF             no diff detected                       */
+/*   DIFF_SIZE           size is different                      */
+/*   DIFF_BLUE           difference on blue pixel               */
+/*   DIFF_GREEN          difference on blue pixel               */
+/*   DIFF_RED            difference on blue pixel               */
+/*   DIFF_HIGH_QUANTITY  globally high quantity of change       */
+/*                                                              */
+/****************************************************************/
+CPU_CHAR search_diff(CPU_INT16U tolerance,CPU_INT16U quantity, t_img * img_in1,t_img * img_in2,t_img * img_out,t_area * change_img)
 {
-    unsigned char ret = NO_DIFF;
-    int i,j;
-    unsigned int raw_tolerance,raw_quantity;
-    unsigned int quantity_of_diff_pixel = 0;
+    CPU_CHAR ret = NO_DIFF;
+    CPU_INT16S i,j;
+    CPU_INT16U raw_tolerance,raw_quantity;
+    CPU_INT16U quantity_of_diff_pixel = 0;
 
     // calculte raw tolerance and quantity
     raw_quantity = ((img_in1->he * img_in1->wi)*quantity)/1000;
@@ -31,17 +76,17 @@ unsigned char search_diff(unsigned char tolerance,unsigned short quantity, t_img
         {
             for(j=0 ; j< img_in1->wi ;j++)
             {
-                img_out->Blue[i][j]  = abs((int)(img_in1->Blue[i][j])  - (int)(img_in2->Blue[i][j]));
+                img_out->Blue[i][j]  = abs((CPU_INT16S)(img_in1->Blue[i][j])  - (CPU_INT16S)(img_in2->Blue[i][j]));
                 if (img_out->Blue[i][j] > raw_tolerance)
                 {
                     ret |= DIFF_BLUE;
                 }
-                img_out->Green[i][j] = abs((int)(img_in1->Green[i][j]) - (int)(img_in2->Green[i][j]));
+                img_out->Green[i][j] = abs((CPU_INT16S)(img_in1->Green[i][j]) - (CPU_INT16S)(img_in2->Green[i][j]));
                 if (img_out->Green[i][j] > raw_tolerance)
                 {
                     ret |= DIFF_GREEN;
                 }
-                img_out->Red[i][j]   = abs((int)(img_in1->Red[i][j])   - (img_in2->Red[i][j]));
+                img_out->Red[i][j]   = abs((CPU_INT16S)(img_in1->Red[i][j])   - (CPU_INT16S)(img_in2->Red[i][j]));
                 if (img_out->Red[i][j] > raw_tolerance)
                 {
                     ret |= DIFF_RED;
@@ -49,7 +94,7 @@ unsigned char search_diff(unsigned char tolerance,unsigned short quantity, t_img
 
                 if ((img_out->Blue[i][j] > raw_tolerance) || (img_out->Green[i][j] > raw_tolerance) || (img_out->Red[i][j] > raw_tolerance))
                 {
-                    img_out->Green[i][j] = (unsigned char)(float)img_in2->Blue[i][j]*2.5;
+                    img_out->Green[i][j] = (CPU_CHAR)(CPU_FP32)img_in2->Blue[i][j]*2.5;
                     img_out->Blue[i][j] = img_in2->Blue[i][j]/2;
                     img_out->Red[i][j] = img_in2->Red[i][j]/2;
                     quantity_of_diff_pixel ++;
@@ -87,12 +132,29 @@ unsigned char search_diff(unsigned char tolerance,unsigned short quantity, t_img
     return ret;
 }
 
+/****************************************************************/
+/* evaluate_move()                                              */
+/* Description :                                                */
+/*   Evaluate mouvement direction between three sequence images */
+/*   that have been previously processed by search_diff()       */
+/* Input:                                                       */
+/*   p_img_base - image used to create ouput image header       */
+/*   area_1 - change between image 1 and 2                      */
+/*   area_2 - change between image 2 and 3                      */
+/* Output:                                                      */
+/*   p_img_target - output image containing both area of change */
+/*   p_movement_origin - relative vector of the displacement    */
+/*                       from center of image                   */
+/* Return:                                                      */
+/*   absolute vector of the displacement                        */
+/*                                                              */
+/****************************************************************/
 t_vect evaluate_move(t_img * p_img_base,t_img * p_img_target,t_area area_1,t_area area_2, t_vect * p_movement_origin)
 {
     t_vect ret = {0};
     t_pixel temporary_pixel_1,temporary_pixel_2,temporary_pixel_3;
     t_area area_1_center,area_2_center;
-    int i;
+    CPU_INT16U i;
 
     //Write Header for target img, base on base img data
     for(i=0;i<p_img_base->FileHeader_size;i++)

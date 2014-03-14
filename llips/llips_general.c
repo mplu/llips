@@ -1,5 +1,12 @@
-#include "llips_includes.h"
-
+/****************************************************************/
+/* Light Library for Image ProcesS                              */
+/* File : llips_general.c                                       */
+/* Description :                                                */
+/*   About general image handling                               */
+/*                                                              */
+/* Author : MPE                                                 */
+/*                                                              */
+/****************************************************************/
 /* http://www.commentcamarche.net/contents/1200-bmp-format-bmp
 0x0000  Entête du fichier
 0x0000  La signature (sur 2 octets), indiquant qu'il s'agit d'un fichier BMP à l'aide des deux caractères.
@@ -47,9 +54,35 @@
         et rouge.
 */
 
-void display_img_value(t_img * img,short int colors)
+/****************************************************************/
+/**           Includes                                          */
+/****************************************************************/
+#include "llips_includes.h"
+
+/****************************************************************/
+/**           Global variables                                  */
+/****************************************************************/
+
+/****************************************************************/
+/**           Functions                                         */
+/****************************************************************/
+
+/****************************************************************/
+/* display_img_value()                                          */
+/* Description :                                                */
+/*   Display each color of image in ascii                       */
+/* Input:                                                       */
+/*   img - image to display                                     */
+/*   colors - color layer to display                            */
+/* Output:                                                      */
+/*   na                                                         */
+/* Return:                                                      */
+/*   na                                                         */
+/*                                                              */
+/****************************************************************/
+CPU_VOID display_img_value(t_img * img,CPU_INT16S colors)
 {
-    int i,j;
+    CPU_INT16S i,j;
 
     if((colors & HEADER) != 0)
     {
@@ -69,7 +102,6 @@ void display_img_value(t_img * img,short int colors)
     if((colors & BLUE) != 0)
     {
         printf("Blue Pixel\n");
-        //for(i=0;i<img1.he;i++)
         for(i=img->he-1;i>=0;i--)
         {
             for(j=0;j<img->wi;j++)
@@ -84,7 +116,6 @@ void display_img_value(t_img * img,short int colors)
     if((colors & GREEN) != 0)
     {
         printf("Green Pixel\n");
-        //for(i=0;i<img->he;i++)
         for(i=img->he-1;i>=0;i--)
         {
             for(j=0;j<img->wi;j++)
@@ -99,7 +130,6 @@ void display_img_value(t_img * img,short int colors)
     if((colors & RED) != 0)
     {
         printf("Red Pixel\n");
-        //for(i=0;i<img->he;i++)
         for(i=img->he-1;i>=0;i--)
         {
             for(j=0;j<img->wi;j++)
@@ -112,7 +142,22 @@ void display_img_value(t_img * img,short int colors)
     }
 }
 
-t_vect highlight_line(t_img * img,t_pixel pix1,t_pixel pix2,unsigned long RGB)
+/****************************************************************/
+/* highlight_line()                                             */
+/* Description :                                                */
+/*   Draw a line on image in a given color                      */
+/* Input:                                                       */
+/*   img - image to modify (also output)                        */
+/*   pix1 - first point of line                                 */
+/*   pix2 - second point of line                                */
+/*   RBG - color of the line                                    */
+/* Output:                                                      */
+/*   img                                                        */
+/* Return:                                                      */
+/*   vector of the line                                         */
+/*                                                              */
+/****************************************************************/
+t_vect highlight_line(t_img * img,t_pixel pix1,t_pixel pix2,CPU_INT32U RGB)
 {
     t_vect move;
 
@@ -122,6 +167,19 @@ t_vect highlight_line(t_img * img,t_pixel pix1,t_pixel pix2,unsigned long RGB)
     return move;
 }
 
+/****************************************************************/
+/* pixels_to_vector()                                           */
+/* Description :                                                */
+/*   Convert two pixel into a vector                            */
+/* Input:                                                       */
+/*   pix1 - starting point of vector                            */
+/*   pix2 - ending point of vector                              */
+/* Output:                                                      */
+/*   na                                                         */
+/* Return:                                                      */
+/*   vector corresponding between pix1 and pix2                 */
+/*                                                              */
+/****************************************************************/
 t_vect pixels_to_vector(t_pixel pix1,t_pixel pix2)
 {
     t_vect move;
@@ -132,6 +190,18 @@ t_vect pixels_to_vector(t_pixel pix1,t_pixel pix2)
     return move;
 }
 
+/****************************************************************/
+/* pixel_to_area()                                              */
+/* Description :                                                */
+/*   Convert a pixel into a area                                */
+/* Input:                                                       */
+/*   pix - pixel                                                */
+/* Output:                                                      */
+/*   na                                                         */
+/* Return:                                                      */
+/*   area                                                       */
+/*                                                              */
+/****************************************************************/
 t_area pixel_to_area(t_pixel pix)
 {
     t_area ret;
@@ -147,7 +217,20 @@ t_area pixel_to_area(t_pixel pix)
     return ret;
 }
 
-void init_area(t_area * area,unsigned short maxwidth,unsigned short maxheight)
+/****************************************************************/
+/* init_area()                                                  */
+/* Description :                                                */
+/*   Initialize for corner of an area                           */
+/* Input:                                                       */
+/*   maxwidth - width of area                                   */
+/*   maxheight - height of area                                 */
+/* Output:                                                      */
+/*   area - pointer to initialized area                         */
+/* Return:                                                      */
+/*   area                                                       */
+/*                                                              */
+/****************************************************************/
+CPU_VOID init_area(t_area * area,CPU_INT16U maxwidth,CPU_INT16U maxheight)
 {
     area->BotLeft.x = maxwidth;
     area->BotLeft.y = maxheight;
@@ -159,9 +242,23 @@ void init_area(t_area * area,unsigned short maxwidth,unsigned short maxheight)
     area->TopRight.y = 0;
 }
 
-void highlight_area(t_img * img,t_area * area,unsigned long RGB)
+/****************************************************************/
+/* highlight_area()                                             */
+/* Description :                                                */
+/*   Draw a square area on image in a given color               */
+/* Input:                                                       */
+/*   img - image to modify (also output)                        */
+/*   area - area to highlight                                   */
+/*   RBG - color of the line                                    */
+/* Output:                                                      */
+/*   na                                                         */
+/* Return:                                                      */
+/*   img                                                        */
+/*                                                              */
+/****************************************************************/
+CPU_VOID highlight_area(t_img * img,t_area * area,CPU_INT32U RGB)
 {
-    int i,j;
+    CPU_INT16S i,j;
 
     for(i=0;i< img->he ;i++)
     {
@@ -182,7 +279,19 @@ void highlight_area(t_img * img,t_area * area,unsigned long RGB)
     }
 }
 
-void printf_area(t_area * area)
+/****************************************************************/
+/* printf_area()                                                */
+/* Description :                                                */
+/*   Display area corner coordonate in ascii                    */
+/* Input:                                                       */
+/*   area - area to display                                     */
+/* Output:                                                      */
+/*   na                                                         */
+/* Return:                                                      */
+/*   na                                                         */
+/*                                                              */
+/****************************************************************/
+CPU_VOID printf_area(t_area * area)
 {
     printf("\n%d,%d\t- \t-\t-\t - %d,%d\n| \t- \t-\t-\t - |\n| \t- \t-\t-\t - |\n%d,%d\t- \t-\t-\t - %d,%d\n\n",
     area->TopLeft.x,
@@ -195,10 +304,23 @@ void printf_area(t_area * area)
     area->BotRight.y);
 }
 
-unsigned char color_filter(t_img * img_in,t_img * img_out, unsigned long color)
+/****************************************************************/
+/* color_filter()                                               */
+/* Description :                                                */
+/*   Create an image with only the color provided               */
+/* Input:                                                       */
+/*   img_in - input image                                       */
+/*   color - range of color to work on                          */
+/* Output:                                                      */
+/*   img_out - output image                                     */
+/* Return:                                                      */
+/*   status of operation                                        */
+/*                                                              */
+/****************************************************************/
+CPU_CHAR color_filter(t_img * img_in,t_img * img_out, CPU_INT32U color)
 {
-    unsigned char ret = NO_ERROR;
-    int i,j;
+    CPU_CHAR ret = NO_ERROR;
+    CPU_INT16S i,j;
 
     //Write Header
     for(i=0;i<img_in->FileHeader_size;i++)
@@ -244,26 +366,38 @@ unsigned char color_filter(t_img * img_in,t_img * img_out, unsigned long color)
     return ret;
 }
 
-unsigned char histogram(t_img * img_in,t_img * img_out, unsigned long color)
+/****************************************************************/
+/* histogram()                                                  */
+/* Description :                                                */
+/*   Create an image with a view of histogram (RGBY). Width and */
+/*   precision of histogram depend on image width               */
+/* Input:                                                       */
+/*   img_in - input image                                       */
+/* Output:                                                      */
+/*   img_out - output image                                     */
+/* Return:                                                      */
+/*   status of operation                                        */
+/*                                                              */
+/****************************************************************/
+CPU_CHAR histogram(t_img * img_in,t_img * img_out)
 {
-    unsigned char ret = NO_ERROR;
-    int i,j;
+    CPU_CHAR ret = NO_ERROR;
+    CPU_INT16U i,j;
 
-    unsigned long histowidth ;
-    unsigned long histoheigh ;
-    unsigned long histo_x = 1 ;
-    unsigned long histo_y_red = 1,histo_y_green,histo_y_blue,histo_y_lum ;
+    CPU_INT32U histowidth ;
+    CPU_INT32U histoheigh ;
+    CPU_INT32U histo_x = 1 ;
+    CPU_INT32U histo_y_red = 1,histo_y_green,histo_y_blue,histo_y_lum ;
 
-    unsigned long * redpixel = calloc((PIXEL_8bit_RANGE+1),sizeof(unsigned long));
-    unsigned long * greenpixel = calloc((PIXEL_8bit_RANGE+1),sizeof(unsigned long));
-    unsigned long * bluepixel = calloc((PIXEL_8bit_RANGE+1),sizeof(unsigned long));
-    unsigned long * luminancepixel = calloc((PIXEL_8bit_RANGE+1),sizeof(unsigned long));
-    unsigned char Luminance = 0;
+    CPU_INT32U * redpixel = calloc((PIXEL_8bit_RANGE+1),sizeof(CPU_INT32U));
+    CPU_INT32U * greenpixel = calloc((PIXEL_8bit_RANGE+1),sizeof(CPU_INT32U));
+    CPU_INT32U * bluepixel = calloc((PIXEL_8bit_RANGE+1),sizeof(CPU_INT32U));
+    CPU_INT32U * luminancepixel = calloc((PIXEL_8bit_RANGE+1),sizeof(CPU_INT32U));
+    CPU_CHAR Luminance = 0;
 
-    unsigned long index,histomaxred=0,histomaxgreen=0,histomaxblue=0,histomaxlum =0;
+    CPU_INT32U index,histomaxred=0,histomaxgreen=0,histomaxblue=0,histomaxlum =0;
 
     // configure historgam
-
     histowidth = (img_in->wi)/4.5;
 
     if(histowidth>PIXEL_8bit_RANGE)
@@ -295,26 +429,26 @@ unsigned char histogram(t_img * img_in,t_img * img_out, unsigned long color)
             //getting red pixel
             index = img_in->Red[i][j] / (PIXEL_8bit_RANGE/(histowidth-1));
             redpixel[index]++;
-            histomaxred = Max_CPU_INT32U(histomaxred,redpixel[index]);
+            histomaxred = max(histomaxred,redpixel[index]);
 
             //getting green pixel
             index = img_in->Green[i][j] / (PIXEL_8bit_RANGE/(histowidth-1));
             greenpixel[index]++;
-            histomaxgreen = Max_CPU_INT32U(histomaxgreen,greenpixel[index]);
+            histomaxgreen = max(histomaxgreen,greenpixel[index]);
             //getting red pixel
             index = img_in->Blue[i][j] / (PIXEL_8bit_RANGE/(histowidth-1));
             bluepixel[index]++;
-            histomaxblue = Max_CPU_INT32U(histomaxblue,bluepixel[index]);
+            histomaxblue = max(histomaxblue,bluepixel[index]);
 
             //calcultate luminance Y = 0,299 R + 0,587 G + 0,114 B
-            Luminance = (unsigned char)(  (float)img_in->Red[i][j]   * 0.299
-                                        + (float)img_in->Green[i][j] * 0.587
-                                        + (float)img_in->Blue[i][j]  * 0.114 );
+            Luminance = (CPU_CHAR)(  (CPU_FP32)img_in->Red[i][j]   * 0.299
+                                        + (CPU_FP32)img_in->Green[i][j] * 0.587
+                                        + (CPU_FP32)img_in->Blue[i][j]  * 0.114 );
 
             //getting lumi pixel
             index = Luminance / (PIXEL_8bit_RANGE/(histowidth-1));
             luminancepixel[index]++;
-            histomaxlum = Max_CPU_INT32U(histomaxlum,luminancepixel[index]);
+            histomaxlum = max(histomaxlum,luminancepixel[index]);
         }
     }
 
@@ -415,12 +549,24 @@ unsigned char histogram(t_img * img_in,t_img * img_out, unsigned long color)
     return ret;
 }
 
-unsigned char luminance(t_img * img_in,t_img * img_out)
+/****************************************************************/
+/* luminance()                                                  */
+/* Description :                                                */
+/*   Create an image only luminance data (desaturated image)    */
+/* Input:                                                       */
+/*   img_in - input image                                       */
+/* Output:                                                      */
+/*   img_out - output image                                     */
+/* Return:                                                      */
+/*   status of operation                                        */
+/*                                                              */
+/****************************************************************/
+CPU_CHAR luminance(t_img * img_in,t_img * img_out)
 {
-    unsigned char ret = NO_ERROR;
-    int i,j;
+    CPU_CHAR ret = NO_ERROR;
+    CPU_INT16S i,j;
 
-    unsigned char Luminance = 0;
+    CPU_CHAR Luminance = 0;
 
     //Write Header
     for(i=0;i<img_in->FileHeader_size;i++)
@@ -438,9 +584,9 @@ unsigned char luminance(t_img * img_in,t_img * img_out)
         for(j=0 ; (j< img_in->wi );j++)
         {
             //calcultate luminance Y = 0,299 R + 0,587 G + 0,114 B
-            Luminance = (unsigned char)(  (float)img_in->Red[i][j]   * 0.299
-                                        + (float)img_in->Green[i][j] * 0.587
-                                        + (float)img_in->Blue[i][j]  * 0.114 );
+            Luminance = (CPU_CHAR)(  (CPU_FP32)img_in->Red[i][j]   * 0.299
+                                        + (CPU_FP32)img_in->Green[i][j] * 0.587
+                                        + (CPU_FP32)img_in->Blue[i][j]  * 0.114 );
 
             img_out->Red[i][j] = Luminance;
             img_out->Green[i][j] = Luminance;

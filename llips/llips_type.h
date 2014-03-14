@@ -1,33 +1,62 @@
+/****************************************************************/
+/* Light Library for Image ProcesS                              */
+/* File : llips_type.h                                          */
+/* Description :                                                */
+/*   Configuration varaible and define for LLIPS                */
+/*                                                              */
+/* Author : MPE                                                 */
+/*                                                              */
+/****************************************************************/
+
+
+/****************************************************************/
+/**           Define                                            */
+/****************************************************************/
 #define DEF_ENABLED         1
 #define DEF_DISABLED        0
 
+/****************************************************************/
+/**           Typedef                                           */
+/****************************************************************/
+/* Custom type used for portability */
+typedef            void      CPU_VOID;
+typedef  unsigned  char      CPU_CHAR;                          /*  8-bit character                                     */
+typedef  unsigned  char      CPU_BOOLEAN;                       /*  8-bit boolean or logical                            */
+typedef  unsigned  char      CPU_INT08U;                        /*  8-bit unsigned integer                              */
+typedef    signed  char      CPU_INT08S;                        /*  8-bit   signed integer                              */
+typedef  unsigned  short     CPU_INT16U;                        /* 16-bit unsigned integer                              */
+typedef    signed  short     CPU_INT16S;                        /* 16-bit   signed integer                              */
+typedef  unsigned  long      CPU_INT32U;                        /* 32-bit unsigned integer                              */
+typedef    signed  long      CPU_INT32S;                        /* 32-bit   signed integer                              */
+typedef            float     CPU_FP32;                          /* 32-bit floating point                                */
+typedef            double    CPU_FP64;                          /* 64-bit floating point                                */
 
-
+/* typedef for image treatment */
 typedef struct s_img
 {
-    unsigned short  signature ;
-    unsigned short  depth ;
-    unsigned long   wi ;
-    unsigned long   he ;
-    unsigned char ** Blue;
-    unsigned char ** Green;
-    unsigned char ** Red;
+    CPU_INT16U  signature ;
+    CPU_INT16U  depth ;
+    CPU_INT32U   wi ;
+    CPU_INT32U   he ;
+    CPU_CHAR ** Blue;
+    CPU_CHAR ** Green;
+    CPU_CHAR ** Red;
 
-    unsigned char   FileHeader[MAX_HEADER_size];
-    unsigned char   FileHeader_size;
+    CPU_CHAR   FileHeader[MAX_HEADER_size];
+    CPU_CHAR   FileHeader_size;
 
 }t_img;
 
 typedef struct s_pixel
 {
-    unsigned short  x ;
-    unsigned short  y ;
+    CPU_INT16U  x ;
+    CPU_INT16U  y ;
 }t_pixel;
 
 typedef struct s_vect
 {
-    short  x ;
-    short  y ;
+    CPU_INT16S  x ;
+    CPU_INT16S  y ;
 }t_vect;
 
 typedef struct s_area

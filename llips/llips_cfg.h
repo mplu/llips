@@ -1,10 +1,23 @@
-extern unsigned char g_debug_mode;
+/****************************************************************/
+/* Light Library for Image ProcesS                              */
+/* File : llips_cfg.h                                           */
+/* Description :                                                */
+/*   Configuration varaible and define for LLIPS                */
+/*                                                              */
+/* Author : MPE                                                 */
+/*                                                              */
+/****************************************************************/
 
-/** llips  configuration **/
+
+/****************************************************************/
+/**           Define                                            */
+/****************************************************************/
+/* Image input max format */
 #define MAX_WIDTH           4000
 #define MAX_HEIGHT          3000
 #define MAX_HEADER_size     200
-#define HISTO_LEVEL         64
+
+/* Default value for motion and contrast detection */
 #define DEFAULT_TOLERANCE   11
 #define DEFAULT_QUANTITY    1
-/***************************/
+

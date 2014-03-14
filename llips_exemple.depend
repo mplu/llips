@@ -125,10 +125,10 @@
 1394532472 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\contrastdetect.c
 	"includes.h"
 
-1394792371 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_functions.c
+1394803835 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_functions.c
 	"llips_includes.h"
 
-1394793156 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_includes.h
+1394803210 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_includes.h
 	<stdio.h>
 	<stdlib.h>
 	"llips_cfg.h"
@@ -139,27 +139,27 @@
 	"llips_motiondetect.h"
 	"llips_contrastdetect.h"
 
-1394792766 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_cfg.h
+1394803207 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_cfg.h
 
-1394792766 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_type.h
+1394803295 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_type.h
 
-1394792216 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_functions.h
+1394803866 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_functions.h
 
-1394792216 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_io.h
+1394808168 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_io.h
 
-1394792216 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_general.h
+1394806117 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_general.h
 
-1394463059 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_motiondetect.h
+1394803835 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_motiondetect.h
 
-1394792216 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_contrastdetect.h
+1394803209 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_contrastdetect.h
 
-1394792766 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_general.c
+1394804188 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_general.c
 	"llips_includes.h"
 
-1394792373 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_io.c
+1394804160 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_io.c
 	"llips_includes.h"
 
-1394786527 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips_exemple.c
+1394794511 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips_exemple.c
 	"includes.h"
 
 1394793184 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\includes.h
@@ -172,9 +172,9 @@
 
 1394792592 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\app_cfg.h
 
-1394792791 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_motiondetect.c
+1394804104 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_motiondetect.c
 	"llips_includes.h"
 
-1394793011 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_contrastdetect.c
+1394803835 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_contrastdetect.c
 	"llips_includes.h"
 

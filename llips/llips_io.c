@@ -1,6 +1,41 @@
+/****************************************************************/
+/* Light Library for Image ProcesS                              */
+/* File : llips_io.c                                            */
+/* Description :                                                */
+/*   About importing and exporting image from/to storage        */
+/*                                                              */
+/* Author : MPE                                                 */
+/*                                                              */
+/****************************************************************/
+
+/****************************************************************/
+/**           Includes                                          */
+/****************************************************************/
 #include "llips_includes.h"
 
-void init_img(t_img * img)
+/****************************************************************/
+/**           Global variables                                  */
+/****************************************************************/
+
+/****************************************************************/
+/**           Functions                                         */
+/****************************************************************/
+
+/****************************************************************/
+/* init_img()                                                   */
+/* Description :                                                */
+/*   Initialize and allocate memory for a potentional           */
+/*   image load                                                 */
+/* Input:                                                       */
+/*   img - See output                                           */
+/*   colors - color layer to display                            */
+/* Output:                                                      */
+/*   img - initialized image buffer                             */
+/* Return:                                                      */
+/*   na                                                         */
+/*                                                              */
+/****************************************************************/
+CPU_VOID init_img(t_img * img)
 {
     img->signature = 0;
     img->depth = 0;
@@ -11,15 +46,28 @@ void init_img(t_img * img)
     img->Red = createTable(MAX_HEIGHT,MAX_WIDTH);
 }
 
-unsigned char decode_img(char * imgname, t_img * img)
+/****************************************************************/
+/* load_img()                                                   */
+/* Description :                                                */
+/*   Initialize and allocate memory for a potentional           */
+/*   image load                                                 */
+/* Input:                                                       */
+/*   imgname - path to image to load in memory                  */
+/* Output:                                                      */
+/*   img - initialized image buffer                             */
+/* Return:                                                      */
+/*   status of operation                                        */
+/*                                                              */
+/****************************************************************/
+CPU_CHAR load_img(CPU_CHAR * imgname, t_img * img)
 {
-    int i,j,offset;
-    unsigned char ret = NO_ERROR;
+    CPU_INT16S i,j,offset;
+    CPU_CHAR ret = NO_ERROR;
     FILE* fichier = NULL;
-    unsigned char dummy=0;
+    CPU_CHAR dummy=0;
 
 
-    long int position_fin = 0;
+    CPU_INT32U position_fin = 0;
 
     // Open file
     fichier = fopen(imgname, "rb");
@@ -115,10 +163,25 @@ unsigned char decode_img(char * imgname, t_img * img)
     return ret;
 };
 
-unsigned char write_img(char * imgname, t_img * img)
+/****************************************************************/
+/* write_img()                                                  */
+/* Description :                                                */
+/*   Write an image buffer into a BMP file                      */
+/*   image load                                                 */
+/* Input:                                                       */
+/*   imgname - path to image to write on storage                */
+/*   img - image buffer                                         */
+/* Output:                                                      */
+/*   na                                                         */
+/* Return:                                                      */
+/*   status of operation                                        */
+/*                                                              */
+/****************************************************************/
+CPU_CHAR write_img(CPU_CHAR * imgname, t_img * img)
 {
-    unsigned char ret = NO_ERROR;
-    int i,j,offset;
+    CPU_CHAR ret = NO_ERROR;
+    CPU_INT16S i,j;
+    CPU_INT32U offset;
     FILE* fichier = NULL;
     fichier = fopen(imgname, "wb");
     if(fichier != NULL)

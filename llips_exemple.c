@@ -1,17 +1,35 @@
+/****************************************************************/
+/* File : llips_exemple.c                                       */
+/* Description :                                                */
+/*   Main functions to demonstrate LLIPS possibility            */
+/*                                                              */
+/* Author : MPE                                                 */
+/*                                                              */
+/****************************************************************/
+
+/****************************************************************/
+/**           Includes                                          */
+/****************************************************************/
 #include "includes.h"
 
-unsigned char g_debug_mode = DEF_DISABLED;
+/****************************************************************/
+/**           Global variables                                  */
+/****************************************************************/
+CPU_CHAR g_debug_mode = DEF_DISABLED;
 
+/****************************************************************/
+/**           Functions                                         */
+/****************************************************************/
 int main(int argc, char *argv[])
 {
-    int i = 1;
+    CPU_INT16U i = 1;
     clock_t start, finish;
     double duration;
 
     t_img img_in1;
     t_img img_out1;
 
-    unsigned char img_in1_err,img_out1_err,contrast_det=0;
+    CPU_CHAR img_in1_err,img_out1_err,contrast_det=0;
     /*
     t_img img_in2;
     t_img img_in3;
@@ -22,8 +40,8 @@ int main(int argc, char *argv[])
     t_vect movement;
     t_vect movement_origin;
 
-    unsigned char img_in1_err,img_in2_err,img_in3_err,img_out1_err,img_out2_err,img_out_move_err;
-    unsigned char img_diff_1_2=0,img_diff_2_3=0;
+    CPU_CHAR img_in1_err,img_in2_err,img_in3_err,img_out1_err,img_out2_err,img_out_move_err;
+    CPU_CHAR img_diff_1_2=0,img_diff_2_3=0;
 
     t_area change_1_2;
     t_area change_2_3;
@@ -97,7 +115,7 @@ int main(int argc, char *argv[])
 
         //init_img(&img_out_move);
 
-        img_in1_err = decode_img(OLD, &img_in1);
+        img_in1_err = load_img(OLD, &img_in1);
         if (img_in1_err == NO_ERROR)
         {
         }else
@@ -112,7 +130,7 @@ int main(int argc, char *argv[])
 
         }
 
-        img_in2_err = decode_img(BASE, &img_in2);
+        img_in2_err = load_img(BASE, &img_in2);
         if (img_in2_err == NO_ERROR)
         {
         }else
@@ -127,7 +145,7 @@ int main(int argc, char *argv[])
 
         }
 
-        img_in3_err = decode_img(NEW, &img_in3);
+        img_in3_err = load_img(NEW, &img_in3);
         if (img_in3_err == NO_ERROR)
         {
         }else
@@ -145,7 +163,7 @@ int main(int argc, char *argv[])
         if ((img_in1_err == NO_ERROR) && (img_in2_err == NO_ERROR))
         {
 
-            img_diff_1_2 = search_diff((unsigned char)tolerance,(unsigned char)quantity,&img_in1,&img_in2,&img_out1,&change_1_2);
+            img_diff_1_2 = search_diff((CPU_CHAR)tolerance,(CPU_CHAR)quantity,&img_in1,&img_in2,&img_out1,&change_1_2);
             if (img_diff_1_2 == NO_DIFF)
             {
             }else
@@ -178,7 +196,7 @@ int main(int argc, char *argv[])
         if ((img_in2_err == NO_ERROR) && (img_in3_err == NO_ERROR))
         {
 
-            img_diff_2_3 = search_diff((unsigned char)tolerance,(unsigned char)quantity,&img_in2,&img_in3,&img_out2,&change_2_3);
+            img_diff_2_3 = search_diff((CPU_CHAR)tolerance,(CPU_CHAR)quantity,&img_in2,&img_in3,&img_out2,&change_2_3);
             if (img_diff_2_3 == NO_DIFF)
             {
             }else
@@ -239,7 +257,7 @@ int main(int argc, char *argv[])
     /* color filtering on BASE */
 /*
     init_img(&img_in1);
-    img_in1_err = decode_img(BASE, &img_in1);
+    img_in1_err = load_img(BASE, &img_in1);
     if (img_in1_err == NO_ERROR)
     {
     }else
@@ -273,7 +291,7 @@ int main(int argc, char *argv[])
 /*********************************************************************************/
     /* Contrast Detection on BASE */
     init_img(&img_in1);
-    img_in1_err = decode_img(BASE, &img_in1);
+    img_in1_err = load_img(BASE, &img_in1);
     if (img_in1_err == NO_ERROR)
     {
     }else
@@ -292,7 +310,7 @@ int main(int argc, char *argv[])
     contrast_det = 0;
 
     init_img(&img_out1);
-    contrast_det = search_contrast((unsigned char)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),(RED|GREEN|BLUE),VER);
+    contrast_det = search_contrast((CPU_CHAR)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),(RED|GREEN|BLUE),VER);
     img_out1_err = write_img(CONTRAST_OUTVRT,&img_out1);
     if(img_out1_err == NO_ERROR)
     {
@@ -303,7 +321,7 @@ int main(int argc, char *argv[])
     }
 
     init_img(&img_out1);
-    contrast_det = search_contrast((unsigned char)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),(RED|GREEN|BLUE),HOR);
+    contrast_det = search_contrast((CPU_CHAR)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),(RED|GREEN|BLUE),HOR);
     img_out1_err = write_img(CONTRAST_OUTHRZ,&img_out1);
     if(img_out1_err == NO_ERROR)
     {
@@ -314,7 +332,7 @@ int main(int argc, char *argv[])
     }
 
     init_img(&img_out1);
-    contrast_det = search_contrast((unsigned char)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),(RED|GREEN|BLUE),HOR|VER);
+    contrast_det = search_contrast((CPU_CHAR)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),(RED|GREEN|BLUE),HOR|VER);
     img_out1_err = write_img(CONTRAST_OUTveho,&img_out1);
     if(img_out1_err == NO_ERROR)
     {
@@ -331,7 +349,7 @@ int main(int argc, char *argv[])
 /*********************************************************************************/
     /* histogram calculation on BASE */
     init_img(&img_in1);
-    img_in1_err = decode_img(BASE, &img_in1);
+    img_in1_err = load_img(BASE, &img_in1);
     if (img_in1_err == NO_ERROR)
     {
     }else
@@ -350,7 +368,7 @@ int main(int argc, char *argv[])
 
 
     init_img(&img_out1);
-    histogram(&img_in1,&img_out1, RED);
+    histogram(&img_in1,&img_out1);
     img_out1_err = write_img(IMG_HISTO,&img_out1);
     if(img_out1_err == NO_ERROR)
     {
@@ -366,7 +384,7 @@ int main(int argc, char *argv[])
 /*********************************************************************************/
     /* luminance on BASE */
     init_img(&img_in1);
-    img_in1_err = decode_img(BASE, &img_in1);
+    img_in1_err = load_img(BASE, &img_in1);
     if (img_in1_err == NO_ERROR)
     {
     }else
