@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
-	<File name="BMP_Compare.c" open="1" top="1" tabpos="1">
-		<Cursor position="2259" topLine="288" />
+	<File name="BMP_Compare.c" open="1" top="0" tabpos="1">
+		<Cursor position="9737" topLine="325" />
 	</File>
 	<File name="app_cfg.h" open="1" top="0" tabpos="4">
-		<Cursor position="752" topLine="0" />
+		<Cursor position="750" topLine="0" />
 	</File>
-	<File name="contrastdetect.c" open="1" top="0" tabpos="2">
+	<File name="contrastdetect.c" open="0" top="0" tabpos="2">
 		<Cursor position="3065" topLine="79" />
 	</File>
-	<File name="contrastdetect.h" open="1" top="0" tabpos="5">
+	<File name="contrastdetect.h" open="0" top="0" tabpos="5">
 		<Cursor position="106" topLine="0" />
 	</File>
-	<File name="functions.c" open="1" top="0" tabpos="9">
-		<Cursor position="518" topLine="15" />
+	<File name="functions.c" open="1" top="0" tabpos="5">
+		<Cursor position="642" topLine="23" />
 	</File>
-	<File name="functions.h" open="1" top="0" tabpos="10">
-		<Cursor position="125" topLine="0" />
+	<File name="functions.h" open="1" top="0" tabpos="6">
+		<Cursor position="196" topLine="0" />
 	</File>
 	<File name="includes.h" open="0" top="0" tabpos="9">
 		<Cursor position="221" topLine="0" />
 	</File>
-	<File name="lib_img.c" open="1" top="0" tabpos="3">
-		<Cursor position="2881" topLine="45" />
+	<File name="lib_img.c" open="1" top="1" tabpos="2">
+		<Cursor position="18343" topLine="473" />
 	</File>
-	<File name="lib_img.h" open="1" top="0" tabpos="6">
-		<Cursor position="1738" topLine="67" />
+	<File name="lib_img.h" open="1" top="0" tabpos="3">
+		<Cursor position="1592" topLine="25" />
 	</File>
-	<File name="motiondetect.c" open="1" top="0" tabpos="8">
+	<File name="motiondetect.c" open="0" top="0" tabpos="8">
 		<Cursor position="4639" topLine="0" />
 	</File>
-	<File name="motiondetect.h" open="1" top="0" tabpos="7">
+	<File name="motiondetect.h" open="0" top="0" tabpos="7">
 		<Cursor position="163" topLine="0" />
 	</File>
 	<File name="motorcontrol.c" open="0" top="0" tabpos="0">

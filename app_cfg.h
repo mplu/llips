@@ -14,6 +14,7 @@
 #define IMG_GREEN           "imggreen.bmp"
 #define IMG_BLUE            "imgblue.bmp"
 #define IMG_HISTO           "imgbasehisto.bmp"
+#define IMG_LUM             "imgbaseY.bmp"
 
 #define DEFAULT_TOLERANCE   11
 #define DEFAULT_QUANTITY    1

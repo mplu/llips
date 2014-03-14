@@ -360,6 +360,38 @@ int main(int argc, char *argv[])
         printf("write error\n");
     }
 
+/*********************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
+    /* luminance on BASE */
+    init_img(&img_in1);
+    img_in1_err = decode_img(BASE, &img_in1);
+    if (img_in1_err == NO_ERROR)
+    {
+    }else
+    {
+        if (g_debug_mode == DEF_ENABLED)
+        {
+            printf("Image %s not supported - err : %x\n",BASE,img_in1_err);
+        }else
+        {
+            //nothing
+        }
+
+    }
+
+    init_img(&img_out1);
+    luminance(&img_in1,&img_out1);
+    img_out1_err = write_img(IMG_LUM,&img_out1);
+    if(img_out1_err == NO_ERROR)
+    {
+        //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
+    }else
+    {
+        printf("write error\n");
+    }
+
 
     finish = clock();
     duration = (double)(finish - start) / CLOCKS_PER_SEC;

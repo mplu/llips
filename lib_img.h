@@ -98,3 +98,4 @@ t_area pixel_to_area(t_pixel pix);
 t_vect pixels_to_vector(t_pixel pix1,t_pixel pix2);
 unsigned char color_filter(t_img * img_in,t_img * img_out, unsigned long color);
 unsigned char histogram(t_img * img_in,t_img * img_out, unsigned long color);
+unsigned char luminance(t_img * img_in,t_img * img_out);

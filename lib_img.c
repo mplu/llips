@@ -412,15 +412,29 @@ unsigned char histogram(t_img * img_in,t_img * img_out, unsigned long color)
     unsigned long histowidth ;
     unsigned long histoheigh ;
     unsigned long histo_x = 1 ;
-    unsigned long histo_y = 1 ;
-    unsigned long redpixel[PIXEL_8bit_RANGE+1]={0};
-    unsigned long greenpixel[PIXEL_8bit_RANGE+1]={0};
-    unsigned long bluepixel[PIXEL_8bit_RANGE+1]={0};
-    unsigned long index,histomaxred=0,histomaxgreen=0,histomaxblue=0;
+    unsigned long histo_y_red = 1,histo_y_green,histo_y_blue,histo_y_lum ;
+
+    unsigned long * redpixel = calloc((PIXEL_8bit_RANGE+1),sizeof(unsigned long));
+    unsigned long * greenpixel = calloc((PIXEL_8bit_RANGE+1),sizeof(unsigned long));
+    unsigned long * bluepixel = calloc((PIXEL_8bit_RANGE+1),sizeof(unsigned long));
+    unsigned long * luminancepixel = calloc((PIXEL_8bit_RANGE+1),sizeof(unsigned long));
+    unsigned char Luminance = 0;
+
+    unsigned long index,histomaxred=0,histomaxgreen=0,histomaxblue=0,histomaxlum =0;
 
     // configure historgam
-    histoheigh = 50 ;
-    histowidth = PIXEL_8bit_RANGE/2;
+
+    histowidth = (img_in->wi)/4.5;
+
+    if(histowidth>PIXEL_8bit_RANGE)
+    {
+         histowidth = PIXEL_8bit_RANGE;
+    }
+    histoheigh = histowidth / 2 ;
+
+    histo_y_green = histo_y_red + histowidth + 2;
+    histo_y_blue = histo_y_green + histowidth + 2;
+    histo_y_lum = histo_y_blue + histowidth + 2;
 
     //Write Header
     for(i=0;i<img_in->FileHeader_size;i++)
@@ -433,8 +447,6 @@ unsigned char histogram(t_img * img_in,t_img * img_out, unsigned long color)
     img_out->he = img_in->he;
     img_out->FileHeader_size = img_in->FileHeader_size;
 
-
-
     //count distribution of red pixel
     for(i=0;i< (img_in->he ) ;i++)
     {
@@ -444,26 +456,38 @@ unsigned char histogram(t_img * img_in,t_img * img_out, unsigned long color)
             index = img_in->Red[i][j] / (PIXEL_8bit_RANGE/(histowidth-1));
             redpixel[index]++;
             histomaxred = Max_CPU_INT32U(histomaxred,redpixel[index]);
+
             //getting green pixel
             index = img_in->Green[i][j] / (PIXEL_8bit_RANGE/(histowidth-1));
             greenpixel[index]++;
-            histomaxred = Max_CPU_INT32U(histomaxgreen,greenpixel[index]);
+            histomaxgreen = Max_CPU_INT32U(histomaxgreen,greenpixel[index]);
             //getting red pixel
             index = img_in->Blue[i][j] / (PIXEL_8bit_RANGE/(histowidth-1));
             bluepixel[index]++;
-            histomaxred = Max_CPU_INT32U(histomaxblue,bluepixel[index]);
+            histomaxblue = Max_CPU_INT32U(histomaxblue,bluepixel[index]);
 
+            //calcultate luminance Y = 0,299 R + 0,587 G + 0,114 B
+            Luminance = (unsigned char)(  (float)img_in->Red[i][j]   * 0.299
+                                        + (float)img_in->Green[i][j] * 0.587
+                                        + (float)img_in->Blue[i][j]  * 0.114 );
+
+            //getting lumi pixel
+            index = Luminance / (PIXEL_8bit_RANGE/(histowidth-1));
+            luminancepixel[index]++;
+            histomaxlum = Max_CPU_INT32U(histomaxlum,luminancepixel[index]);
         }
     }
 
-
-    // normalize histogramme according to highest pixel distribution
-    // and height of histogram
+    // normalize histogramm according to highest pixel distribution
+    // and height of histogram, and to histogram width
     for(i=0;i<histowidth;i++)
     {
         redpixel[i] = redpixel[i] * histoheigh / histomaxred ;
         greenpixel[i] = greenpixel[i] * histoheigh / histomaxgreen ;
         bluepixel[i] = bluepixel[i] * histoheigh / histomaxblue ;
+
+        luminancepixel[i] = luminancepixel[i] * histoheigh / histomaxblue ;
+
     }
 
     //copy input img to output including histogram
@@ -471,16 +495,64 @@ unsigned char histogram(t_img * img_in,t_img * img_out, unsigned long color)
     {
         for(j=0 ; (j< img_in->wi );j++)
         {
-            // Looking
-            if(    ((j>=histo_y) && (j<=(histo_y+histowidth)))
+            // Looking for red drawing area
+            if(    ((j>=histo_y_red) && (j<=(histo_y_red+histowidth)))
                 && ((i>=histo_x) && (i<(histo_x+histoheigh)))
               )
             {
-                if(redpixel[j-histo_y] >= (i-histo_x))
+                if(redpixel[j-histo_y_red] >= (i-histo_x))
                 {
                     img_out->Red[i][j]   = 255;
                     img_out->Green[i][j] = 0;
                     img_out->Blue[i][j]  = 0;
+                }else
+                {
+                    img_out->Red[i][j]   = (img_in->Red[i][j])/2;
+                    img_out->Green[i][j] = (img_in->Green[i][j])/2;
+                    img_out->Blue[i][j]  = (img_in->Blue[i][j])/2;
+                }
+            }// Looking for green drawing area
+            else if(   ((j>=histo_y_green) && (j<=(histo_y_green+histowidth)))
+                    && ((i>=histo_x) && (i<(histo_x+histoheigh)))
+                   )
+            {
+                if(greenpixel[j-histo_y_green] >= (i-histo_x))
+                {
+                    img_out->Red[i][j]   = 0;
+                    img_out->Green[i][j] = 255;
+                    img_out->Blue[i][j]  = 0;
+                }else
+                {
+                    img_out->Red[i][j]   = (img_in->Red[i][j])/2;
+                    img_out->Green[i][j] = (img_in->Green[i][j])/2;
+                    img_out->Blue[i][j]  = (img_in->Blue[i][j])/2;
+                }
+            }// Looking for blue drawing area
+            else if(   ((j>=histo_y_blue) && (j<=(histo_y_blue+histowidth)))
+                    && ((i>=histo_x) && (i<(histo_x+histoheigh)))
+                   )
+            {
+                if(bluepixel[j-histo_y_blue] >= (i-histo_x))
+                {
+                    img_out->Red[i][j]   = 0;
+                    img_out->Green[i][j] = 0;
+                    img_out->Blue[i][j]  = 255;
+                }else
+                {
+                    img_out->Red[i][j]   = (img_in->Red[i][j])/2;
+                    img_out->Green[i][j] = (img_in->Green[i][j])/2;
+                    img_out->Blue[i][j]  = (img_in->Blue[i][j])/2;
+                }
+            }// looking for lum drawing area
+            else if(   ((j>=histo_y_lum) && (j<=(histo_y_lum+histowidth)))
+                    && ((i>=histo_x) && (i<(histo_x+histoheigh)))
+                   )
+            {
+                if(luminancepixel[j-histo_y_lum] >= (i-histo_x))
+                {
+                    img_out->Red[i][j]   = 180;
+                    img_out->Green[i][j] = 180;
+                    img_out->Blue[i][j]  = 180;
                 }else
                 {
                     img_out->Red[i][j]   = (img_in->Red[i][j])/2;
@@ -505,5 +577,39 @@ unsigned char histogram(t_img * img_in,t_img * img_out, unsigned long color)
 
 
 
+unsigned char luminance(t_img * img_in,t_img * img_out)
+{
+    unsigned char ret = NO_ERROR;
+    int i,j;
 
-//calcul luminance     Y = 0,299 R + 0,587 G + 0,114 B
+    unsigned char Luminance = 0;
+
+    //Write Header
+    for(i=0;i<img_in->FileHeader_size;i++)
+    {
+        img_out->FileHeader[i] = img_in->FileHeader[i];
+    }
+    img_out->signature = img_in->signature;
+    img_out->depth = img_in->depth;
+    img_out->wi = img_in->wi;
+    img_out->he = img_in->he;
+    img_out->FileHeader_size = img_in->FileHeader_size;
+
+    for(i=0;i< (img_in->he ) ;i++)
+    {
+        for(j=0 ; (j< img_in->wi );j++)
+        {
+            //calcultate luminance Y = 0,299 R + 0,587 G + 0,114 B
+            Luminance = (unsigned char)(  (float)img_in->Red[i][j]   * 0.299
+                                        + (float)img_in->Green[i][j] * 0.587
+                                        + (float)img_in->Blue[i][j]  * 0.114 );
+
+            img_out->Red[i][j] = Luminance;
+            img_out->Green[i][j] = Luminance;
+            img_out->Blue[i][j] = Luminance;
+        }
+    }
+    return ret;
+}
+
+
