@@ -1,0 +1,180 @@
+# depslib dependency file v1.0
+1391074835 source:c:\users\pluvinage\documents\developpement\source\codeblocks\bmp_compare\main.c
+	<stdio.h>
+	<stdlib.h>
+
+1391503966 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\motorcontrol.c
+	"includes.h"
+
+1391504936 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\includes.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"usertype.h"
+	"app_cfg.h"
+	"functions.h"
+	"lib_img.h"
+	"motiondetect.h"
+	"motorcontrol.h"
+
+1391503494 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\usertype.h
+
+1391504086 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\app_cfg.h
+
+1391504033 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\lib_img.h
+
+1391507683 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\motiondetect.h
+
+1391503771 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\motorcontrol.h
+
+1391504122 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\lib_img.c
+	"includes.h"
+
+1391504124 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\bmp_compare.c
+	"includes.h"
+
+1391504894 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\functions.h
+
+1391504944 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\functions.c
+	"includes.h"
+
+1391507601 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare\trunk\motiondetect.c
+	"includes.h"
+
+1391511621 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\functions.c
+	"includes.h"
+
+1392209884 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\includes.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"usertype.h"
+	"app_cfg.h"
+	"functions.h"
+	"lib_img.h"
+	"motiondetect.h"
+	"motorcontrol.h"
+
+1391511622 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\usertype.h
+
+1391516519 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\app_cfg.h
+
+1391511621 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\functions.h
+
+1391511621 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\lib_img.h
+
+1391525690 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\motiondetect.h
+
+1391511622 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\motorcontrol.h
+
+1391511621 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\lib_img.c
+	"includes.h"
+
+1391526376 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\motiondetect.c
+	"includes.h"
+
+1391511622 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\motorcontrol.c
+	"includes.h"
+
+1392209892 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcompare3\bmp_compare.c
+	"includes.h"
+
+1394619160 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\functions.c
+	"includes.h"
+
+1394463218 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\includes.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"usertype.h"
+	"app_cfg.h"
+	"functions.h"
+	"lib_img.h"
+	"motiondetect.h"
+	"contrastdetect.h"
+	"motorcontrol.h"
+
+1391511622 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\usertype.h
+
+1394786279 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\app_cfg.h
+
+1394619161 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\functions.h
+
+1394786263 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\lib_img.h
+
+1394463059 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\motiondetect.h
+
+1391511622 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\motorcontrol.h
+
+1394786250 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\lib_img.c
+	"includes.h"
+
+1394463238 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\motiondetect.c
+	"includes.h"
+
+1391511622 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\motorcontrol.c
+	"includes.h"
+
+1394617717 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\bmp_compare.c
+	"includes.h"
+
+1394545870 c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\contrastdetect.h
+
+1394532472 source:c:\users\pluvinage\documents\developpement\source\_perso\bmp_compare_brcontrastdet\contrastdetect.c
+	"includes.h"
+
+1394792371 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_functions.c
+	"llips_includes.h"
+
+1394793156 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_includes.h
+	<stdio.h>
+	<stdlib.h>
+	"llips_cfg.h"
+	"llips_type.h"
+	"llips_functions.h"
+	"llips_io.h"
+	"llips_general.h"
+	"llips_motiondetect.h"
+	"llips_contrastdetect.h"
+
+1394792766 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_cfg.h
+
+1394792766 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_type.h
+
+1394792216 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_functions.h
+
+1394792216 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_io.h
+
+1394792216 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_general.h
+
+1394463059 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_motiondetect.h
+
+1394792216 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_contrastdetect.h
+
+1394792766 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_general.c
+	"llips_includes.h"
+
+1394792373 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_io.c
+	"llips_includes.h"
+
+1394786527 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips_exemple.c
+	"includes.h"
+
+1394793184 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\includes.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"llips/llips_includes.h"
+	"app_cfg.h"
+
+1394792592 c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\app_cfg.h
+
+1394792791 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_motiondetect.c
+	"llips_includes.h"
+
+1394793011 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_contrastdetect.c
+	"llips_includes.h"
+

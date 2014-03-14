@@ -1,17 +1,10 @@
-BMP_Compare
+LLIPS
 ===========
+Light Library for Image ProcesS
+===========
+Full reorganization, BMP_Compare software becomes a library, published with llips_exemple.c as a main software
 
-This software compares three bmp image that must be existing before starting the program.
-Images sould be named :
-
-	-imgbase.bmp
-	-imgnew.bmp
-	
-To start the software, you should type : 
-BMP_Compare <tolerance in percent> <quantity of pixel in perthousand>
-eventually followed by "debug" without quotes to enable debug output (to test comparison parameters)
-
-
+Actual exemple takes imgbase.bmp, build historgam, luminance img, horizontal, vertical and diagonal edge detection
 
 linux 	: gcc (Debian 4.6.3-14) 4.6.3
 windows : codeblocks-8.02 + mingw

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Release" />
+	<File name="app_cfg.h" open="0" top="0" tabpos="1">
+		<Cursor position="799" topLine="0" />
+	</File>
+	<File name="includes.h" open="0" top="0" tabpos="9">
+		<Cursor position="120" topLine="0" />
+	</File>
+	<File name="llips\llips_cfg.h" open="1" top="0" tabpos="7">
+		<Cursor position="98" topLine="0" />
+	</File>
+	<File name="llips\llips_contrastdetect.c" open="1" top="0" tabpos="1">
+		<Cursor position="27" topLine="0" />
+	</File>
+	<File name="llips\llips_contrastdetect.h" open="0" top="0" tabpos="0">
+		<Cursor position="108" topLine="0" />
+	</File>
+	<File name="llips\llips_functions.c" open="1" top="0" tabpos="2">
+		<Cursor position="114" topLine="0" />
+	</File>
+	<File name="llips\llips_functions.h" open="0" top="0" tabpos="0">
+		<Cursor position="112" topLine="0" />
+	</File>
+	<File name="llips\llips_general.c" open="1" top="0" tabpos="3">
+		<Cursor position="27" topLine="0" />
+	</File>
+	<File name="llips\llips_general.h" open="0" top="0" tabpos="0">
+		<Cursor position="1441" topLine="29" />
+	</File>
+	<File name="llips\llips_includes.h" open="1" top="1" tabpos="8">
+		<Cursor position="65" topLine="0" />
+	</File>
+	<File name="llips\llips_io.c" open="1" top="0" tabpos="4">
+		<Cursor position="27" topLine="0" />
+	</File>
+	<File name="llips\llips_io.h" open="0" top="0" tabpos="0">
+		<Cursor position="224" topLine="0" />
+	</File>
+	<File name="llips\llips_motiondetect.c" open="1" top="0" tabpos="5">
+		<Cursor position="27" topLine="0" />
+	</File>
+	<File name="llips\llips_type.h" open="1" top="0" tabpos="6">
+		<Cursor position="265" topLine="0" />
+	</File>
+	<File name="llips_exemple.c" open="0" top="0" tabpos="0">
+		<Cursor position="89" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>
