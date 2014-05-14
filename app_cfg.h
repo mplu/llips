@@ -29,6 +29,8 @@
 #define IMG_BLUE            "imgblue.bmp"
 #define IMG_HISTO           "imgbasehisto.bmp"
 #define IMG_LUM             "imgbaseY.bmp"
+#define IMG_SMOOTH          "imgsmooth"
+#define BMP_EXT             ".bmp"
 
 #define DEBUG_opt           "debug"
 

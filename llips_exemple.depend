@@ -178,3 +178,57 @@
 1394803835 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\trunk\llips\llips_contrastdetect.c
 	"llips_includes.h"
 
+1399986355 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\llips\llips_functions.c
+	"llips_includes.h"
+
+1399968288 c:\users\pluvinage\documents\developpement\source\_perso\llips\llips\llips_includes.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	"llips_cfg.h"
+	"llips_type.h"
+	"llips_functions.h"
+	"llips_io.h"
+	"llips_general.h"
+	"llips_motiondetect.h"
+	"llips_contrastdetect.h"
+
+1395675109 c:\users\pluvinage\documents\developpement\source\_perso\llips\llips\llips_cfg.h
+
+1395675109 c:\users\pluvinage\documents\developpement\source\_perso\llips\llips\llips_type.h
+
+1399983999 c:\users\pluvinage\documents\developpement\source\_perso\llips\llips\llips_functions.h
+
+1395675109 c:\users\pluvinage\documents\developpement\source\_perso\llips\llips\llips_io.h
+
+1399990001 c:\users\pluvinage\documents\developpement\source\_perso\llips\llips\llips_general.h
+
+1395675109 c:\users\pluvinage\documents\developpement\source\_perso\llips\llips\llips_motiondetect.h
+
+1395675109 c:\users\pluvinage\documents\developpement\source\_perso\llips\llips\llips_contrastdetect.h
+
+1400053692 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\llips\llips_general.c
+	"llips_includes.h"
+
+1399983842 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\llips\llips_io.c
+	"llips_includes.h"
+
+1395675109 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\llips\llips_motiondetect.c
+	"llips_includes.h"
+
+1395675109 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\llips\llips_contrastdetect.c
+	"llips_includes.h"
+
+1400053542 source:c:\users\pluvinage\documents\developpement\source\_perso\llips\llips_exemple.c
+	"includes.h"
+
+1399968289 c:\users\pluvinage\documents\developpement\source\_perso\llips\includes.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"llips/llips_includes.h"
+	"app_cfg.h"
+
+1399988478 c:\users\pluvinage\documents\developpement\source\_perso\llips\app_cfg.h
+

@@ -597,3 +597,212 @@ CPU_CHAR luminance(t_img * img_in,t_img * img_out)
 }
 
 
+/****************************************************************/
+/* apply_filter()                                               */
+/* Description :                                                */
+/*   smooth image                                               */
+/* Input:                                                       */
+/*   img_in - input image                                       */
+/* Output:                                                      */
+/*   img_out - output image                                     */
+/* Return:                                                      */
+/*   status of operation                                        */
+/*                                                              */
+/****************************************************************/
+CPU_CHAR apply_filter(t_img * img_in,CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,t_img * img_out)
+{
+
+    CPU_CHAR ret = NO_ERROR;
+    CPU_INT16S i,j,i_img,j_img;
+    CPU_FP64 one_pixel[c_color_size];
+    CPU_INT16S filter_range =(filtersize -1)/2;
+
+    //Write Header
+    for(i=0;i<img_in->FileHeader_size;i++)
+    {
+        img_out->FileHeader[i] = img_in->FileHeader[i];
+    }
+    img_out->signature = img_in->signature;
+    img_out->depth = img_in->depth;
+    img_out->wi = img_in->wi;
+    img_out->he = img_in->he;
+    img_out->FileHeader_size = img_in->FileHeader_size;
+
+    //printf("%f\n",tab_filtre[0][0]);
+
+    for(i_img=0;i_img< (img_in->he ) ;i_img++)
+    {
+
+        for(j_img=0 ; (j_img< img_in->wi );j_img++)
+        {
+
+            one_pixel[c_Red] = 0;
+            one_pixel[c_Green] = 0;
+            one_pixel[c_Blue] = 0;
+            for (i=0;i<filtersize;i++)
+            {
+                //printf("one_pixel[c_Red]1 %f\n",one_pixel[c_Red]);
+                for (j=0;j<filtersize;j++)
+                {
+                    if(     ((i_img-filter_range+i )>=0)
+                        &&  ((j_img-filter_range+j )>=0)
+                        &&  ((i_img-filter_range+i )<img_in->he)
+                        &&  ((j_img-filter_range+j )<img_in->wi )
+                      )
+                    {
+                        //printf("%f  %f\n",one_pixel[c_Red]);
+                                                //,(CPU_FP64)img_in->Red[i_img-filter_range+i][j_img-filter_range+j]
+                                                //,(CPU_FP64)tab_filtre[i][j]);
+                        one_pixel[c_Red] =  one_pixel[c_Red]
+                                            + (CPU_FP64)(img_in->Red[i_img-filter_range+i][j_img-filter_range+j]) * tab_filtre[i][j] ;
+                        one_pixel[c_Green]= one_pixel[c_Green]
+                                            + (CPU_FP64)(img_in->Green[i_img-filter_range+i][j_img-filter_range+j]) * tab_filtre[i][j] ;
+                        one_pixel[c_Blue] = one_pixel[c_Blue]
+                                            + (CPU_FP64)(img_in->Blue[i_img-filter_range+i][j_img-filter_range+j]) * tab_filtre[i][j] ;
+                    }
+                }
+            }
+            img_out->Red[i_img][j_img] = one_pixel[c_Red] ;
+            img_out->Green[i_img][j_img] = one_pixel[c_Green] ;
+            img_out->Blue[i_img][j_img] = one_pixel[c_Blue] ;
+        }
+    }
+    return ret;
+}
+
+/****************************************************************/
+/* conv_gauss()                                                 */
+/* Description :                                                */
+/*   gaussian convolution                                       */
+/* Input:                                                       */
+/*                                                              */
+/* Output:                                                      */
+/*                                                              */
+/* Return:                                                      */
+/*   status of operation                                        */
+/*                                                              */
+/****************************************************************/
+CPU_FP64 conv_gauss(CPU_INT16S x,CPU_INT16S y,CPU_FP64 sig)
+{
+    CPU_FP64 value = 0,value1 = 0,value2 = 0;
+    //x++;
+    //y++;
+
+
+    value1 =  1.0/(2.0*PI*sig*sig);
+    value2 =   (0.0 -(x*x+y*y))/(2*sig*sig);
+
+    //value1 =  (PI*sig*sig)/2.0;
+    //value2 =  ((x*x+y*y)/(2*sig*sig));
+
+    //value1 =  1.0/(sig*sqrt(2*PI));
+    //value2 =   ( 0.0 -((x*x)+(y*y)) / (2*sig*sig) );
+
+    value = value1 * exp(value2);
+    return value;
+
+}
+
+/****************************************************************/
+/* create_gauss_filter()                                        */
+/* Description :                                                */
+/*   gaussian convolution                                       */
+/* Input:                                                       */
+/*                                                              */
+/* Output:                                                      */
+/*                                                              */
+/* Return:                                                      */
+/*   status of operation                                        */
+/*                                                              */
+/****************************************************************/
+void create_gauss_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,CPU_FP64 sigma)
+{
+    CPU_INT16U filter_range =(filtersize -1)/2;
+    CPU_INT16S i,j;
+
+    CPU_FP64 value,sum=0,sum2=0;
+    for (i=0;i<filtersize;i++)
+    {
+        for (j=0;j<filtersize;j++)
+        {
+            value = conv_gauss(i-filter_range,j-filter_range,sigma);
+            sum = sum + value;
+            tab_filtre[i][j] = value;
+        }
+    }
+
+    for (i=0;i<filtersize;i++)
+    {
+        for (j=0;j<filtersize;j++)
+        {
+            tab_filtre[i][j] = tab_filtre[i][j] / sum;
+            sum2 = sum2 + tab_filtre[i][j];
+        }
+    }
+}
+
+/****************************************************************/
+/* create_median_filter()                                       */
+/* Description :                                                */
+/*   gaussian convolution                                       */
+/* Input:                                                       */
+/*                                                              */
+/* Output:                                                      */
+/*                                                              */
+/* Return:                                                      */
+/*   status of operation                                        */
+/*                                                              */
+/****************************************************************/
+void create_median_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize)
+{
+    CPU_INT16S i,j;
+    for (i=0;i<filtersize;i++)
+    {
+        for (j=0;j<filtersize;j++)
+        {
+            tab_filtre[i][j] = 1.0/filtersize;
+        }
+    }
+}
+
+/****************************************************************/
+/* create_laplacian_filter()                                       */
+/* Description :                                                */
+/*   gaussian convolution                                       */
+/* Input:                                                       */
+/*                                                              */
+/* Output:                                                      */
+/*                                                              */
+/* Return:                                                      */
+/*   status of operation                                        */
+/*                                                              */
+/****************************************************************/
+CPU_INT16S create_laplacian_filter(CPU_FP64 ** tab_filtre)
+{
+    CPU_INT16S i,j,filtersize=3;
+    for (i=0;i<filtersize;i++)
+    {
+        for (j=0;j<filtersize;j++)
+        {
+            tab_filtre[i][j] = 0.5/8.0;
+        }
+    }
+
+    tab_filtre[1][1] = -0.5;
+
+/*    tab_filtre[0][0] = 0;
+    tab_filtre[0][1] = 1;
+    tab_filtre[0][2] = 0;
+
+    tab_filtre[1][0] = 1;
+
+    tab_filtre[1][2] = 1;
+
+    tab_filtre[2][0] = 0;
+    tab_filtre[2][1] = 1;
+    tab_filtre[2][2] = 0;
+*/
+
+
+    return filtersize;
+}

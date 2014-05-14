@@ -36,6 +36,14 @@
 #define RED     0x0100
 #define HEADER  0x1000
 
+typedef enum te_color
+{
+    c_Red = 0,
+    c_Green = 1,
+    c_Blue = 2,
+    c_color_size
+}e_color;
+
 /* Error management */
 #define NO_ERROR            0x0000
 #define ERR_NOFILE          0x0001
@@ -53,6 +61,19 @@
 #define DIFF_GREEN          0x0004
 #define DIFF_RED            0x0008
 #define DIFF_HIGH_QUANTITY  0x0010
+
+/* Smoothing */
+#define FILTER_SIZE_USER 15
+
+#if ((FILTER_SIZE_USER % 2) == 0)
+#warning "Added 1 to FILTER_SIZE_USER"
+#define FILTER_SIZE (FILTER_SIZE_USER + 1)
+#else
+#define FILTER_SIZE FILTER_SIZE_USER
+#endif
+
+#define PI 3.141592653589793
+
 
 /****************************************************************/
 /**           Macro                                             */
@@ -80,3 +101,9 @@ t_vect pixels_to_vector(t_pixel pix1,t_pixel pix2);
 CPU_CHAR color_filter(t_img * img_in,t_img * img_out, CPU_INT32U color);
 CPU_CHAR histogram(t_img * img_in,t_img * img_out);
 CPU_CHAR luminance(t_img * img_in,t_img * img_out);
+CPU_CHAR apply_filter(t_img * img_in,CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,t_img * img_out);
+CPU_FP64 conv_gauss(CPU_INT16S x,CPU_INT16S y,CPU_FP64 sig);
+void create_gauss_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,CPU_FP64 sigma);
+void create_median_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize);
+CPU_INT16S create_laplacian_filter(CPU_FP64 ** tab_filtre);
+

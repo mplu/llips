@@ -41,9 +41,9 @@ CPU_VOID init_img(t_img * img)
     img->depth = 0;
     img->wi = 0;
     img->he = 0;
-    img->Blue = createTable(MAX_HEIGHT,MAX_WIDTH);
-    img->Green = createTable(MAX_HEIGHT,MAX_WIDTH);
-    img->Red = createTable(MAX_HEIGHT,MAX_WIDTH);
+    img->Blue = createTableINT08U(MAX_HEIGHT,MAX_WIDTH);
+    img->Green = createTableINT08U(MAX_HEIGHT,MAX_WIDTH);
+    img->Red = createTableINT08U(MAX_HEIGHT,MAX_WIDTH);
 }
 
 /****************************************************************/
@@ -66,11 +66,8 @@ CPU_CHAR load_img(CPU_CHAR * imgname, t_img * img)
     FILE* fichier = NULL;
     CPU_CHAR dummy=0;
 
-
-    CPU_INT32U position_fin = 0;
-
     // Open file
-    fichier = fopen(imgname, "rb");
+    fichier = fopen((const char *)imgname, "rb");
     if (fichier != NULL)
     {
         //Get signature
@@ -112,7 +109,6 @@ CPU_CHAR load_img(CPU_CHAR * imgname, t_img * img)
                             }
                             //copy IMG data
                             fseek(fichier,0,SEEK_END);
-                            position_fin = ftell(fichier);
                             fseek (fichier,OFFSET_IMG_DATA_WIN24bit,SEEK_SET);
                             offset = 0;
                             for(i=0;i< img->he ;i++)
@@ -183,7 +179,7 @@ CPU_CHAR write_img(CPU_CHAR * imgname, t_img * img)
     CPU_INT16S i,j;
     CPU_INT32U offset;
     FILE* fichier = NULL;
-    fichier = fopen(imgname, "wb");
+    fichier = fopen((const char *)imgname, "wb");
     if(fichier != NULL)
     {
         //Write Header

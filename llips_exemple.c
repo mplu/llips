@@ -22,14 +22,21 @@ CPU_CHAR g_debug_mode = DEF_DISABLED;
 /****************************************************************/
 int main(int argc, char *argv[])
 {
-    CPU_INT16U i = 1;
+    CPU_INT16U i = 1,j;
     clock_t start, finish;
     double duration;
 
     t_img img_in1;
     t_img img_out1;
 
-    CPU_CHAR img_in1_err,img_out1_err,contrast_det=0;
+    CPU_CHAR outputfilename[32];
+
+    CPU_CHAR img_in1_err,img_out1_err;
+    //CPU_CHAR contrast_det=0;
+    CPU_FP64 ** filtre;
+    CPU_FP64 sigma;
+    CPU_INT16S filtresize;
+
     /*
     t_img img_in2;
     t_img img_in3;
@@ -290,8 +297,8 @@ int main(int argc, char *argv[])
 /*********************************************************************************/
 /*********************************************************************************/
     /* Contrast Detection on BASE */
-    init_img(&img_in1);
-    img_in1_err = load_img(BASE, &img_in1);
+ /*   init_img(&img_in1);
+    img_in1_err = load_img((CPU_CHAR *)BASE, &img_in1);
     if (img_in1_err == NO_ERROR)
     {
     }else
@@ -306,12 +313,11 @@ int main(int argc, char *argv[])
 
     }
 
-    tolerance = 5;
-    contrast_det = 0;
+    tolerance = 7;
 
     init_img(&img_out1);
-    contrast_det = search_contrast((CPU_CHAR)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),(RED|GREEN|BLUE),VER);
-    img_out1_err = write_img(CONTRAST_OUTVRT,&img_out1);
+    search_contrast((CPU_CHAR)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),(RED|GREEN|BLUE),VER);
+    img_out1_err = write_img((CPU_CHAR *)CONTRAST_OUTVRT,&img_out1);
     if(img_out1_err == NO_ERROR)
     {
         //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
@@ -321,8 +327,8 @@ int main(int argc, char *argv[])
     }
 
     init_img(&img_out1);
-    contrast_det = search_contrast((CPU_CHAR)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),(RED|GREEN|BLUE),HOR);
-    img_out1_err = write_img(CONTRAST_OUTHRZ,&img_out1);
+    search_contrast((CPU_CHAR)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),(RED|GREEN|BLUE),HOR);
+    img_out1_err = write_img((CPU_CHAR *)CONTRAST_OUTHRZ,&img_out1);
     if(img_out1_err == NO_ERROR)
     {
         //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
@@ -332,22 +338,22 @@ int main(int argc, char *argv[])
     }
 
     init_img(&img_out1);
-    contrast_det = search_contrast((CPU_CHAR)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),(RED|GREEN|BLUE),HOR|VER);
-    img_out1_err = write_img(CONTRAST_OUTveho,&img_out1);
+    search_contrast((CPU_CHAR)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),(RED|GREEN|BLUE),HOR|VER);*/
+    /*img_out1_err = write_img(CONTRAST_OUTveho,&img_out1);
     if(img_out1_err == NO_ERROR)
     {
         //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
     }else
     {
         printf("write error\n");
-    }
+    }*/
 
 
 /*********************************************************************************/
 /*********************************************************************************/
 /*********************************************************************************/
 /*********************************************************************************/
-    /* histogram calculation on BASE */
+    /* histogram calculation on BASE
     init_img(&img_in1);
     img_in1_err = load_img(BASE, &img_in1);
     if (img_in1_err == NO_ERROR)
@@ -376,14 +382,14 @@ int main(int argc, char *argv[])
     }else
     {
         printf("write error\n");
-    }
+    }*/
 
 /*********************************************************************************/
 /*********************************************************************************/
 /*********************************************************************************/
 /*********************************************************************************/
     /* luminance on BASE */
-    init_img(&img_in1);
+    /*init_img(&img_in1);
     img_in1_err = load_img(BASE, &img_in1);
     if (img_in1_err == NO_ERROR)
     {
@@ -400,8 +406,99 @@ int main(int argc, char *argv[])
     }
 
     init_img(&img_out1);
-    luminance(&img_in1,&img_out1);
-    img_out1_err = write_img(IMG_LUM,&img_out1);
+    luminance(&img_out1,&img_out1);
+    img_out1_err = write_img((CPU_CHAR *)IMG_LUM,&img_out1);
+    if(img_out1_err == NO_ERROR)
+    {
+        //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
+    }else
+    {
+        printf("write error\n");
+    }*/
+
+/*********************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
+    /* smooth filter on BASE */
+    init_img(&img_in1);
+    img_in1_err = load_img((CPU_CHAR *)BASE, &img_in1);
+    if (img_in1_err == NO_ERROR)
+    {
+    }else
+    {
+        if (g_debug_mode == DEF_ENABLED)
+        {
+            printf("Image %s not supported - err : %x\n",BASE,img_in1_err);
+        }else
+        {
+            //nothing
+        }
+
+    }
+    sigma = 1.4;
+    filtresize = 5;
+//Gaussian filter
+/*
+    sprintf((char *)outputfilename,"%sGsig%0.1ffsize%02d%s",IMG_SMOOTH,sigma,filtresize,BMP_EXT);
+
+    init_img(&img_out1);
+    filtre = createTableFP64(filtresize,filtresize);
+    create_gauss_filter(filtre,filtresize,sigma);
+    apply_filter(&img_in1,filtre,filtresize,&img_out1);
+
+    img_out1_err = write_img((CPU_CHAR *)outputfilename,&img_out1);
+    if(img_out1_err == NO_ERROR)
+    {
+        //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
+    }else
+    {
+        printf("write error\n");
+    }
+*/
+//Median filter
+/*
+    sprintf((char *)outputfilename,"%sMfsize%02d%s",IMG_SMOOTH,filtresize,BMP_EXT);
+
+    init_img(&img_out1);
+    filtre = createTableFP64(filtresize,filtresize);
+    create_gauss_filter(filtre,filtresize,sigma);
+    apply_filter(&img_in1,filtre,filtresize,&img_out1);
+
+    img_out1_err = write_img((CPU_CHAR *)outputfilename,&img_out1);
+    if(img_out1_err == NO_ERROR)
+    {
+        //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
+    }else
+    {
+        printf("write error\n");
+    }
+*/
+//Median filter x10
+/*
+    sprintf((char *)outputfilename,"%sM10fsize%02d%s",IMG_SMOOTH,filtresize,BMP_EXT);
+    filtre = createTableFP64(filtresize,filtresize);
+    create_gauss_filter(filtre,filtresize,sigma);
+    for(i=0;i<10;i++)
+        apply_filter(&img_in1,filtre,filtresize,&img_out1);
+
+    img_out1_err = write_img((CPU_CHAR *)outputfilename,&img_out1);
+    if(img_out1_err == NO_ERROR)
+    {
+        //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
+    }else
+    {
+        printf("write error\n");
+    }
+*/
+//Laplacian filter
+    filtre = createTableFP64(filtresize,filtresize);
+    filtresize = create_laplacian_filter(filtre);
+
+    apply_filter(&img_in1,filtre,filtresize,&img_out1);
+
+    sprintf((char *)outputfilename,"%ssize%02d%s","imgcontourlaplace",filtresize,BMP_EXT);
+    img_out1_err = write_img((CPU_CHAR *)outputfilename,&img_out1);
     if(img_out1_err == NO_ERROR)
     {
         //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
@@ -411,6 +508,13 @@ int main(int argc, char *argv[])
     }
 
 
+
+
+
+/*********************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
+/*********************************************************************************/
     finish = clock();
     duration = (double)(finish - start) / CLOCKS_PER_SEC;
     printf( "duration : %f seconds\n", duration );

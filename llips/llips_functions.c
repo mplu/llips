@@ -85,7 +85,7 @@ CPU_INT32U max(CPU_INT32U a,CPU_INT32U b)
 /*   pointer on a CPU_INT08U 2D table                           */
 /*                                                              */
 /****************************************************************/
-CPU_INT08U **createTable(CPU_INT16S nbLin, CPU_INT16S nbCol)
+CPU_INT08U **createTableINT08U(CPU_INT16S nbLin, CPU_INT16S nbCol)
 {
 	CPU_INT16S i;
 	CPU_INT08U **tab1 = (CPU_INT08U **)malloc(sizeof(CPU_INT08U*)*nbLin);
@@ -97,7 +97,32 @@ CPU_INT08U **createTable(CPU_INT16S nbLin, CPU_INT16S nbCol)
 }
 
 /****************************************************************/
-/* freeTable()                                                  */
+/* createTableFP64()                                            */
+/* Description :                                                */
+/*   allocate memory for a CPUFP64 2D table                     */
+/* Input:                                                       */
+/*   nbLin - number of line (height)                            */
+/*   nbCol - number of column (widht)                           */
+/* Output:                                                      */
+/*   na                                                         */
+/* Return:                                                      */
+/*   pointer on a CPU_FP64 2D table                             */
+/*                                                              */
+/****************************************************************/
+CPU_FP64 **createTableFP64(CPU_INT16S nbLin, CPU_INT16S nbCol)
+{
+	CPU_INT16S i;
+	CPU_FP64 **tab1 = (CPU_FP64 **)malloc(sizeof(CPU_FP64*)*nbLin);
+	CPU_FP64 *tab2 = (CPU_FP64 *)malloc(sizeof(CPU_FP64)*nbCol*nbLin);
+	for(i = 0 ; i < nbLin ; i++){
+		tab1[i] = &tab2[i*nbCol];
+	}
+
+	return tab1;
+}
+
+/****************************************************************/
+/* freeTableINT08U()                                            */
 /* Description :                                                */
 /*   deallocate memory for a CPU_INT08U 2D table                */
 /* Input:                                                       */
@@ -108,7 +133,25 @@ CPU_INT08U **createTable(CPU_INT16S nbLin, CPU_INT16S nbCol)
 /*   na                                                         */
 /*                                                              */
 /****************************************************************/
-CPU_VOID freeTable(CPU_INT08U **tab)
+CPU_VOID freeTableINT08U(CPU_INT08U **tab)
+{
+	free(tab[0]);
+	free(tab);
+}
+
+/****************************************************************/
+/* freeTableINT08U()                                            */
+/* Description :                                                */
+/*   deallocate memory for a CPU_INT08U 2D table                */
+/* Input:                                                       */
+/*   tab - table to destroy                                     */
+/* Output:                                                      */
+/*   na                                                         */
+/* Return:                                                      */
+/*   na                                                         */
+/*                                                              */
+/****************************************************************/
+CPU_VOID freeTableFP64(CPU_FP64 **tab)
 {
 	free(tab[0]);
 	free(tab);
