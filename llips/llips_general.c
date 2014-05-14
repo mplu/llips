@@ -777,9 +777,9 @@ void create_median_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize)
 /*   status of operation                                        */
 /*                                                              */
 /****************************************************************/
-CPU_INT16S create_laplacian_filter(CPU_FP64 ** tab_filtre)
+CPU_INT16S create_laplacian_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize)
 {
-    CPU_INT16S i,j,filtersize=3;
+    CPU_INT16S i,j;
     for (i=0;i<filtersize;i++)
     {
         for (j=0;j<filtersize;j++)

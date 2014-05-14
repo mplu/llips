@@ -18,3 +18,4 @@
 CPU_VOID init_img(t_img * img);
 CPU_CHAR load_img(CPU_CHAR * imgname, t_img * img);
 CPU_CHAR write_img(CPU_CHAR * imgname, t_img * img);
+CPU_CHAR copy_img( t_img * imgsrc, t_img * imgdest);

@@ -206,4 +206,181 @@ t_vect evaluate_move(t_img * p_img_base,t_img * p_img_target,t_area area_1,t_are
     return ret;
 }
 
+/****************************************************************/
+/* search_diff_x()                                              */
+/* Description :                                                */
+/* Input:                                                       */
+/* Output:                                                      */
+/* Return:                                                      */
+/*                                                              */
+/****************************************************************/
+CPU_CHAR search_diff_x(CPU_INT16U tolerance,CPU_INT16U quantity, t_img * img_in1,t_img * img_in2,t_img * img_out,t_area * change_img)
+{
+    CPU_CHAR ret = NO_DIFF;
+    CPU_INT16S i,j,areasize;
+    CPU_INT16U raw_tolerance,raw_quantity;
+    CPU_INT16U quantity_of_diff_pixel = 0;
+    t_pixel area1,area2;
+    t_area area_pic2;
+
+    // calculte raw tolerance and quantity
+    raw_quantity = ((img_in1->he * img_in1->wi)*quantity)/1000;
+    raw_tolerance = ((PIXEL_8bit_RANGE)*tolerance)/100;
+
+    if((img_in1->he == img_in2->he) && (img_in1->wi == img_in2->wi))
+    {
+        init_area(change_img,img_in1->wi,img_in1->he);
+
+        //Write Header
+        for(i=0;i<img_in2->FileHeader_size;i++)
+        {
+            img_out->FileHeader[i] = img_in2->FileHeader[i];
+        }
+        img_out->signature = img_in2->signature;
+        img_out->depth = img_in2->depth;
+        img_out->wi = img_in2->wi;
+        img_out->he = img_in2->he;
+        img_out->FileHeader_size = img_in2->FileHeader_size;
+
+        //same size
+        for(i=0;i< img_in1->he ;i++)
+        {
+            for(j=0 ; j< img_in1->wi ;j++)
+            {
+                img_out->Blue[i][j]  = abs((CPU_INT16S)(img_in1->Blue[i][j])  - (CPU_INT16S)(img_in2->Blue[i][j]));
+                if (img_out->Blue[i][j] > raw_tolerance)
+                {
+                    ret |= DIFF_BLUE;
+                }
+                img_out->Green[i][j] = abs((CPU_INT16S)(img_in1->Green[i][j]) - (CPU_INT16S)(img_in2->Green[i][j]));
+                if (img_out->Green[i][j] > raw_tolerance)
+                {
+                    ret |= DIFF_GREEN;
+                }
+                img_out->Red[i][j]   = abs((CPU_INT16S)(img_in1->Red[i][j])   - (CPU_INT16S)(img_in2->Red[i][j]));
+                if (img_out->Red[i][j] > raw_tolerance)
+                {
+                    ret |= DIFF_RED;
+                }
+
+                if ((img_out->Blue[i][j] > raw_tolerance) || (img_out->Green[i][j] > raw_tolerance) || (img_out->Red[i][j] > raw_tolerance))
+                {
+                    img_out->Green[i][j] = (CPU_CHAR)(CPU_FP32)img_in2->Blue[i][j]*2.5;
+                    img_out->Blue[i][j] = 0;//img_in2->Blue[i][j]/2;
+                    img_out->Red[i][j] = 0;//img_in2->Red[i][j]/2;
+                    quantity_of_diff_pixel ++;
+                    if ((i == 77) && (j== 42))
+                    {
+                        areasize = 20;
+                        change_img->BotLeft.x   = j - areasize /2 ;
+                        change_img->BotLeft.y   = i + areasize /2 ;
+                        change_img->BotRight.x  = j + areasize /2 ;
+                        change_img->BotRight.y  = i - areasize /2 ;
+                        change_img->TopLeft.x   = j + areasize /2 ;
+                        change_img->TopLeft.y   = i - areasize /2 ;
+                        change_img->TopRight.x  = j - areasize /2 ;
+                        change_img->TopRight.y  = i + areasize /2 ;
+                        area1.x = j;
+                        area1.y = i;
+                        area2  = look_for_match(img_in1,img_in2,areasize,area1,raw_tolerance);
+                        area_pic2.BotLeft.x   = area2.x - areasize /2 ;
+                        area_pic2.BotLeft.y   = area2.y + areasize /2 ;
+                        area_pic2.BotRight.x  = area2.x + areasize /2 ;
+                        area_pic2.BotRight.y  = area2.y - areasize /2 ;
+                        area_pic2.TopLeft.x   = area2.x + areasize /2 ;
+                        area_pic2.TopLeft.y   = area2.y - areasize /2 ;
+                        area_pic2.TopRight.x  = area2.x - areasize /2 ;
+                        area_pic2.TopRight.y  = area2.y + areasize /2 ;
+
+                    }
+
+
+                }else
+                {
+                    img_out->Green[i][j] = 0;
+                    img_out->Blue[i][j] = 0;
+                    img_out->Red[i][j] = 0;
+                }
+            }
+        }
+    }else
+    {
+        // size different
+        ret |= DIFF_SIZE;
+    }
+    if (quantity_of_diff_pixel > raw_quantity)
+    {
+        ret |= DIFF_HIGH_QUANTITY;
+    }
+
+    highlight_area(img_out,change_img,SetRGB(255,0,0));
+    highlight_area(img_out,&area_pic2,SetRGB(0,0,255));
+    return ret;
+}
+
+t_pixel look_for_match(t_img * img_in1,t_img * img_in2,CPU_INT16U areasize,t_pixel area_from_1,CPU_INT16U raw_tolerance)
+{
+    t_pixel area_to_2;
+    CPU_INT16U i,j;
+    CPU_INT08U ** table_src,** table_dest;
+    CPU_INT16S range_i = 20,offset_i;
+    CPU_INT16S range_j = 30,offset_j;
+    CPU_BOOLEAN match = FALSE;
+    //area_to_2.x = 10;
+    //area_to_2.y = 70;
+    table_src = createTableINT08U(areasize, areasize);
+    table_dest = createTableINT08U(areasize, areasize);
+
+    // init area of the first image
+    for(i=0;i< areasize  ;i++)
+    {
+        for(j=0 ; j< areasize ;j++)
+        {
+            table_src[i][j] = img_in1->Green[i+(area_from_1.y - areasize / 2)][j+(area_from_1.x - areasize / 2)];
+        }
+    }
+
+    offset_i = 0;
+    offset_j = 0;
+    for( offset_i=(0-(range_i/2)); offset_i< (range_i/2)  ;offset_i++)
+    {
+        for(offset_j=0;offset_j> (0 - range_j)  ;offset_j--)
+        {
+            // init area of the second image
+            for(i=0;i< areasize  ;i++)
+            {
+                for(j=0 ; j< areasize ;j++)
+                {
+                    table_dest[i][j] = img_in2->Green[i+(area_from_1.y - areasize / 2)+offset_i][j+(area_from_1.x - areasize / 2)+offset_j];
+                }
+            }
+
+            match = TRUE;
+            for(i=0;i< areasize  ;i++)
+            {
+                for(j=0 ; j< areasize ;j++)
+                {
+                    //printf("diff : %d tol : %d\n",abs(table_dest[i][j] - table_src[i][j]),raw_tolerance);
+                    if ((abs(table_dest[i][j] - table_src[i][j]))>raw_tolerance/2)
+                    {
+                        match = FALSE;
+                    }
+                }
+            }
+            if(match == TRUE)
+            {
+                printf("something found at x = %d and y = %d !\n",area_from_1.x + offset_j,area_from_1.y + offset_i);
+                area_to_2.x = area_from_1.x + offset_j;
+                area_to_2.y = area_from_1.y + offset_i;
+            }else
+            {
+                printf("no match found\n");
+            }
+            if(match == TRUE)break;
+        }
+        if(match == TRUE)break;
+    }
+
+    return area_to_2;
+}
 

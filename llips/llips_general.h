@@ -105,5 +105,5 @@ CPU_CHAR apply_filter(t_img * img_in,CPU_FP64 ** tab_filtre,CPU_INT16S filtersiz
 CPU_FP64 conv_gauss(CPU_INT16S x,CPU_INT16S y,CPU_FP64 sig);
 void create_gauss_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,CPU_FP64 sigma);
 void create_median_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize);
-CPU_INT16S create_laplacian_filter(CPU_FP64 ** tab_filtre);
+CPU_INT16S create_laplacian_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize);
 

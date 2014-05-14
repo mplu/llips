@@ -216,3 +216,48 @@ CPU_CHAR write_img(CPU_CHAR * imgname, t_img * img)
     }
     return ret;
 }
+
+/****************************************************************/
+/* copy_img()                                                   */
+/* Description :                                                */
+/*   copy src img into dest img                                 */
+/*   image load                                                 */
+/* Input:                                                       */
+/*   imgsrc -                                                   */
+/*   imgdest -                                                  */
+/* Output:                                                      */
+/*   na                                                         */
+/* Return:                                                      */
+/*   status of operation                                        */
+/*                                                              */
+/****************************************************************/
+CPU_CHAR copy_img( t_img * imgsrc, t_img * imgdest)
+{
+    CPU_CHAR ret = NO_ERROR;
+    CPU_INT16S i,i_img,j_img;
+
+//Write Header
+    for(i=0;i<imgsrc->FileHeader_size;i++)
+    {
+        imgdest->FileHeader[i] = imgsrc->FileHeader[i];
+    }
+    imgdest->signature = imgsrc->signature;
+    imgdest->depth = imgsrc->depth;
+    imgdest->wi = imgsrc->wi;
+    imgdest->he = imgsrc->he;
+    imgdest->FileHeader_size = imgsrc->FileHeader_size;
+
+    //printf("%f\n",tab_filtre[0][0]);
+
+    for(i_img=0;i_img< (imgsrc->he ) ;i_img++)
+    {
+
+        for(j_img=0 ; (j_img< imgsrc->wi );j_img++)
+        {
+            imgdest->Red[i_img][j_img] = imgsrc->Red[i_img][j_img];
+            imgdest->Green[i_img][j_img] = imgsrc->Green[i_img][j_img];
+            imgdest->Blue[i_img][j_img] = imgsrc->Blue[i_img][j_img];
+        }
+    }
+    return ret;
+}

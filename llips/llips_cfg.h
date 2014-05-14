@@ -21,3 +21,5 @@
 #define DEFAULT_TOLERANCE   11
 #define DEFAULT_QUANTITY    1
 
+#define TRUE    1
+#define FALSE   0

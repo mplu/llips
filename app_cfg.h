@@ -31,6 +31,9 @@
 #define IMG_LUM             "imgbaseY.bmp"
 #define IMG_SMOOTH          "imgsmooth"
 #define BMP_EXT             ".bmp"
+#define IMG_LEFT            "imgin1left.bmp"
+#define IMG_RIGHT           "imgin2right.bmp"
+#define IMG_OUT             "imgout"
 
 #define DEBUG_opt           "debug"
 

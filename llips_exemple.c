@@ -22,20 +22,24 @@ CPU_CHAR g_debug_mode = DEF_DISABLED;
 /****************************************************************/
 int main(int argc, char *argv[])
 {
-    CPU_INT16U i = 1,j;
+    CPU_INT16U i = 1;
     clock_t start, finish;
     double duration;
 
     t_img img_in1;
-    t_img img_out1;
+    t_img img_in2;
+    t_img img_out1,img_out2;
+    CPU_CHAR img_diff_1_2=0;
+    t_area change_1_2;
 
     CPU_CHAR outputfilename[32];
 
-    CPU_CHAR img_in1_err,img_out1_err;
+    //CPU_CHAR img_in1_err,img_out1_err;
     //CPU_CHAR contrast_det=0;
-    CPU_FP64 ** filtre;
-    CPU_FP64 sigma;
-    CPU_INT16S filtresize;
+    //CPU_FP64 ** gauss_filter, **laplace_filter;
+    //CPU_FP64 gauss_sigma;
+    //CPU_INT16S gauss_filter_size,laplace_filter_size;
+
 
     /*
     t_img img_in2;
@@ -111,8 +115,60 @@ int main(int argc, char *argv[])
         }
 
         init_img(&img_in1);
+        init_img(&img_in2);
         init_img(&img_out1);
+        init_img(&img_out2);
 
+        load_img((CPU_CHAR *)IMG_RIGHT, &img_in1);
+        load_img((CPU_CHAR *)IMG_LEFT, &img_in2);
+
+        img_diff_1_2 = search_diff((CPU_CHAR)tolerance,(CPU_CHAR)quantity,&img_in1,&img_in2,&img_out1,&change_1_2);
+        img_diff_1_2 = search_diff_x((CPU_CHAR)tolerance,(CPU_CHAR)quantity,&img_in1,&img_in2,&img_out2,&change_1_2);
+        if (img_diff_1_2 == NO_DIFF)
+        {
+        }else
+        {
+        }
+
+        //display_img_value(&img_out1,HEADER|BLUE|GREEN|RED|0);
+        if((img_diff_1_2 & DIFF_HIGH_QUANTITY)!=0)
+        {
+            // save a copy
+            sprintf((char *)outputfilename,"%sdif%s",IMG_OUT,BMP_EXT);
+            write_img(outputfilename,&img_out1);
+            sprintf((char *)outputfilename,"%sdif_x%s",IMG_OUT,BMP_EXT);
+            write_img(outputfilename,&img_out2);
+        }else
+        {
+
+            //printf("0\n");
+        }
+/*
+        gauss_sigma = 1.2;
+        gauss_filter_size = 3;
+        gauss_filter    = createTableFP64(gauss_filter_size,gauss_filter_size);
+        create_gauss_filter(gauss_filter,gauss_filter_size,gauss_sigma);
+        apply_filter(&img_in1,gauss_filter,gauss_filter_size,&img_out1);
+
+        laplace_filter_size = 3;
+        laplace_filter  = createTableFP64(laplace_filter_size,laplace_filter_size);
+        create_laplacian_filter(laplace_filter,laplace_filter_size);
+        apply_filter(&img_out1,laplace_filter,laplace_filter_size,&img_out2);
+
+        sprintf((char *)outputfilename,"%sgausslaplace%s",IMG_OUT,BMP_EXT);
+        write_img(outputfilename,&img_out2);
+
+
+
+
+        laplace_filter_size = 3;
+        laplace_filter  = createTableFP64(laplace_filter_size,laplace_filter_size);
+        create_laplacian_filter(laplace_filter,laplace_filter_size);
+        apply_filter(&img_in1,laplace_filter,laplace_filter_size,&img_out1);
+
+        sprintf((char *)outputfilename,"%slaplace%s",IMG_OUT,BMP_EXT);
+        write_img(outputfilename,&img_out1);
+*/
         /*
         init_img(&img_in2);
         init_img(&img_out2);
@@ -297,7 +353,8 @@ int main(int argc, char *argv[])
 /*********************************************************************************/
 /*********************************************************************************/
     /* Contrast Detection on BASE */
- /*   init_img(&img_in1);
+ /*
+    init_img(&img_in1);
     img_in1_err = load_img((CPU_CHAR *)BASE, &img_in1);
     if (img_in1_err == NO_ERROR)
     {
@@ -338,8 +395,8 @@ int main(int argc, char *argv[])
     }
 
     init_img(&img_out1);
-    search_contrast((CPU_CHAR)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),(RED|GREEN|BLUE),HOR|VER);*/
-    /*img_out1_err = write_img(CONTRAST_OUTveho,&img_out1);
+    search_contrast((CPU_CHAR)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),(RED|GREEN|BLUE),HOR|VER);
+    img_out1_err = write_img(CONTRAST_OUTveho,&img_out1);
     if(img_out1_err == NO_ERROR)
     {
         //printf("1\t%d\t%d\n",movement.x,movement_origin.x);
@@ -421,6 +478,7 @@ int main(int argc, char *argv[])
 /*********************************************************************************/
 /*********************************************************************************/
     /* smooth filter on BASE */
+/*
     init_img(&img_in1);
     img_in1_err = load_img((CPU_CHAR *)BASE, &img_in1);
     if (img_in1_err == NO_ERROR)
@@ -436,10 +494,10 @@ int main(int argc, char *argv[])
         }
 
     }
-    sigma = 1.4;
-    filtresize = 5;
+    sigma = 1.1;
+    filtresize = 3;
 //Gaussian filter
-/*
+
     sprintf((char *)outputfilename,"%sGsig%0.1ffsize%02d%s",IMG_SMOOTH,sigma,filtresize,BMP_EXT);
 
     init_img(&img_out1);
@@ -462,7 +520,7 @@ int main(int argc, char *argv[])
 
     init_img(&img_out1);
     filtre = createTableFP64(filtresize,filtresize);
-    create_gauss_filter(filtre,filtresize,sigma);
+    create_median_filter(filtre,filtresize);
     apply_filter(&img_in1,filtre,filtresize,&img_out1);
 
     img_out1_err = write_img((CPU_CHAR *)outputfilename,&img_out1);
@@ -474,14 +532,20 @@ int main(int argc, char *argv[])
         printf("write error\n");
     }
 */
-//Median filter x10
+//gaussian filter x10
 /*
-    sprintf((char *)outputfilename,"%sM10fsize%02d%s",IMG_SMOOTH,filtresize,BMP_EXT);
+
     filtre = createTableFP64(filtresize,filtresize);
     create_gauss_filter(filtre,filtresize,sigma);
-    for(i=0;i<10;i++)
+    for(i=0;i<0;i++)
+    {
         apply_filter(&img_in1,filtre,filtresize,&img_out1);
+        copy_img(&img_out1,&img_in1);
+    }
 
+
+
+    sprintf((char *)outputfilename,"%sM10fsize%02d%s",IMG_SMOOTH,filtresize,BMP_EXT);
     img_out1_err = write_img((CPU_CHAR *)outputfilename,&img_out1);
     if(img_out1_err == NO_ERROR)
     {
@@ -491,7 +555,9 @@ int main(int argc, char *argv[])
         printf("write error\n");
     }
 */
+
 //Laplacian filter
+/*
     filtre = createTableFP64(filtresize,filtresize);
     filtresize = create_laplacian_filter(filtre);
 
@@ -506,7 +572,7 @@ int main(int argc, char *argv[])
     {
         printf("write error\n");
     }
-
+*/
 
 
 
