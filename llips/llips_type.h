@@ -38,12 +38,12 @@ typedef struct s_img
     CPU_INT16U  depth ;
     CPU_INT32U   wi ;
     CPU_INT32U   he ;
-    CPU_CHAR ** Blue;
-    CPU_CHAR ** Green;
-    CPU_CHAR ** Red;
+    CPU_INT08U ** Blue;
+    CPU_INT08U ** Green;
+    CPU_INT08U ** Red;
 
-    CPU_CHAR   FileHeader[MAX_HEADER_size];
-    CPU_CHAR   FileHeader_size;
+    CPU_INT08U   FileHeader[MAX_HEADER_size];
+    CPU_INT08U   FileHeader_size;
 
 }t_img;
 

@@ -191,6 +191,29 @@ t_vect pixels_to_vector(t_pixel pix1,t_pixel pix2)
 }
 
 /****************************************************************/
+/* vectormodule()                                               */
+/* Description :                                                */
+/*   Convert two pixel into a vector                            */
+/* Input:                                                       */
+/*   pix1 - starting point of vector                            */
+/*   pix2 - ending point of vector                              */
+/* Output:                                                      */
+/*   na                                                         */
+/* Return:                                                      */
+/*   vector corresponding between pix1 and pix2                 */
+/*                                                              */
+/****************************************************************/
+CPU_INT16U vectormodule(t_vect vect)
+{
+    CPU_INT16U module;
+
+    module = (CPU_INT16U)sqrt(vect.x * vect.x + vect.y * vect.y);
+
+
+    return module;
+}
+
+/****************************************************************/
 /* pixel_to_area()                                              */
 /* Description :                                                */
 /*   Convert a pixel into a area                                */
@@ -598,7 +621,7 @@ CPU_CHAR luminance(t_img * img_in,t_img * img_out)
 
 
 /****************************************************************/
-/* apply_filter()                                               */
+/* apply_linfilter()                                               */
 /* Description :                                                */
 /*   smooth image                                               */
 /* Input:                                                       */
@@ -609,7 +632,7 @@ CPU_CHAR luminance(t_img * img_in,t_img * img_out)
 /*   status of operation                                        */
 /*                                                              */
 /****************************************************************/
-CPU_CHAR apply_filter(t_img * img_in,CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,t_img * img_out)
+CPU_CHAR apply_linfilter(t_img * img_in,CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,t_img * img_out)
 {
 
     CPU_CHAR ret = NO_ERROR;
@@ -742,7 +765,7 @@ void create_gauss_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,CPU_FP64 s
 }
 
 /****************************************************************/
-/* create_median_filter()                                       */
+/* create_average_filter()                                      */
 /* Description :                                                */
 /*   gaussian convolution                                       */
 /* Input:                                                       */
@@ -753,7 +776,7 @@ void create_gauss_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,CPU_FP64 s
 /*   status of operation                                        */
 /*                                                              */
 /****************************************************************/
-void create_median_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize)
+void create_average_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize)
 {
     CPU_INT16S i,j;
     for (i=0;i<filtersize;i++)
@@ -805,4 +828,83 @@ CPU_INT16S create_laplacian_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize)
 
 
     return filtersize;
+}
+
+/****************************************************************/
+/* apply_median_filter()                                        */
+/* Description :                                                */
+/*   smooth image                                               */
+/* Input:                                                       */
+/*   img_in - input image                                       */
+/* Output:                                                      */
+/*   img_out - output image                                     */
+/* Return:                                                      */
+/*   status of operation                                        */
+/*                                                              */
+/****************************************************************/
+CPU_CHAR apply_median_filter(t_img * img_in,CPU_INT16S filtersize,t_img * img_out)
+{
+
+    CPU_CHAR ret = NO_ERROR;
+    CPU_INT16S i,i_img,j_img;
+    CPU_INT16S filter_range =0;
+
+    if(filtersize%2 != 1)
+    {
+        filtersize ++;
+    }
+    filter_range = (filtersize -1)/2;
+
+    //Write Header
+    for(i=0;i<img_in->FileHeader_size;i++)
+    {
+        img_out->FileHeader[i] = img_in->FileHeader[i];
+    }
+    img_out->signature = img_in->signature;
+    img_out->depth = img_in->depth;
+    img_out->wi = img_in->wi;
+    img_out->he = img_in->he;
+    img_out->FileHeader_size = img_in->FileHeader_size;
+
+    //printf("%f\n",tab_filtre[0][0]);
+
+    for(i_img=0;i_img< (img_in->he ) ;i_img++)
+    {
+
+        for(j_img=0 ; (j_img< img_in->wi );j_img++)
+        {
+            if(     ((i_img-filter_range )>=0)
+                &&  ((j_img-filter_range )>=0)
+                &&  ((i_img-filter_range )<img_in->he)
+                &&  ((j_img-filter_range )<img_in->wi )
+              )
+            {
+
+                img_out->Red[i_img][j_img]  = get_median(img_in->Red,filter_range,i_img,j_img);
+                img_out->Green[i_img][j_img]= get_median(img_in->Green,filter_range,i_img,j_img);
+                img_out->Blue[i_img][j_img] = get_median(img_in->Blue,filter_range,i_img,j_img);
+
+            }
+        }
+    }
+    return ret;
+}
+
+CPU_INT08U get_median(CPU_INT08U ** table2D,CPU_INT16S filter_range,CPU_INT16S i, CPU_INT16S j)
+{
+    CPU_INT08U median;
+    CPU_INT16U ii,jj;
+    CPU_INT08U *table = (CPU_INT08U *)malloc(sizeof(CPU_INT08U)*(filter_range*2+1)*(filter_range*2+1));
+    for(ii =(0 - filter_range);ii<= filter_range;ii++)
+    {
+        for(jj =(0 - filter_range);jj<= filter_range;jj++)
+        {
+            table[ii+jj] = table2D[i+ii][j+jj];
+            printf("ii %d jj %d i %d j %d\n",ii,jj,i,j);
+        }
+    }
+    printf("plop\n");
+    qsort (table, (filter_range*2+1)*(filter_range*2+1), sizeof(CPU_INT08U), compare);
+    median = table[(filter_range*2+1)];
+    return median;
 }

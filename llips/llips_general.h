@@ -98,12 +98,15 @@ CPU_VOID printf_area(t_area * area);
 t_vect highlight_line(t_img * img,t_pixel pix1,t_pixel pix2,CPU_INT32U RGB);
 t_area pixel_to_area(t_pixel pix);
 t_vect pixels_to_vector(t_pixel pix1,t_pixel pix2);
+CPU_INT16U vectormodule(t_vect vect);
 CPU_CHAR color_filter(t_img * img_in,t_img * img_out, CPU_INT32U color);
 CPU_CHAR histogram(t_img * img_in,t_img * img_out);
 CPU_CHAR luminance(t_img * img_in,t_img * img_out);
-CPU_CHAR apply_filter(t_img * img_in,CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,t_img * img_out);
+CPU_CHAR apply_linfilter(t_img * img_in,CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,t_img * img_out);
 CPU_FP64 conv_gauss(CPU_INT16S x,CPU_INT16S y,CPU_FP64 sig);
 void create_gauss_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,CPU_FP64 sigma);
-void create_median_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize);
+void create_average_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize);
 CPU_INT16S create_laplacian_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize);
+CPU_CHAR apply_median_filter(t_img * img_in,CPU_INT16S filtersize,t_img * img_out);
+CPU_INT08U get_median(CPU_INT08U ** table2D,CPU_INT16S filter_range,CPU_INT16S i, CPU_INT16S j);
 

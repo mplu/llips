@@ -219,9 +219,10 @@ CPU_CHAR search_diff_x(CPU_INT16U tolerance,CPU_INT16U quantity, t_img * img_in1
     CPU_CHAR ret = NO_DIFF;
     CPU_INT16S i,j,areasize;
     CPU_INT16U raw_tolerance,raw_quantity;
-    CPU_INT16U quantity_of_diff_pixel = 0;
+    CPU_INT16U quantity_of_diff_pixel = 0,module=0;
     t_pixel area1,area2;
     t_area area_pic2;
+    CPU_INT16U maxmodule=0;
 
     // calculte raw tolerance and quantity
     raw_quantity = ((img_in1->he * img_in1->wi)*quantity)/1000;
@@ -269,9 +270,10 @@ CPU_CHAR search_diff_x(CPU_INT16U tolerance,CPU_INT16U quantity, t_img * img_in1
                     img_out->Blue[i][j] = 0;//img_in2->Blue[i][j]/2;
                     img_out->Red[i][j] = 0;//img_in2->Red[i][j]/2;
                     quantity_of_diff_pixel ++;
-                    if ((i == 77) && (j== 42))
+
+                    if(((i>15)&&(j>15))&&((i<img_in2->he)&&(j<img_in2->wi)))
                     {
-                        areasize = 20;
+                        areasize = 15;
                         change_img->BotLeft.x   = j - areasize /2 ;
                         change_img->BotLeft.y   = i + areasize /2 ;
                         change_img->BotRight.x  = j + areasize /2 ;
@@ -282,15 +284,27 @@ CPU_CHAR search_diff_x(CPU_INT16U tolerance,CPU_INT16U quantity, t_img * img_in1
                         change_img->TopRight.y  = i + areasize /2 ;
                         area1.x = j;
                         area1.y = i;
+                        area2.x = 0;
+                        area2.y = 0;
                         area2  = look_for_match(img_in1,img_in2,areasize,area1,raw_tolerance);
-                        area_pic2.BotLeft.x   = area2.x - areasize /2 ;
-                        area_pic2.BotLeft.y   = area2.y + areasize /2 ;
-                        area_pic2.BotRight.x  = area2.x + areasize /2 ;
-                        area_pic2.BotRight.y  = area2.y - areasize /2 ;
-                        area_pic2.TopLeft.x   = area2.x + areasize /2 ;
-                        area_pic2.TopLeft.y   = area2.y - areasize /2 ;
-                        area_pic2.TopRight.x  = area2.x - areasize /2 ;
-                        area_pic2.TopRight.y  = area2.y + areasize /2 ;
+                        if ((area2.x != 0)&&(area2.y != 0))
+                        {
+                            module = vectormodule(pixels_to_vector(area1,area2));
+                            maxmodule = max(module,maxmodule);
+                            //printf("module : %d\n",module);
+                            //system("pause");
+                            areasize = 2;
+                            area_pic2.BotLeft.x   = area2.x - areasize /2 ;
+                            area_pic2.BotLeft.y   = area2.y + areasize /2 ;
+                            area_pic2.BotRight.x  = area2.x + areasize /2 ;
+                            area_pic2.BotRight.y  = area2.y - areasize /2 ;
+                            area_pic2.TopLeft.x   = area2.x + areasize /2 ;
+                            area_pic2.TopLeft.y   = area2.y - areasize /2 ;
+                            area_pic2.TopRight.x  = area2.x - areasize /2 ;
+                            area_pic2.TopRight.y  = area2.y + areasize /2 ;
+                            //highlight_area(img_out,change_img,SetRGB(255,0,0));
+                            highlight_area(img_out,&area_pic2,SetRGB(module*6,0,0));
+                        }
 
                     }
 
@@ -303,6 +317,7 @@ CPU_CHAR search_diff_x(CPU_INT16U tolerance,CPU_INT16U quantity, t_img * img_in1
                 }
             }
         }
+        printf("maxmodule : %d\n",maxmodule);
     }else
     {
         // size different
@@ -313,8 +328,7 @@ CPU_CHAR search_diff_x(CPU_INT16U tolerance,CPU_INT16U quantity, t_img * img_in1
         ret |= DIFF_HIGH_QUANTITY;
     }
 
-    highlight_area(img_out,change_img,SetRGB(255,0,0));
-    highlight_area(img_out,&area_pic2,SetRGB(0,0,255));
+
     return ret;
 }
 
@@ -323,11 +337,11 @@ t_pixel look_for_match(t_img * img_in1,t_img * img_in2,CPU_INT16U areasize,t_pix
     t_pixel area_to_2;
     CPU_INT16U i,j;
     CPU_INT08U ** table_src,** table_dest;
-    CPU_INT16S range_i = 20,offset_i;
-    CPU_INT16S range_j = 30,offset_j;
+    CPU_INT16S range_i = 10,offset_i;
+    CPU_INT16S range_j = 32,offset_j;
     CPU_BOOLEAN match = FALSE;
-    //area_to_2.x = 10;
-    //area_to_2.y = 70;
+    area_to_2.x = 0;
+    area_to_2.y = 0;
     table_src = createTableINT08U(areasize, areasize);
     table_dest = createTableINT08U(areasize, areasize);
 
@@ -361,7 +375,7 @@ t_pixel look_for_match(t_img * img_in1,t_img * img_in2,CPU_INT16U areasize,t_pix
                 for(j=0 ; j< areasize ;j++)
                 {
                     //printf("diff : %d tol : %d\n",abs(table_dest[i][j] - table_src[i][j]),raw_tolerance);
-                    if ((abs(table_dest[i][j] - table_src[i][j]))>raw_tolerance/2)
+                    if ((abs(table_dest[i][j] - table_src[i][j]))>(raw_tolerance*3)/2)
                     {
                         match = FALSE;
                     }
@@ -369,18 +383,33 @@ t_pixel look_for_match(t_img * img_in1,t_img * img_in2,CPU_INT16U areasize,t_pix
             }
             if(match == TRUE)
             {
-                printf("something found at x = %d and y = %d !\n",area_from_1.x + offset_j,area_from_1.y + offset_i);
+                //printf("something found at x = %d and y = %d !\n",area_from_1.x + offset_j,area_from_1.y + offset_i);
                 area_to_2.x = area_from_1.x + offset_j;
                 area_to_2.y = area_from_1.y + offset_i;
             }else
             {
-                printf("no match found\n");
+
             }
             if(match == TRUE)break;
         }
         if(match == TRUE)break;
     }
-
+    /*
+    for(i=0;i< areasize  ;i++)
+    {
+        for(j=0 ; j< areasize ;j++)
+        {
+            printf("%d\t",table_src[i][j]);
+        }printf("\n");
+    }
+    for(i=0;i< areasize  ;i++)
+    {
+        for(j=0 ; j< areasize ;j++)
+        {
+            printf("%d\t",table_dest[i][j]);
+        }printf("\n");
+    }
+    */
     return area_to_2;
 }
 

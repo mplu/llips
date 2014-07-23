@@ -28,6 +28,8 @@ int main(int argc, char *argv[])
 
     t_img img_in1;
     t_img img_in2;
+    t_img img_inter1;
+    t_img img_inter2;
     t_img img_out1,img_out2;
     CPU_CHAR img_diff_1_2=0;
     t_area change_1_2;
@@ -36,9 +38,10 @@ int main(int argc, char *argv[])
 
     //CPU_CHAR img_in1_err,img_out1_err;
     //CPU_CHAR contrast_det=0;
-    //CPU_FP64 ** gauss_filter, **laplace_filter;
-    //CPU_FP64 gauss_sigma;
-    //CPU_INT16S gauss_filter_size,laplace_filter_size;
+    CPU_FP64 ** gauss_filter, **laplace_filter;
+    CPU_FP64 gauss_sigma;
+    CPU_INT16S gauss_filter_size;
+    CPU_INT16S laplace_filter_size;
 
 
     /*
@@ -115,15 +118,37 @@ int main(int argc, char *argv[])
         }
 
         init_img(&img_in1);
-        init_img(&img_in2);
+
+        load_img((CPU_CHAR *)"imgoutlaplace.bmp", &img_in1);
+
+        apply_median_filter(&img_in1,3,&img_out1);
+        sprintf((char *)outputfilename,"%smedian%s",IMG_OUT,BMP_EXT);
+        write_img(outputfilename,&img_out1);
+
+
+/*        init_img(&img_in2);
+        init_img(&img_inter1);
+        init_img(&img_inter2);
         init_img(&img_out1);
         init_img(&img_out2);
 
         load_img((CPU_CHAR *)IMG_RIGHT, &img_in1);
         load_img((CPU_CHAR *)IMG_LEFT, &img_in2);
 
-        img_diff_1_2 = search_diff((CPU_CHAR)tolerance,(CPU_CHAR)quantity,&img_in1,&img_in2,&img_out1,&change_1_2);
-        img_diff_1_2 = search_diff_x((CPU_CHAR)tolerance,(CPU_CHAR)quantity,&img_in1,&img_in2,&img_out2,&change_1_2);
+        gauss_sigma = 0.9;
+        gauss_filter_size = 3;
+        gauss_filter    = createTableFP64(gauss_filter_size,gauss_filter_size);
+        create_gauss_filter(gauss_filter,gauss_filter_size,gauss_sigma);
+        apply_linfilter(&img_in1,gauss_filter,gauss_filter_size,&img_inter1);
+
+        create_gauss_filter(gauss_filter,gauss_filter_size,gauss_sigma);
+        apply_linfilter(&img_in2,gauss_filter,gauss_filter_size,&img_inter2);
+
+//        copy_img(&img_out1,&img_in1);
+//        copy_img(&img_out2,&img_in2);
+
+        img_diff_1_2 = search_diff((CPU_CHAR)tolerance,(CPU_CHAR)quantity,&img_inter1,&img_inter2,&img_out1,&change_1_2);
+        img_diff_1_2 = search_diff_x((CPU_CHAR)tolerance,(CPU_CHAR)quantity,&img_inter1,&img_inter2,&img_out2,&change_1_2);
         if (img_diff_1_2 == NO_DIFF)
         {
         }else
@@ -143,17 +168,38 @@ int main(int argc, char *argv[])
 
             //printf("0\n");
         }
+
+
+        laplace_filter_size = 3;
+        laplace_filter  = createTableFP64(laplace_filter_size,laplace_filter_size);
+        create_laplacian_filter(laplace_filter,laplace_filter_size);
+        apply_linfilter(&img_in1,gauss_filter,gauss_filter_size,&img_inter1);
+        apply_linfilter(&img_inter1,gauss_filter,gauss_filter_size,&img_inter2);
+        apply_linfilter(&img_inter2,laplace_filter,laplace_filter_size,&img_out1);
+        sprintf((char *)outputfilename,"%sgausslaplace%s",IMG_OUT,BMP_EXT);
+        write_img(outputfilename,&img_out1);
+
+
+        search_contrast((CPU_CHAR)tolerance, &img_in1,&img_out1,SetRGB(255,255,255),(RED|GREEN|BLUE),HOR|VER);
+        write_img((CPU_INT08U*)CONTRAST_OUTveho,&img_out1);
+*/
+
+
+
+
+
+
 /*
         gauss_sigma = 1.2;
         gauss_filter_size = 3;
         gauss_filter    = createTableFP64(gauss_filter_size,gauss_filter_size);
         create_gauss_filter(gauss_filter,gauss_filter_size,gauss_sigma);
-        apply_filter(&img_in1,gauss_filter,gauss_filter_size,&img_out1);
+        apply_linfilter(&img_in1,gauss_filter,gauss_filter_size,&img_out1);
 
         laplace_filter_size = 3;
         laplace_filter  = createTableFP64(laplace_filter_size,laplace_filter_size);
         create_laplacian_filter(laplace_filter,laplace_filter_size);
-        apply_filter(&img_out1,laplace_filter,laplace_filter_size,&img_out2);
+        apply_linfilter(&img_out1,laplace_filter,laplace_filter_size,&img_out2);
 
         sprintf((char *)outputfilename,"%sgausslaplace%s",IMG_OUT,BMP_EXT);
         write_img(outputfilename,&img_out2);
@@ -164,7 +210,7 @@ int main(int argc, char *argv[])
         laplace_filter_size = 3;
         laplace_filter  = createTableFP64(laplace_filter_size,laplace_filter_size);
         create_laplacian_filter(laplace_filter,laplace_filter_size);
-        apply_filter(&img_in1,laplace_filter,laplace_filter_size,&img_out1);
+        apply_linfilter(&img_in1,laplace_filter,laplace_filter_size,&img_out1);
 
         sprintf((char *)outputfilename,"%slaplace%s",IMG_OUT,BMP_EXT);
         write_img(outputfilename,&img_out1);
@@ -503,7 +549,7 @@ int main(int argc, char *argv[])
     init_img(&img_out1);
     filtre = createTableFP64(filtresize,filtresize);
     create_gauss_filter(filtre,filtresize,sigma);
-    apply_filter(&img_in1,filtre,filtresize,&img_out1);
+    apply_linfilter(&img_in1,filtre,filtresize,&img_out1);
 
     img_out1_err = write_img((CPU_CHAR *)outputfilename,&img_out1);
     if(img_out1_err == NO_ERROR)
@@ -520,8 +566,8 @@ int main(int argc, char *argv[])
 
     init_img(&img_out1);
     filtre = createTableFP64(filtresize,filtresize);
-    create_median_filter(filtre,filtresize);
-    apply_filter(&img_in1,filtre,filtresize,&img_out1);
+    create_average_filter(filtre,filtresize);
+    apply_linfilter(&img_in1,filtre,filtresize,&img_out1);
 
     img_out1_err = write_img((CPU_CHAR *)outputfilename,&img_out1);
     if(img_out1_err == NO_ERROR)
@@ -539,7 +585,7 @@ int main(int argc, char *argv[])
     create_gauss_filter(filtre,filtresize,sigma);
     for(i=0;i<0;i++)
     {
-        apply_filter(&img_in1,filtre,filtresize,&img_out1);
+        apply_linfilter(&img_in1,filtre,filtresize,&img_out1);
         copy_img(&img_out1,&img_in1);
     }
 
@@ -561,7 +607,7 @@ int main(int argc, char *argv[])
     filtre = createTableFP64(filtresize,filtresize);
     filtresize = create_laplacian_filter(filtre);
 
-    apply_filter(&img_in1,filtre,filtresize,&img_out1);
+    apply_linfilter(&img_in1,filtre,filtresize,&img_out1);
 
     sprintf((char *)outputfilename,"%ssize%02d%s","imgcontourlaplace",filtresize,BMP_EXT);
     img_out1_err = write_img((CPU_CHAR *)outputfilename,&img_out1);

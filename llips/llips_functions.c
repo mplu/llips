@@ -156,3 +156,9 @@ CPU_VOID freeTableFP64(CPU_FP64 **tab)
 	free(tab[0]);
 	free(tab);
 }
+
+
+int compare (const CPU_VOID * a, const CPU_VOID * b)
+{
+  return ( *(CPU_INT16S*)a - *(CPU_INT16S*)b );
+}
