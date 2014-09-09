@@ -102,7 +102,7 @@ CPU_INT16U vectormodule(t_vect vect);
 CPU_CHAR color_filter(t_img * img_in,t_img * img_out, CPU_INT32U color);
 CPU_CHAR histogram(t_img * img_in,t_img * img_out);
 CPU_CHAR luminance(t_img * img_in,t_img * img_out);
-CPU_CHAR apply_linfilter(t_img * img_in,CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,t_img * img_out);
+CPU_CHAR apply_linfilter(t_img * img_in,CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,CPU_INT32U color,t_img * img_out);
 CPU_FP64 conv_gauss(CPU_INT16S x,CPU_INT16S y,CPU_FP64 sig);
 void create_gauss_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,CPU_FP64 sigma);
 void create_average_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize);

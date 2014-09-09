@@ -632,7 +632,7 @@ CPU_CHAR luminance(t_img * img_in,t_img * img_out)
 /*   status of operation                                        */
 /*                                                              */
 /****************************************************************/
-CPU_CHAR apply_linfilter(t_img * img_in,CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,t_img * img_out)
+CPU_CHAR apply_linfilter(t_img * img_in,CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,CPU_INT32U color,t_img * img_out)
 {
 
     CPU_CHAR ret = NO_ERROR;
@@ -673,15 +673,30 @@ CPU_CHAR apply_linfilter(t_img * img_in,CPU_FP64 ** tab_filtre,CPU_INT16S filter
                         &&  ((j_img-filter_range+j )<img_in->wi )
                       )
                     {
-                        //printf("%f  %f\n",one_pixel[c_Red]);
-                                                //,(CPU_FP64)img_in->Red[i_img-filter_range+i][j_img-filter_range+j]
-                                                //,(CPU_FP64)tab_filtre[i][j]);
-                        one_pixel[c_Red] =  one_pixel[c_Red]
-                                            + (CPU_FP64)(img_in->Red[i_img-filter_range+i][j_img-filter_range+j]) * tab_filtre[i][j] ;
-                        one_pixel[c_Green]= one_pixel[c_Green]
-                                            + (CPU_FP64)(img_in->Green[i_img-filter_range+i][j_img-filter_range+j]) * tab_filtre[i][j] ;
-                        one_pixel[c_Blue] = one_pixel[c_Blue]
-                                            + (CPU_FP64)(img_in->Blue[i_img-filter_range+i][j_img-filter_range+j]) * tab_filtre[i][j] ;
+                        if ((color & BLUE)!=0)
+                        {
+                            one_pixel[c_Blue] = one_pixel[c_Blue]
+                                                + (CPU_FP64)(img_in->Blue[i_img-filter_range+i][j_img-filter_range+j]) * tab_filtre[i][j] ;
+                        }else
+                        {
+                            one_pixel[c_Blue]= 0;
+                        }
+                        if ((color & RED)!=0)
+                        {
+                            one_pixel[c_Red] =  one_pixel[c_Red]
+                                                + (CPU_FP64)(img_in->Red[i_img-filter_range+i][j_img-filter_range+j]) * tab_filtre[i][j] ;
+                        }else
+                        {
+                            one_pixel[c_Red] = 0;
+                        }
+                        if ((color & GREEN)!=0)
+                        {
+                            one_pixel[c_Green]= one_pixel[c_Green]
+                                                + (CPU_FP64)(img_in->Green[i_img-filter_range+i][j_img-filter_range+j]) * tab_filtre[i][j] ;
+                        }else
+                        {
+                            one_pixel[c_Green] = 0;
+                        }
                     }
                 }
             }
