@@ -342,7 +342,7 @@ CPU_VOID printf_area(t_area * area)
 /****************************************************************/
 CPU_CHAR color_filter(t_img * img_in,t_img * img_out, CPU_INT32U color)
 {
-    CPU_CHAR ret = NO_ERROR;
+    CPU_CHAR ret = ERR_NONE;
     CPU_INT16S i,j;
 
     //Write Header
@@ -404,7 +404,7 @@ CPU_CHAR color_filter(t_img * img_in,t_img * img_out, CPU_INT32U color)
 /****************************************************************/
 CPU_CHAR histogram(t_img * img_in,t_img * img_out)
 {
-    CPU_CHAR ret = NO_ERROR;
+    CPU_CHAR ret = ERR_NONE;
     CPU_INT16U i,j;
 
     CPU_INT32U histowidth ;
@@ -452,16 +452,16 @@ CPU_CHAR histogram(t_img * img_in,t_img * img_out)
             //getting red pixel
             index = img_in->Red[i][j] / (PIXEL_8bit_RANGE/(histowidth-1));
             redpixel[index]++;
-            histomaxred = max(histomaxred,redpixel[index]);
+            histomaxred = maxi(histomaxred,redpixel[index]);
 
             //getting green pixel
             index = img_in->Green[i][j] / (PIXEL_8bit_RANGE/(histowidth-1));
             greenpixel[index]++;
-            histomaxgreen = max(histomaxgreen,greenpixel[index]);
+            histomaxgreen = maxi(histomaxgreen,greenpixel[index]);
             //getting red pixel
             index = img_in->Blue[i][j] / (PIXEL_8bit_RANGE/(histowidth-1));
             bluepixel[index]++;
-            histomaxblue = max(histomaxblue,bluepixel[index]);
+            histomaxblue = maxi(histomaxblue,bluepixel[index]);
 
             //calcultate luminance Y = 0,299 R + 0,587 G + 0,114 B
             Luminance = (CPU_CHAR)(  (CPU_FP32)img_in->Red[i][j]   * 0.299
@@ -471,7 +471,7 @@ CPU_CHAR histogram(t_img * img_in,t_img * img_out)
             //getting lumi pixel
             index = Luminance / (PIXEL_8bit_RANGE/(histowidth-1));
             luminancepixel[index]++;
-            histomaxlum = max(histomaxlum,luminancepixel[index]);
+            histomaxlum = maxi(histomaxlum,luminancepixel[index]);
         }
     }
 
@@ -586,7 +586,7 @@ CPU_CHAR histogram(t_img * img_in,t_img * img_out)
 /****************************************************************/
 CPU_CHAR luminance(t_img * img_in,t_img * img_out)
 {
-    CPU_CHAR ret = NO_ERROR;
+    CPU_CHAR ret = ERR_NONE;
     CPU_INT16S i,j;
 
     CPU_CHAR Luminance = 0;
@@ -635,7 +635,7 @@ CPU_CHAR luminance(t_img * img_in,t_img * img_out)
 CPU_CHAR apply_linfilter(t_img * img_in,CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,CPU_INT32U color,t_img * img_out)
 {
 
-    CPU_CHAR ret = NO_ERROR;
+    CPU_CHAR ret = ERR_NONE;
     CPU_INT16S i,j,i_img,j_img;
     CPU_FP64 one_pixel[c_color_size];
     CPU_INT16S filter_range =(filtersize -1)/2;
@@ -860,7 +860,7 @@ CPU_INT16S create_laplacian_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize)
 CPU_CHAR apply_median_filter(t_img * img_in,CPU_INT16S filtersize,t_img * img_out)
 {
 
-    CPU_CHAR ret = NO_ERROR;
+    CPU_CHAR ret = ERR_NONE;
     CPU_INT16S i,i_img,j_img;
     CPU_INT16S filter_range =0;
 

@@ -39,7 +39,7 @@
 /****************************************************************/
 CPU_CHAR search_contrast(CPU_CHAR tolerance, t_img * img_in1,t_img * img_out,CPU_INT32U RGB, CPU_INT32U color,CPU_CHAR direction)
 {
-    CPU_CHAR ret = NO_ERROR;
+    CPU_CHAR ret = ERR_NONE;
     CPU_INT32S i,j,limit_he,limit_wi;
     CPU_INT32U raw_tolerance;
     CPU_CHAR next_i,next_j;

@@ -21,7 +21,7 @@
 /****************************************************************/
 
 /****************************************************************/
-/* min()                                                        */
+/* mini()                                                        */
 /* Description :                                                */
 /*   compare two CPU_INT32U to find the smallest                */
 /* Input:                                                       */
@@ -33,7 +33,7 @@
 /*   minimal value                                              */
 /*                                                              */
 /****************************************************************/
-CPU_INT32U min(CPU_INT32U a,CPU_INT32U b)
+CPU_INT32U mini(CPU_INT32U a,CPU_INT32U b)
 {
     CPU_INT32U ret=0;
     if(a >= b)
@@ -47,7 +47,7 @@ CPU_INT32U min(CPU_INT32U a,CPU_INT32U b)
 }
 
 /****************************************************************/
-/* max()                                                        */
+/* maxi()                                                        */
 /* Description :                                                */
 /*   compare two CPU_INT32U to find the biggest                 */
 /* Input:                                                       */
@@ -59,7 +59,7 @@ CPU_INT32U min(CPU_INT32U a,CPU_INT32U b)
 /*   maximal value                                              */
 /*                                                              */
 /****************************************************************/
-CPU_INT32U max(CPU_INT32U a,CPU_INT32U b)
+CPU_INT32U maxi(CPU_INT32U a,CPU_INT32U b)
 {
     CPU_INT32U ret=0;
     if(a >= b)

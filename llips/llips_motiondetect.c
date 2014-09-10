@@ -100,14 +100,14 @@ CPU_CHAR search_diff(CPU_INT16U tolerance,CPU_INT16U quantity, t_img * img_in1,t
                     quantity_of_diff_pixel ++;
 
                     /* identify area of change */
-                    change_img->BotLeft.x   = min(change_img->BotLeft.x,j);
-                    change_img->BotLeft.y   = min(change_img->BotLeft.y,i);
-                    change_img->BotRight.x  = max(change_img->BotRight.x,j);
-                    change_img->BotRight.y  = min(change_img->BotRight.y,i);
-                    change_img->TopLeft.x   = min(change_img->TopLeft.x,j);
-                    change_img->TopLeft.y   = max(change_img->TopLeft.y,i);
-                    change_img->TopRight.x  = max(change_img->TopRight.x,j);
-                    change_img->TopRight.y  = max(change_img->TopRight.y,i);
+                    change_img->BotLeft.x   = mini(change_img->BotLeft.x,j);
+                    change_img->BotLeft.y   = mini(change_img->BotLeft.y,i);
+                    change_img->BotRight.x  = maxi(change_img->BotRight.x,j);
+                    change_img->BotRight.y  = mini(change_img->BotRight.y,i);
+                    change_img->TopLeft.x   = mini(change_img->TopLeft.x,j);
+                    change_img->TopLeft.y   = maxi(change_img->TopLeft.y,i);
+                    change_img->TopRight.x  = maxi(change_img->TopRight.x,j);
+                    change_img->TopRight.y  = maxi(change_img->TopRight.y,i);
 
                 }else
                 {
@@ -290,7 +290,7 @@ CPU_CHAR search_diff_x(CPU_INT16U tolerance,CPU_INT16U quantity, t_img * img_in1
                         if ((area2.x != 0)&&(area2.y != 0))
                         {
                             module = vectormodule(pixels_to_vector(area1,area2));
-                            maxmodule = max(module,maxmodule);
+                            maxmodule = maxi(module,maxmodule);
                             //printf("module : %d\n",module);
                             //system("pause");
                             areasize = 2;

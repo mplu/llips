@@ -38,7 +38,8 @@ int main(int argc, char *argv[])
 
     //CPU_CHAR img_in1_err,img_out1_err;
     //CPU_CHAR contrast_det=0;
-    CPU_FP64 ** gauss_filter, **laplace_filter;
+    //CPU_FP64 ** gauss_filter, **laplace_filter,**linfilter;
+    CPU_FP64 linfilter[3][3];
     CPU_FP64 gauss_sigma;
     CPU_INT16S gauss_filter_size;
     CPU_INT16S laplace_filter_size;
@@ -118,11 +119,24 @@ int main(int argc, char *argv[])
         }
 
         init_img(&img_in1);
+        init_img(&img_out1);
 
-        load_img((CPU_CHAR *)"imgoutlaplace.bmp", &img_in1);
+        load_img((CPU_CHAR *)"ligne.bmp", &img_in1);
 
-        apply_median_filter(&img_in1,3,&img_out1);
-        sprintf((char *)outputfilename,"%smedian%s",IMG_OUT,BMP_EXT);
+        //apply_median_filter(&img_in1,3,&img_out1);
+
+        linfilter[0][0] = 1;
+        linfilter[0][1] = 1;
+        linfilter[0][2] = 1;
+        linfilter[1][0] = 1;
+        linfilter[1][1] = -2;
+        linfilter[1][2] = 1;
+        linfilter[2][0] = -1;
+        linfilter[2][1] = -1;
+        linfilter[2][2] = -1;
+
+        apply_linfilter(&img_in1,linfilter,3,GREEN,&img_out1);
+        sprintf((char *)outputfilename,"%slinfiltered%s",IMG_OUT,BMP_EXT);
         write_img(outputfilename,&img_out1);
 
 

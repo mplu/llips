@@ -62,7 +62,7 @@ CPU_VOID init_img(t_img * img)
 CPU_CHAR load_img(CPU_CHAR * imgname, t_img * img)
 {
     CPU_INT16S i,j,offset;
-    CPU_CHAR ret = NO_ERROR;
+    CPU_CHAR ret = ERR_NONE;
     FILE* fichier = NULL;
     CPU_CHAR dummy=0;
 
@@ -175,7 +175,7 @@ CPU_CHAR load_img(CPU_CHAR * imgname, t_img * img)
 /****************************************************************/
 CPU_CHAR write_img(CPU_CHAR * imgname, t_img * img)
 {
-    CPU_CHAR ret = NO_ERROR;
+    CPU_CHAR ret = ERR_NONE;
     CPU_INT16S i,j;
     CPU_INT32U offset;
     FILE* fichier = NULL;
@@ -233,7 +233,7 @@ CPU_CHAR write_img(CPU_CHAR * imgname, t_img * img)
 /****************************************************************/
 CPU_CHAR copy_img( t_img * imgsrc, t_img * imgdest)
 {
-    CPU_CHAR ret = NO_ERROR;
+    CPU_CHAR ret = ERR_NONE;
     CPU_INT16S i,i_img,j_img;
 
 //Write Header

@@ -45,7 +45,7 @@ typedef enum te_color
 }e_color;
 
 /* Error management */
-#define NO_ERROR            0x0000
+#define ERR_NONE            0x0000
 #define ERR_NOFILE          0x0001
 #define ERR_NOT_WINBMP      0x0002
 #define ERR_NOT_24bit       0x0003
