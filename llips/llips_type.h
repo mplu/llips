@@ -7,7 +7,8 @@
 /* Author : MPE                                                 */
 /*                                                              */
 /****************************************************************/
-
+#ifndef __LLIPS_TYPE_H
+#define __LLIPS_TYPE_H
 
 /****************************************************************/
 /**           Define                                            */
@@ -66,3 +67,6 @@ typedef struct s_area
     t_pixel TopLeft;
     t_pixel TopRight;
 }t_area;
+
+
+#endif

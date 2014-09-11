@@ -7,7 +7,8 @@
 /* Author : MPE                                                 */
 /*                                                              */
 /****************************************************************/
-
+#ifndef __LLIPS_GENERAL_H
+#define __LLIPS_GENERAL_H
 /****************************************************************/
 /**           Define                                            */
 /****************************************************************/
@@ -110,3 +111,4 @@ CPU_INT16S create_laplacian_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize)
 CPU_CHAR apply_median_filter(t_img * img_in,CPU_INT16S filtersize,t_img * img_out);
 CPU_INT08U get_median(CPU_INT08U ** table2D,CPU_INT16S filter_range,CPU_INT16S i, CPU_INT16S j);
 
+#endif

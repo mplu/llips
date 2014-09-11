@@ -8,7 +8,8 @@
 /* Author : MPE                                                 */
 /*                                                              */
 /****************************************************************/
-
+#ifndef __LLIPS_INCLUDES_H
+#define __LLIPS_INCLUDES_H
 /****************************************************************/
 /**           Includes                                          */
 /****************************************************************/
@@ -27,3 +28,6 @@
 #include "llips_general.h"
 #include "llips_motiondetect.h"
 #include "llips_contrastdetect.h"
+
+
+#endif

@@ -7,7 +7,8 @@
 /* Author : MPE                                                 */
 /*                                                              */
 /****************************************************************/
-
+#ifndef __LLIPS_CONTRAST_DETECTION_H
+#define __LLIPS_CONTRAST_DETECTION_H
 /****************************************************************/
 /**           Define                                            */
 /****************************************************************/
@@ -23,3 +24,6 @@
 /**           Prototypes                                        */
 /****************************************************************/
 CPU_CHAR search_contrast(CPU_CHAR tolerance, t_img * img_in1,t_img * img_out,CPU_INT32U RGB, CPU_INT32U color,CPU_CHAR direction);
+
+
+#endif

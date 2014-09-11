@@ -2,12 +2,13 @@
 /* Light Library for Image ProcesS                              */
 /* File : llips_constrastdetect.h                               */
 /* Description :                                                */
-/*   About contrast and edge detection on image                 */
+/*   Various functions for Llips                                */
 /*                                                              */
 /* Author : MPE                                                 */
 /*                                                              */
 /****************************************************************/
-
+#ifndef __LLIPS_FUNCTIONS_H
+#define __LLIPS_FUNCTIONS_H
 /****************************************************************/
 /**           Define                                            */
 /****************************************************************/
@@ -26,3 +27,5 @@ CPU_FP64 **createTableFP64(CPU_INT16S nbLin, CPU_INT16S nbCol);
 CPU_VOID freeTableINT08U(CPU_INT08U **tab);
 CPU_VOID freeTableFP64(CPU_FP64 **tab);
 int compare (const CPU_VOID * a, const CPU_VOID * b);
+
+#endif
