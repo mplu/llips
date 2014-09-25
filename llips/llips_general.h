@@ -1,17 +1,14 @@
-/****************************************************************/
-/* Light Library for Image ProcesS                              */
-/* File : llips_general.h                                       */
-/* Description :                                                */
-/*   About general image handling                               */
-/*                                                              */
-/* Author : MPE                                                 */
-/*                                                              */
-/****************************************************************/
+/********************************************//**
+ * \file
+ * \brief About general image handling
+ * \author MPE
+ *
+ ***********************************************/
 #ifndef __LLIPS_GENERAL_H
 #define __LLIPS_GENERAL_H
-/****************************************************************/
-/**           Define                                            */
-/****************************************************************/
+/* ***************************************************************/
+/* *           Define                                            */
+/* ***************************************************************/
 /* Offset of different data field in BMP images */
 #define OFFSET_SIGN                 0x0000
 #define OFFSET_IMG_P_DATA           0x000A
@@ -76,22 +73,23 @@ typedef enum te_color
 #define PI 3.141592653589793
 
 
-/****************************************************************/
+/* ***************************************************************/
 /**           Macro                                             */
-/****************************************************************/
+/* ***************************************************************/
 /* Get and Set for getting specific primary color */
 #define GetBlue(c)  0xFF&(c)
 #define GetGreen(c) 0xFF&(c>>8)
 #define GetRed(c)   0xFF&(c>>16)
 #define SetRGB(r,g,b)   ((0xFF&r)<<16) | ((0xFF&g)<<8 ) | (0xFF&b)
 
-/****************************************************************/
-/**           Global variables                                  */
-/****************************************************************/
+/* ***************************************************************/
+/* *           Global variables                                  */
+/* ***************************************************************/
 
-/****************************************************************/
-/**           Prototypes                                        */
-/****************************************************************/
+
+/* ***************************************************************/
+/* *           Prototypes                                        */
+/* ***************************************************************/
 CPU_VOID display_img_value(t_img * img,CPU_INT16S colors);
 CPU_VOID init_area(t_area * area,CPU_INT16U maxwidth,CPU_INT16U maxheight);
 CPU_VOID highlight_area(t_img * img,t_area * area,CPU_INT32U RGB);
@@ -105,10 +103,10 @@ CPU_CHAR histogram(t_img * img_in,t_img * img_out);
 CPU_CHAR luminance(t_img * img_in,t_img * img_out);
 CPU_CHAR apply_linfilter(t_img * img_in,CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,CPU_INT32U color,t_img * img_out);
 CPU_FP64 conv_gauss(CPU_INT16S x,CPU_INT16S y,CPU_FP64 sig);
-void create_gauss_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,CPU_FP64 sigma);
-void create_average_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize);
-CPU_INT16S create_laplacian_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize);
+CPU_VOID create_gauss_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,CPU_FP64 sigma);
+CPU_VOID create_average_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize);
+CPU_INT16S create_laplacian_filter(CPU_FP64 ** tab_filtre,CPU_INT08U filtertype);
 CPU_CHAR apply_median_filter(t_img * img_in,CPU_INT16S filtersize,t_img * img_out);
 CPU_INT08U get_median(CPU_INT08U ** table2D,CPU_INT16S filter_range,CPU_INT16S i, CPU_INT16S j);
-
+CPU_VOID display_filter_value(CPU_FP64 ** tab_filtre,CPU_INT08U filtersize);
 #endif

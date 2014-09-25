@@ -1,87 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="llips_exemple.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+	<File name="llips\llips_functions.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1611" topLine="74" />
-		</Cursor>
-		<Folding>
-			<Collapse line="71" />
-			<Collapse line="84" />
-			<Collapse line="97" />
-		</Folding>
-	</File>
-	<File name="llips\llips_cfg.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1085" topLine="0" />
+			<Cursor1 position="2817" topLine="74" />
 		</Cursor>
 	</File>
-	<File name="llips\llips_contrastdetect.c" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="llips\llips_contrastdetect.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2263" topLine="119" />
+			<Cursor1 position="1516" topLine="24" />
 		</Cursor>
 	</File>
-	<File name="app_cfg.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="llips\llips_general.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1736" topLine="6" />
+			<Cursor1 position="3849" topLine="62" />
 		</Cursor>
 	</File>
-	<File name="includes.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="llips\llips_general.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="715" topLine="0" />
+			<Cursor1 position="1343" topLine="25" />
 		</Cursor>
 	</File>
-	<File name="llips\llips_functions.c" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="llips\llips_io.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="7495" topLine="139" />
+			<Cursor1 position="5571" topLine="163" />
 		</Cursor>
 	</File>
-	<File name="llips\llips_functions.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="llips_exemple.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1541" topLine="3" />
-		</Cursor>
-	</File>
-	<File name="llips\llips_general.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="32084" topLine="735" />
-		</Cursor>
-	</File>
-	<File name="llips\llips_general.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4048" topLine="80" />
-		</Cursor>
-	</File>
-	<File name="llips\llips_includes.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="968" topLine="1" />
-		</Cursor>
-	</File>
-	<File name="llips\llips_io.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="11002" topLine="134" />
-		</Cursor>
-		<Folding>
-			<Collapse line="62" />
-		</Folding>
-	</File>
-	<File name="llips\llips_io.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1214" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="llips\llips_motiondetect.c" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2253" topLine="19" />
-		</Cursor>
-	</File>
-	<File name="llips\llips_motiondetect.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1422" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="llips\llips_type.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2568" topLine="16" />
+			<Cursor1 position="2182" topLine="48" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

@@ -1,12 +1,9 @@
-/****************************************************************/
-/* Light Library for Image ProcesS                              */
-/* File : llips_general.c                                       */
-/* Description :                                                */
-/*   About general image handling                               */
-/*                                                              */
-/* Author : MPE                                                 */
-/*                                                              */
-/****************************************************************/
+/********************************************//**
+ * \file
+ * \brief About general image handling
+ * \author MPE
+ *
+ ***********************************************/
 /* http://www.commentcamarche.net/contents/1200-bmp-format-bmp
 0x0000  Entête du fichier
 0x0000  La signature (sur 2 octets), indiquant qu'il s'agit d'un fichier BMP à l'aide des deux caractères.
@@ -54,32 +51,48 @@
         et rouge.
 */
 
-/****************************************************************/
-/**           Includes                                          */
-/****************************************************************/
+/* ***************************************************************/
+/* *           Includes                                          */
+/* ***************************************************************/
 #include "llips_includes.h"
 
-/****************************************************************/
-/**           Global variables                                  */
-/****************************************************************/
+/* ***************************************************************/
+/* *           Global variables                                  */
+/* ***************************************************************/
+//Predefined laplacian filter
+const CPU_FP64 lapl_filter_1[3][3] = {{ 0,-1, 0},
+                                      {-1, 4,-1},
+                                      { 0,-1, 0}};
 
-/****************************************************************/
-/**           Functions                                         */
-/****************************************************************/
+const CPU_FP64 lapl_filter_2[3][3] ={{0, 1, 0},
+                                     {1,-4, 1},
+                                     {0, 1, 0}};
 
-/****************************************************************/
-/* display_img_value()                                          */
-/* Description :                                                */
-/*   Display each color of image in ascii                       */
-/* Input:                                                       */
-/*   img - image to display                                     */
-/*   colors - color layer to display                            */
-/* Output:                                                      */
-/*   na                                                         */
-/* Return:                                                      */
-/*   na                                                         */
-/*                                                              */
-/****************************************************************/
+const CPU_FP64 lapl_filter_3[3][3] = {{-1,-1,-1},
+                                      {-1, 8,-1},
+                                      {-1,-1,-1}};
+
+const CPU_FP64 lapl_filter_4[3][3] = {{ 1,-2, 1},
+                                      {-2, 4,-2},
+                                      { 1,-2, 1}};
+
+const CPU_FP64 lapl_filter_5[5][5] = {  { 0, 0,-1, 0, 0},
+                                        { 0,-1,-2,-1, 0},
+                                        {-1,-2,16,-2,-1},
+                                        { 0,-1,-2,-1, 0},
+                                        { 0, 0,-1, 0, 0}};
+/* ***************************************************************/
+/* *           Functions                                         */
+/* ***************************************************************/
+
+/********************************************//**
+ * \brief Display each color of image in ascii
+ *
+ * \param img t_img* - image to display
+ * \param colors CPU_INT16S - color layer to display
+ * \return CPU_VOID
+ *
+ ***********************************************/
 CPU_VOID display_img_value(t_img * img,CPU_INT16S colors)
 {
     CPU_INT16S i,j;
@@ -109,6 +122,7 @@ CPU_VOID display_img_value(t_img * img,CPU_INT16S colors)
                printf("%2x",img->Blue[i][j]);
             }
             printf("\n");
+
         }
         printf("\n");
     }
@@ -142,21 +156,19 @@ CPU_VOID display_img_value(t_img * img,CPU_INT16S colors)
     }
 }
 
-/****************************************************************/
-/* highlight_line()                                             */
-/* Description :                                                */
-/*   Draw a line on image in a given color                      */
-/* Input:                                                       */
-/*   img - image to modify (also output)                        */
-/*   pix1 - first point of line                                 */
-/*   pix2 - second point of line                                */
-/*   RBG - color of the line                                    */
-/* Output:                                                      */
-/*   img                                                        */
-/* Return:                                                      */
-/*   vector of the line                                         */
-/*                                                              */
-/****************************************************************/
+
+/********************************************//**
+ * \brief Draw a line on image in a given color
+ * \warning NOT FUNCTIONNAL
+ * \param img t_img* - image to modify (also output)
+ * \param pix1 t_pixel - first point of line
+ * \param pix2 t_pixel - second point of line
+ * \param RGB CPU_INT32U - color of the line
+ * \return t_vect - vector representing the line
+ *
+ * Needs to be done
+ * Helpfull macro to define color is SetRGB(r,g,b), with value between 0 and 255
+ ***********************************************/
 t_vect highlight_line(t_img * img,t_pixel pix1,t_pixel pix2,CPU_INT32U RGB)
 {
     t_vect move;
@@ -167,19 +179,16 @@ t_vect highlight_line(t_img * img,t_pixel pix1,t_pixel pix2,CPU_INT32U RGB)
     return move;
 }
 
-/****************************************************************/
-/* pixels_to_vector()                                           */
-/* Description :                                                */
-/*   Convert two pixel into a vector                            */
-/* Input:                                                       */
-/*   pix1 - starting point of vector                            */
-/*   pix2 - ending point of vector                              */
-/* Output:                                                      */
-/*   na                                                         */
-/* Return:                                                      */
-/*   vector corresponding between pix1 and pix2                 */
-/*                                                              */
-/****************************************************************/
+
+
+/********************************************//**
+ * \brief Convert two pixel into a vector
+ *
+ * \param pix1 t_pixel - starting point of vector
+ * \param pix2 t_pixel - ending point of vector
+ * \return t_vect - corresponding vector between pix1 and pix2
+ *
+ ***********************************************/
 t_vect pixels_to_vector(t_pixel pix1,t_pixel pix2)
 {
     t_vect move;
@@ -190,19 +199,14 @@ t_vect pixels_to_vector(t_pixel pix1,t_pixel pix2)
     return move;
 }
 
-/****************************************************************/
-/* vectormodule()                                               */
-/* Description :                                                */
-/*   Convert two pixel into a vector                            */
-/* Input:                                                       */
-/*   pix1 - starting point of vector                            */
-/*   pix2 - ending point of vector                              */
-/* Output:                                                      */
-/*   na                                                         */
-/* Return:                                                      */
-/*   vector corresponding between pix1 and pix2                 */
-/*                                                              */
-/****************************************************************/
+
+/********************************************//**
+ * \brief Give module of a vector, in "pixel"
+ *
+ * \param vect t_vect - vector to process
+ * \return CPU_INT16U - module of the vector
+ *
+ ***********************************************/
 CPU_INT16U vectormodule(t_vect vect)
 {
     CPU_INT16U module;
@@ -213,18 +217,15 @@ CPU_INT16U vectormodule(t_vect vect)
     return module;
 }
 
-/****************************************************************/
-/* pixel_to_area()                                              */
-/* Description :                                                */
-/*   Convert a pixel into a area                                */
-/* Input:                                                       */
-/*   pix - pixel                                                */
-/* Output:                                                      */
-/*   na                                                         */
-/* Return:                                                      */
-/*   area                                                       */
-/*                                                              */
-/****************************************************************/
+
+/********************************************//**
+ * \brief Convert a pixel into a area of 1 x 1
+ *
+ * \param pix t_pixel - pixel
+ * \return t_area - corresponding area
+ *
+ * This function is use to be able to draw a pixel using highlight_area() function
+ ***********************************************/
 t_area pixel_to_area(t_pixel pix)
 {
     t_area ret;
@@ -240,19 +241,17 @@ t_area pixel_to_area(t_pixel pix)
     return ret;
 }
 
-/****************************************************************/
-/* init_area()                                                  */
-/* Description :                                                */
-/*   Initialize for corner of an area                           */
-/* Input:                                                       */
-/*   maxwidth - width of area                                   */
-/*   maxheight - height of area                                 */
-/* Output:                                                      */
-/*   area - pointer to initialized area                         */
-/* Return:                                                      */
-/*   area                                                       */
-/*                                                              */
-/****************************************************************/
+
+
+/********************************************//**
+ * \brief Initialize an area from 0,0 to given values
+ *
+ * \param area t_area* - pointer to initialized area
+ * \param maxwidth CPU_INT16U - width of area
+ * \param maxheight CPU_INT16U - height of area
+ * \return CPU_VOID
+ *
+ ***********************************************/
 CPU_VOID init_area(t_area * area,CPU_INT16U maxwidth,CPU_INT16U maxheight)
 {
     area->BotLeft.x = maxwidth;
@@ -265,20 +264,17 @@ CPU_VOID init_area(t_area * area,CPU_INT16U maxwidth,CPU_INT16U maxheight)
     area->TopRight.y = 0;
 }
 
-/****************************************************************/
-/* highlight_area()                                             */
-/* Description :                                                */
-/*   Draw a square area on image in a given color               */
-/* Input:                                                       */
-/*   img - image to modify (also output)                        */
-/*   area - area to highlight                                   */
-/*   RBG - color of the line                                    */
-/* Output:                                                      */
-/*   na                                                         */
-/* Return:                                                      */
-/*   img                                                        */
-/*                                                              */
-/****************************************************************/
+
+/********************************************//**
+ * \brief Draw a rectangular area on image in a given color
+ *
+ * \param img t_img* - image to modify (also output)
+ * \param area t_area* - area to highlight
+ * \param RGB CPU_INT32U - highlight color
+ * \return CPU_VOID
+ *
+ * Helpfull macro to define color is SetRGB(r,g,b), with value between 0 and 255
+ ***********************************************/
 CPU_VOID highlight_area(t_img * img,t_area * area,CPU_INT32U RGB)
 {
     CPU_INT16S i,j;
@@ -302,18 +298,14 @@ CPU_VOID highlight_area(t_img * img,t_area * area,CPU_INT32U RGB)
     }
 }
 
-/****************************************************************/
-/* printf_area()                                                */
-/* Description :                                                */
-/*   Display area corner coordonate in ascii                    */
-/* Input:                                                       */
-/*   area - area to display                                     */
-/* Output:                                                      */
-/*   na                                                         */
-/* Return:                                                      */
-/*   na                                                         */
-/*                                                              */
-/****************************************************************/
+
+/********************************************//**
+ * \brief Display area corner coordonate in a console
+ *
+ * \param area t_area* - area to display
+ * \return CPU_VOID
+ *
+ ***********************************************/
 CPU_VOID printf_area(t_area * area)
 {
     printf("\n%d,%d\t- \t-\t-\t - %d,%d\n| \t- \t-\t-\t - |\n| \t- \t-\t-\t - |\n%d,%d\t- \t-\t-\t - %d,%d\n\n",
@@ -327,19 +319,17 @@ CPU_VOID printf_area(t_area * area)
     area->BotRight.y);
 }
 
-/****************************************************************/
-/* color_filter()                                               */
-/* Description :                                                */
-/*   Create an image with only the color provided               */
-/* Input:                                                       */
-/*   img_in - input image                                       */
-/*   color - range of color to work on                          */
-/* Output:                                                      */
-/*   img_out - output image                                     */
-/* Return:                                                      */
-/*   status of operation                                        */
-/*                                                              */
-/****************************************************************/
+
+/********************************************//**
+ * \brief Create an image with only the color provided
+ *
+ * \param img_in t_img* - input image
+ * \param img_out t_img* - output image
+ * \param color CPU_INT32U - range of color to work on
+ * \return CPU_CHAR error
+ *
+ * The parameter color must be a combination of RED | GREEN | BLUE
+ ***********************************************/
 CPU_CHAR color_filter(t_img * img_in,t_img * img_out, CPU_INT32U color)
 {
     CPU_CHAR ret = ERR_NONE;
@@ -389,19 +379,16 @@ CPU_CHAR color_filter(t_img * img_in,t_img * img_out, CPU_INT32U color)
     return ret;
 }
 
-/****************************************************************/
-/* histogram()                                                  */
-/* Description :                                                */
-/*   Create an image with a view of histogram (RGBY). Width and */
-/*   precision of histogram depend on image width               */
-/* Input:                                                       */
-/*   img_in - input image                                       */
-/* Output:                                                      */
-/*   img_out - output image                                     */
-/* Return:                                                      */
-/*   status of operation                                        */
-/*                                                              */
-/****************************************************************/
+
+/********************************************//**
+ * \brief Create an image with a view of histogram (RGBY).
+ *
+ * \param img_in t_img* - input image
+ * \param img_out t_img* - output image
+ * \return CPU_CHAR - status of operation
+ *
+ * Width and precision of histogram depend on image width
+ ***********************************************/
 CPU_CHAR histogram(t_img * img_in,t_img * img_out)
 {
     CPU_CHAR ret = ERR_NONE;
@@ -572,18 +559,15 @@ CPU_CHAR histogram(t_img * img_in,t_img * img_out)
     return ret;
 }
 
-/****************************************************************/
-/* luminance()                                                  */
-/* Description :                                                */
-/*   Create an image only luminance data (desaturated image)    */
-/* Input:                                                       */
-/*   img_in - input image                                       */
-/* Output:                                                      */
-/*   img_out - output image                                     */
-/* Return:                                                      */
-/*   status of operation                                        */
-/*                                                              */
-/****************************************************************/
+
+/********************************************//**
+ * \brief Create an image only luminance data (desaturated image)
+ *
+ * \param img_in t_img* - input image
+ * \param img_out t_img* - output image
+ * \return CPU_CHAR - status of operation
+ *
+ ***********************************************/
 CPU_CHAR luminance(t_img * img_in,t_img * img_out)
 {
     CPU_CHAR ret = ERR_NONE;
@@ -620,18 +604,18 @@ CPU_CHAR luminance(t_img * img_in,t_img * img_out)
 }
 
 
-/****************************************************************/
-/* apply_linfilter()                                               */
-/* Description :                                                */
-/*   smooth image                                               */
-/* Input:                                                       */
-/*   img_in - input image                                       */
-/* Output:                                                      */
-/*   img_out - output image                                     */
-/* Return:                                                      */
-/*   status of operation                                        */
-/*                                                              */
-/****************************************************************/
+
+/********************************************//**
+ * \brief Apply a predefined filter on the image
+ *
+ * \param img_in t_img* - input image
+ * \param tab_filtre CPU_FP64** - pointer to a 2D Table containing the filter
+ * \param filtersize CPU_INT16S - size of the matrix representing the filter
+ * \param color CPU_INT32U - color that will be impacted by the filter. If not selected, will be set to zero
+ * \param img_out t_img* - output image
+ * \return CPU_CHAR - status of operation
+ *
+ ***********************************************/
 CPU_CHAR apply_linfilter(t_img * img_in,CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,CPU_INT32U color,t_img * img_out)
 {
 
@@ -651,7 +635,6 @@ CPU_CHAR apply_linfilter(t_img * img_in,CPU_FP64 ** tab_filtre,CPU_INT16S filter
     img_out->he = img_in->he;
     img_out->FileHeader_size = img_in->FileHeader_size;
 
-    //printf("%f\n",tab_filtre[0][0]);
 
     for(i_img=0;i_img< (img_in->he ) ;i_img++)
     {
@@ -664,7 +647,6 @@ CPU_CHAR apply_linfilter(t_img * img_in,CPU_FP64 ** tab_filtre,CPU_INT16S filter
             one_pixel[c_Blue] = 0;
             for (i=0;i<filtersize;i++)
             {
-                //printf("one_pixel[c_Red]1 %f\n",one_pixel[c_Red]);
                 for (j=0;j<filtersize;j++)
                 {
                     if(     ((i_img-filter_range+i )>=0)
@@ -708,52 +690,41 @@ CPU_CHAR apply_linfilter(t_img * img_in,CPU_FP64 ** tab_filtre,CPU_INT16S filter
     return ret;
 }
 
-/****************************************************************/
-/* conv_gauss()                                                 */
-/* Description :                                                */
-/*   gaussian convolution                                       */
-/* Input:                                                       */
-/*                                                              */
-/* Output:                                                      */
-/*                                                              */
-/* Return:                                                      */
-/*   status of operation                                        */
-/*                                                              */
-/****************************************************************/
+
+/********************************************//**
+ * \brief Gaussian convolution, used to create gaussian filter
+ *
+ * \param x CPU_INT16S - coordinate x in the matrix
+ * \param y CPU_INT16S - coordinate y in the matrix
+ * \param sig CPU_FP64 - standard deviation of Gaussian distribution
+ * \return CPU_FP64 - result
+ *
+ * http://en.wikipedia.org/wiki/Gaussian_filter or http://fr.wikipedia.org/wiki/Filtre_de_Gauss
+ *
+ ***********************************************/
 CPU_FP64 conv_gauss(CPU_INT16S x,CPU_INT16S y,CPU_FP64 sig)
 {
     CPU_FP64 value = 0,value1 = 0,value2 = 0;
-    //x++;
-    //y++;
-
 
     value1 =  1.0/(2.0*PI*sig*sig);
     value2 =   (0.0 -(x*x+y*y))/(2*sig*sig);
-
-    //value1 =  (PI*sig*sig)/2.0;
-    //value2 =  ((x*x+y*y)/(2*sig*sig));
-
-    //value1 =  1.0/(sig*sqrt(2*PI));
-    //value2 =   ( 0.0 -((x*x)+(y*y)) / (2*sig*sig) );
 
     value = value1 * exp(value2);
     return value;
 
 }
 
-/****************************************************************/
-/* create_gauss_filter()                                        */
-/* Description :                                                */
-/*   gaussian convolution                                       */
-/* Input:                                                       */
-/*                                                              */
-/* Output:                                                      */
-/*                                                              */
-/* Return:                                                      */
-/*   status of operation                                        */
-/*                                                              */
-/****************************************************************/
-void create_gauss_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,CPU_FP64 sigma)
+
+/********************************************//**
+ * \brief Create a Gaussian filter used to smooth and image
+ *
+ * \param tab_filtre CPU_FP64** - pointer to a 2D table (matrix) that will receive the filter
+ * \param filtersize CPU_INT16S - size of the matrix
+ * \param sigma CPU_FP64 - standard deviation of Gaussian distribution (higher will smooth more)
+ * \return CPU_VOID
+ *
+ ***********************************************/
+CPU_VOID create_gauss_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,CPU_FP64 sigma)
 {
     CPU_INT16U filter_range =(filtersize -1)/2;
     CPU_INT16S i,j;
@@ -779,19 +750,16 @@ void create_gauss_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize,CPU_FP64 s
     }
 }
 
-/****************************************************************/
-/* create_average_filter()                                      */
-/* Description :                                                */
-/*   gaussian convolution                                       */
-/* Input:                                                       */
-/*                                                              */
-/* Output:                                                      */
-/*                                                              */
-/* Return:                                                      */
-/*   status of operation                                        */
-/*                                                              */
-/****************************************************************/
-void create_average_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize)
+
+/********************************************//**
+ * \brief Create an average filter for smoothing
+ *
+ * \param tab_filtre CPU_FP64** - pointer to a 2D table (matrix) that will receive the filter
+ * \param filtersize CPU_INT16S - size of the matrix
+ * \return CPU_VOID
+ *
+ ***********************************************/
+CPU_VOID create_average_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize)
 {
     CPU_INT16S i,j;
     for (i=0;i<filtersize;i++)
@@ -803,60 +771,114 @@ void create_average_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize)
     }
 }
 
-/****************************************************************/
-/* create_laplacian_filter()                                       */
-/* Description :                                                */
-/*   gaussian convolution                                       */
-/* Input:                                                       */
-/*                                                              */
-/* Output:                                                      */
-/*                                                              */
-/* Return:                                                      */
-/*   status of operation                                        */
-/*                                                              */
-/****************************************************************/
-CPU_INT16S create_laplacian_filter(CPU_FP64 ** tab_filtre,CPU_INT16S filtersize)
+
+/********************************************//**
+ * \brief Create a laplacian filter for edge detection (return matrix must have a size of 3 or 5)
+ *
+ * \param tab_filtre CPU_FP64** - pointer to a 2D table (matrix) that will receive the filter of size (minimum size 3)
+ * \param filtertype CPU_INT16S - type of filter to use
+ * \return CPU_INT16S - filter size
+ *
+ * type 1   { 0,-1, 0}     type 2  {0, 1, 0}
+ *          {-1, 4,-1}             {1,-4, 1}
+ *          { 0,-1, 0}             {0, 1, 0}
+ *
+ * type 3   {-1,-1,-1}     type 4  { 1,-2, 1}
+ *          {-1, 8,-1}             {-2, 4,-2}
+ *          {-1,-1,-1}             { 1,-2, 1}
+ *
+ * type 5   { 0, 0,-1, 0, 0}
+ *          { 0,-1,-2,-1, 0}
+ *          {-1,-2,16,-2,-1}
+ *          { 0,-1,-2,-1, 0}
+ *          { 0, 0,-1, 0, 0}
+ *
+ ***********************************************/
+CPU_INT16S create_laplacian_filter(CPU_FP64 ** tab_filtre,CPU_INT08U filtertype)
 {
+    CPU_INT16S filtersize;
     CPU_INT16S i,j;
-    for (i=0;i<filtersize;i++)
+    switch(filtertype)
     {
-        for (j=0;j<filtersize;j++)
-        {
-            tab_filtre[i][j] = 0.5/8.0;
-        }
+        case 1:
+            filtersize = 3;
+            for(i=0;i<filtersize;i++)
+            {
+                for(j=0;j<filtersize;j++)
+                {
+                    tab_filtre[i][j] = lapl_filter_1[i][j];
+
+                }
+
+            }
+            break;
+        case 2:
+            filtersize = 3;
+            for(i=0;i<filtersize;i++)
+            {
+                for(j=0;j<filtersize;j++)
+                {
+                    tab_filtre[i][j] = lapl_filter_2[i][j];
+
+                }
+
+            }
+            break;
+        case 3:
+            filtersize = 3;
+            for(i=0;i<filtersize;i++)
+            {
+                for(j=0;j<filtersize;j++)
+                {
+                    tab_filtre[i][j] = lapl_filter_3[i][j];
+
+                }
+
+            }
+            break;
+        case 4:
+            filtersize = 3;
+            for(i=0;i<filtersize;i++)
+            {
+                for(j=0;j<filtersize;j++)
+                {
+                    tab_filtre[i][j] = lapl_filter_4[i][j];
+
+                }
+
+            }
+            break;
+        case 5:
+            filtersize = 5;
+            for(i=0;i<filtersize;i++)
+            {
+                for(j=0;j<filtersize;j++)
+                {
+                    tab_filtre[i][j] = lapl_filter_5[i][j];
+
+                }
+
+            }
+            break;
+        default:
+            tab_filtre = 0;
+            break;
     }
-
-    tab_filtre[1][1] = -0.5;
-
-/*    tab_filtre[0][0] = 0;
-    tab_filtre[0][1] = 1;
-    tab_filtre[0][2] = 0;
-
-    tab_filtre[1][0] = 1;
-
-    tab_filtre[1][2] = 1;
-
-    tab_filtre[2][0] = 0;
-    tab_filtre[2][1] = 1;
-    tab_filtre[2][2] = 0;
-*/
-
 
     return filtersize;
 }
 
-/****************************************************************/
-/* apply_median_filter()                                        */
-/* Description :                                                */
-/*   smooth image                                               */
-/* Input:                                                       */
-/*   img_in - input image                                       */
-/* Output:                                                      */
-/*   img_out - output image                                     */
-/* Return:                                                      */
-/*   status of operation                                        */
-/*                                                              */
-/****************************************************************/
+
+/********************************************//**
+ * \brief Apply a median filter on an image
+ *
+ * \param img_in t_img* - input image
+ * \param filtersize CPU_INT16S - filter size
+ * \param img_out t_img* - output image
+ * \return CPU_CHAR - status of operation
+ *
+ * Creating a matrix is not necessary prior to use this filter
+ ***********************************************/
 CPU_CHAR apply_median_filter(t_img * img_in,CPU_INT16S filtersize,t_img * img_out)
 {
 
@@ -881,7 +903,6 @@ CPU_CHAR apply_median_filter(t_img * img_in,CPU_INT16S filtersize,t_img * img_ou
     img_out->he = img_in->he;
     img_out->FileHeader_size = img_in->FileHeader_size;
 
-    //printf("%f\n",tab_filtre[0][0]);
 
     for(i_img=0;i_img< (img_in->he ) ;i_img++)
     {
@@ -905,6 +926,16 @@ CPU_CHAR apply_median_filter(t_img * img_in,CPU_INT16S filtersize,t_img * img_ou
     return ret;
 }
 
+/********************************************//**
+ * \brief Calcultate the median value of an area surrounding a pixel
+ *
+ * \param table2D CPU_INT08U** - pixel table
+ * \param filter_range CPU_INT16S - size of the filter
+ * \param i CPU_INT16S - coordinate of pixel
+ * \param j CPU_INT16S - coordinate of pixel
+ * \return CPU_INT08U - median value
+ *
+ ***********************************************/
 CPU_INT08U get_median(CPU_INT08U ** table2D,CPU_INT16S filter_range,CPU_INT16S i, CPU_INT16S j)
 {
     CPU_INT08U median;
@@ -915,11 +946,33 @@ CPU_INT08U get_median(CPU_INT08U ** table2D,CPU_INT16S filter_range,CPU_INT16S i
         for(jj =(0 - filter_range);jj<= filter_range;jj++)
         {
             table[ii+jj] = table2D[i+ii][j+jj];
-            printf("ii %d jj %d i %d j %d\n",ii,jj,i,j);
         }
     }
-    printf("plop\n");
-    qsort (table, (filter_range*2+1)*(filter_range*2+1), sizeof(CPU_INT08U), compare);
+    qsort (table, (filter_range*2+1)*(filter_range*2+1), sizeof(CPU_INT08U), (int (*)(const void*, const void*))compare);
     median = table[(filter_range*2+1)];
     return median;
+}
+
+
+
+/** \brief Display values contained in a square filter
+ *
+ * \param tab_filtre CPU_FP64** - pointer to matrix filter to display
+ * \param filtersize CPU_INT08U - Size of the filter
+ * \return CPU_VOID
+ *
+ */
+CPU_VOID display_filter_value(CPU_FP64 ** tab_filtre,CPU_INT08U filtersize)
+{
+
+    CPU_INT16S i,j;
+
+    for(i=0;i<filtersize;i++)
+    {
+        for(j=0;j<filtersize;j++)
+        {
+            printf("%.2f ",tab_filtre[i][j]);
+        }
+        printf("\n");
+    }
 }

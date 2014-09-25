@@ -1,40 +1,31 @@
-/****************************************************************/
-/* Light Library for Image ProcesS                              */
-/* File : llips_io.c                                            */
-/* Description :                                                */
-/*   About importing and exporting image from/to storage        */
-/*                                                              */
-/* Author : MPE                                                 */
-/*                                                              */
-/****************************************************************/
+/********************************************//**
+ * \file
+ * \brief About importing and exporting image from/to storage
+ * \author MPE
+ *
+ ***********************************************/
 
-/****************************************************************/
-/**           Includes                                          */
-/****************************************************************/
+/* ***************************************************************/
+/* *           Includes                                          */
+/* ***************************************************************/
 #include "llips_includes.h"
 
-/****************************************************************/
-/**           Global variables                                  */
-/****************************************************************/
+/* ***************************************************************/
+/* *           Global variables                                  */
+/* ***************************************************************/
 
-/****************************************************************/
-/**           Functions                                         */
-/****************************************************************/
+/* ***************************************************************/
+/* *           Functions                                         */
+/* ***************************************************************/
 
-/****************************************************************/
-/* init_img()                                                   */
-/* Description :                                                */
-/*   Initialize and allocate memory for a potentional           */
-/*   image load                                                 */
-/* Input:                                                       */
-/*   img - See output                                           */
-/*   colors - color layer to display                            */
-/* Output:                                                      */
-/*   img - initialized image buffer                             */
-/* Return:                                                      */
-/*   na                                                         */
-/*                                                              */
-/****************************************************************/
+
+/********************************************//**
+ * \brief Initialize and allocate memory for a potentional load_img()
+ *
+ * \param img t_img* - initialized image buffer
+ * \return CPU_VOID
+ *
+ ***********************************************/
 CPU_VOID init_img(t_img * img)
 {
     img->signature = 0;
@@ -46,19 +37,15 @@ CPU_VOID init_img(t_img * img)
     img->Red = createTableINT08U(MAX_HEIGHT,MAX_WIDTH);
 }
 
-/****************************************************************/
-/* load_img()                                                   */
-/* Description :                                                */
-/*   Initialize and allocate memory for a potentional           */
-/*   image load                                                 */
-/* Input:                                                       */
-/*   imgname - path to image to load in memory                  */
-/* Output:                                                      */
-/*   img - initialized image buffer                             */
-/* Return:                                                      */
-/*   status of operation                                        */
-/*                                                              */
-/****************************************************************/
+
+/********************************************//**
+ * \brief Load a bmp file into an organized memory area
+ *
+ * \param imgname CPU_CHAR* - Image name and path
+ * \param img t_img* - initialized image buffer
+ * \return CPU_CHAR - status of operation
+ *
+ ***********************************************/
 CPU_CHAR load_img(CPU_CHAR * imgname, t_img * img)
 {
     CPU_INT16S i,j,offset;
@@ -115,17 +102,14 @@ CPU_CHAR load_img(CPU_CHAR * imgname, t_img * img)
                             {
                                 for(j=0 ; j< img->wi ;j++)
                                 {
-                                    //printf("offset : %d\n",offset);
                                     fread (&(img->Blue[i][j]),PIXEL_size,1,fichier);
                                     fread (&(img->Green[i][j]),PIXEL_size,1,fichier);
                                     fread (&(img->Red[i][j]),PIXEL_size,1,fichier);
                                     offset ++;
 
                                 }
-                                //printf("offset fin ligne : %d\n",offset);
                                 while(offset%4 != 0)
                                 {
-                                    //printf("dummy read at offset : %d\n",offset);
                                     fread (&dummy,PIXEL_size,1,fichier);
                                     offset ++;
                                 }
@@ -159,20 +143,15 @@ CPU_CHAR load_img(CPU_CHAR * imgname, t_img * img)
     return ret;
 };
 
-/****************************************************************/
-/* write_img()                                                  */
-/* Description :                                                */
-/*   Write an image buffer into a BMP file                      */
-/*   image load                                                 */
-/* Input:                                                       */
-/*   imgname - path to image to write on storage                */
-/*   img - image buffer                                         */
-/* Output:                                                      */
-/*   na                                                         */
-/* Return:                                                      */
-/*   status of operation                                        */
-/*                                                              */
-/****************************************************************/
+
+/********************************************//**
+ * \brief Write an image buffer into a BMP file
+ *
+ * \param imgname CPU_CHAR* - Image name and path
+ * \param img t_img* - image buffer
+ * \return CPU_CHAR - status of operation
+ *
+ ***********************************************/
 CPU_CHAR write_img(CPU_CHAR * imgname, t_img * img)
 {
     CPU_CHAR ret = ERR_NONE;
@@ -200,10 +179,8 @@ CPU_CHAR write_img(CPU_CHAR * imgname, t_img * img)
                 offset ++;
 
             }
-            //printf("offset fin ligne : %d\n",offset);
             while(offset%4 != 0)
             {
-                //printf("dummy read at offset : %d\n",offset);
                 fputc(0, fichier);
                 offset ++;
             }
@@ -217,20 +194,15 @@ CPU_CHAR write_img(CPU_CHAR * imgname, t_img * img)
     return ret;
 }
 
-/****************************************************************/
-/* copy_img()                                                   */
-/* Description :                                                */
-/*   copy src img into dest img                                 */
-/*   image load                                                 */
-/* Input:                                                       */
-/*   imgsrc -                                                   */
-/*   imgdest -                                                  */
-/* Output:                                                      */
-/*   na                                                         */
-/* Return:                                                      */
-/*   status of operation                                        */
-/*                                                              */
-/****************************************************************/
+
+/********************************************//**
+ * \brief Copy source image into destination image
+ *
+ * \param imgsrc t_img* - source image
+ * \param imgdest t_img* - destination image
+ * \return CPU_CHAR - status of operation
+ *
+ ***********************************************/
 CPU_CHAR copy_img( t_img * imgsrc, t_img * imgdest)
 {
     CPU_CHAR ret = ERR_NONE;
@@ -247,7 +219,6 @@ CPU_CHAR copy_img( t_img * imgsrc, t_img * imgdest)
     imgdest->he = imgsrc->he;
     imgdest->FileHeader_size = imgsrc->FileHeader_size;
 
-    //printf("%f\n",tab_filtre[0][0]);
 
     for(i_img=0;i_img< (imgsrc->he ) ;i_img++)
     {

@@ -1,50 +1,44 @@
-/****************************************************************/
-/* Light Library for Image ProcesS                              */
-/* File : llips_motiondetec.h                                   */
-/* Description :                                                */
-/*   About importing and exporting image from/to storage        */
-/*                                                              */
-/* Author : MPE                                                 */
-/*                                                              */
-/****************************************************************/
+/********************************************//**
+ * \file
+ * \brief Motion detection fucntions
+ * \author MPE
+ *
+ ***********************************************/
 
-/****************************************************************/
-/**           Includes                                          */
-/****************************************************************/
+/* ***************************************************************/
+/* *           Includes                                          */
+/* ***************************************************************/
 #include "llips_includes.h"
 
-/****************************************************************/
-/**           Global variables                                  */
-/****************************************************************/
+/* ***************************************************************/
+/* *           Global variables                                  */
+/* ***************************************************************/
 
-/****************************************************************/
-/**           Functions                                         */
-/****************************************************************/
+/* ***************************************************************/
+/* *           Functions                                         */
+/* ***************************************************************/
 
-/****************************************************************/
-/* search_diff()                                                */
-/* Description :                                                */
-/*   Search for difference between two images, using given      */
-/*   tolerance and quantity change criteria                     */
-/* Input:                                                       */
-/*   tolerance - tolerance in % between two pixel               */
-/*   quantity - quantity of pixel change to evaluate change     */
-/*   img_in1 - first image                                      */
-/*   img_in2 - second image                                     */
-/* Output:                                                      */
-/*   img_out - img_in2 including area of change                 */
-/*   change_img - aera containing pixel that changed between    */
-/*                img_in1 and img_in2                           */
-/* Return:                                                      */
-/*   status of operation, combination of                        */
-/*   NO_DIFF             no diff detected                       */
-/*   DIFF_SIZE           size is different                      */
-/*   DIFF_BLUE           difference on blue pixel               */
-/*   DIFF_GREEN          difference on blue pixel               */
-/*   DIFF_RED            difference on blue pixel               */
-/*   DIFF_HIGH_QUANTITY  globally high quantity of change       */
-/*                                                              */
-/****************************************************************/
+
+/********************************************//**
+ * \brief Search for difference between two images, using given tolerance and quantity change criteria
+ *
+ * \param tolerance CPU_INT16U - tolerance in % between two pixel
+ * \param quantity CPU_INT16U - quantity of pixel change to evaluate change
+ * \param img_in1 t_img* - first image
+ * \param img_in2 t_img* - second image
+ * \param img_out t_img* - img_in2 including area of change
+ * \param change_img t_area* - aera containing pixel that changed between img_in1 and img_in2
+ * \return CPU_CHAR - status of operation
+ *
+ *  status of operation is combination of
+ *  NO_DIFF             no diff detected
+ *  DIFF_SIZE           size is different
+ *  DIFF_BLUE           difference on blue pixel
+ *  DIFF_GREEN          difference on blue pixel
+ *  DIFF_RED            difference on blue pixel
+ *  DIFF_HIGH_QUANTITY  globally high quantity of change
+ *
+ ***********************************************/
 CPU_CHAR search_diff(CPU_INT16U tolerance,CPU_INT16U quantity, t_img * img_in1,t_img * img_in2,t_img * img_out,t_area * change_img)
 {
     CPU_CHAR ret = NO_DIFF;
@@ -132,23 +126,18 @@ CPU_CHAR search_diff(CPU_INT16U tolerance,CPU_INT16U quantity, t_img * img_in1,t
     return ret;
 }
 
-/****************************************************************/
-/* evaluate_move()                                              */
-/* Description :                                                */
-/*   Evaluate mouvement direction between three sequence images */
-/*   that have been previously processed by search_diff()       */
-/* Input:                                                       */
-/*   p_img_base - image used to create ouput image header       */
-/*   area_1 - change between image 1 and 2                      */
-/*   area_2 - change between image 2 and 3                      */
-/* Output:                                                      */
-/*   p_img_target - output image containing both area of change */
-/*   p_movement_origin - relative vector of the displacement    */
-/*                       from center of image                   */
-/* Return:                                                      */
-/*   absolute vector of the displacement                        */
-/*                                                              */
-/****************************************************************/
+
+/********************************************//**
+ * \brief Evaluate mouvement direction between three sequencial images that have been previously processed by search_diff()
+ *
+ * \param p_img_base t_img* - image used to create ouput image header
+ * \param p_img_target t_img* - output image containing both area of change
+ * \param area_1 t_area - change between image 1 and 2
+ * \param area_2 t_area - change between image 2 and 3
+ * \param p_movement_origin t_vect* - relative vector of the displacement from center of image
+ * \return t_vect - absolute vector of the displacement
+ *
+ ***********************************************/
 t_vect evaluate_move(t_img * p_img_base,t_img * p_img_target,t_area area_1,t_area area_2, t_vect * p_movement_origin)
 {
     t_vect ret = {0};
@@ -206,14 +195,19 @@ t_vect evaluate_move(t_img * p_img_base,t_img * p_img_target,t_area area_1,t_are
     return ret;
 }
 
-/****************************************************************/
-/* search_diff_x()                                              */
-/* Description :                                                */
-/* Input:                                                       */
-/* Output:                                                      */
-/* Return:                                                      */
-/*                                                              */
-/****************************************************************/
+
+/********************************************//**
+ * \brief Search for difference between two images, using given tolerance and quantity change criteria, but trying to find an horizontal move
+ * \warning NOT FUNCTIONNAL
+ * \param tolerance CPU_INT16U - tolerance in % between two pixel
+ * \param quantity CPU_INT16U - quantity of pixel change to evaluate change
+ * \param img_in1 t_img* - first image
+ * \param img_in2 t_img* - second image
+ * \param img_out t_img* - img_in2 including area of change
+ * \param change_img t_area* - aera containing pixel that changed between img_in1 and img_in2
+ * \return CPU_CHAR - status of operation
+ *
+ ***********************************************/
 CPU_CHAR search_diff_x(CPU_INT16U tolerance,CPU_INT16U quantity, t_img * img_in1,t_img * img_in2,t_img * img_out,t_area * change_img)
 {
     CPU_CHAR ret = NO_DIFF;
@@ -291,8 +285,6 @@ CPU_CHAR search_diff_x(CPU_INT16U tolerance,CPU_INT16U quantity, t_img * img_in1
                         {
                             module = vectormodule(pixels_to_vector(area1,area2));
                             maxmodule = maxi(module,maxmodule);
-                            //printf("module : %d\n",module);
-                            //system("pause");
                             areasize = 2;
                             area_pic2.BotLeft.x   = area2.x - areasize /2 ;
                             area_pic2.BotLeft.y   = area2.y + areasize /2 ;
@@ -332,6 +324,17 @@ CPU_CHAR search_diff_x(CPU_INT16U tolerance,CPU_INT16U quantity, t_img * img_in1
     return ret;
 }
 
+/********************************************//**
+ * \brief Try to find a correspondance from an area from image 1 in image 2
+ * \warning NOT FUNCTIONNAL
+ * \param img_in1 t_img* - first image
+ * \param img_in2 t_img* - second image
+ * \param areasize CPU_INT16U - size of research
+ * \param area_from_1 t_pixel - what to look for
+ * \param raw_tolerance CPU_INT16U - tolerance in % between two pixel
+ * \return t_pixel
+ *
+ ***********************************************/
 t_pixel look_for_match(t_img * img_in1,t_img * img_in2,CPU_INT16U areasize,t_pixel area_from_1,CPU_INT16U raw_tolerance)
 {
     t_pixel area_to_2;
@@ -374,7 +377,6 @@ t_pixel look_for_match(t_img * img_in1,t_img * img_in2,CPU_INT16U areasize,t_pix
             {
                 for(j=0 ; j< areasize ;j++)
                 {
-                    //printf("diff : %d tol : %d\n",abs(table_dest[i][j] - table_src[i][j]),raw_tolerance);
                     if ((abs(table_dest[i][j] - table_src[i][j]))>(raw_tolerance*3)/2)
                     {
                         match = FALSE;
@@ -383,7 +385,6 @@ t_pixel look_for_match(t_img * img_in1,t_img * img_in2,CPU_INT16U areasize,t_pix
             }
             if(match == TRUE)
             {
-                //printf("something found at x = %d and y = %d !\n",area_from_1.x + offset_j,area_from_1.y + offset_i);
                 area_to_2.x = area_from_1.x + offset_j;
                 area_to_2.y = area_from_1.y + offset_i;
             }else
@@ -394,22 +395,7 @@ t_pixel look_for_match(t_img * img_in1,t_img * img_in2,CPU_INT16U areasize,t_pix
         }
         if(match == TRUE)break;
     }
-    /*
-    for(i=0;i< areasize  ;i++)
-    {
-        for(j=0 ; j< areasize ;j++)
-        {
-            printf("%d\t",table_src[i][j]);
-        }printf("\n");
-    }
-    for(i=0;i< areasize  ;i++)
-    {
-        for(j=0 ; j< areasize ;j++)
-        {
-            printf("%d\t",table_dest[i][j]);
-        }printf("\n");
-    }
-    */
+
     return area_to_2;
 }
 

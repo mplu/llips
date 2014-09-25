@@ -1,42 +1,36 @@
-/****************************************************************/
-/* File : llips_constrastdetect.c                               */
-/* Description :                                                */
-/*   About contrast and edge detection on image                 */
-/*                                                              */
-/* Author : MPE                                                 */
-/*                                                              */
-/****************************************************************/
-
-/****************************************************************/
-/**           Includes                                          */
-/****************************************************************/
+/********************************************//**
+ * \file
+ * \brief About contrast and edge detection on image
+ * \author MPE
+ *
+ ***********************************************/
+/* ***************************************************************/
+/*            Includes                                           */
+/* ***************************************************************/
 #include "llips_includes.h"
 
-/****************************************************************/
-/**           Global variables                                  */
-/****************************************************************/
+/* ***************************************************************/
+/*           Global variables                                    */
+/* ***************************************************************/
 
-/****************************************************************/
-/**           Functions                                         */
-/****************************************************************/
+/* ***************************************************************/
+/*           Functions                                           */
+/* ***************************************************************/
 
-/****************************************************************/
-/* search_contrast()                                            */
-/* Description :                                                */
-/*   Search constrast between two adjacent pixel on a given     */
-/*   direction, according to a color                            */
-/* Input:                                                       */
-/*   img_in1 - input image                                      */
-/*   RGB - replacement color for detected pixel                 */
-/*   color - range of color to work on                          */
-/*   direction - HOR,VER or DIAG to indicate direction of       */
-/*               detection                                      */
-/* Output:                                                      */
-/*   img_out - output image                                     */
-/* Return:                                                      */
-/*   status of search                                           */
-/*                                                              */
-/****************************************************************/
+/********************************************//**
+ * \brief Search constrast between two adjacent pixel
+ *
+ * \param tolerance CPU_CHAR - tolerance in % between two pixel
+ * \param img_in1 t_img* - input image
+ * \param img_out t_img* - output image
+ * \param RGB CPU_INT32U - replacement color for detected pixel
+ * \param color CPU_INT32U - range of color to work on
+ * \param direction CPU_CHAR - HOR,VER or DIAG to indicate direction of detection
+ * \return CPU_CHAR - status of search
+ *
+ * Search constrast between two adjacent pixel on a given
+ * direction, according to a color
+ ***********************************************/
 CPU_CHAR search_contrast(CPU_CHAR tolerance, t_img * img_in1,t_img * img_out,CPU_INT32U RGB, CPU_INT32U color,CPU_CHAR direction)
 {
     CPU_CHAR ret = ERR_NONE;
