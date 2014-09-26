@@ -77,10 +77,10 @@ typedef enum te_color
 /**           Macro                                             */
 /* ***************************************************************/
 /* Get and Set for getting specific primary color */
-#define GetBlue(c)  0xFF&(c)
-#define GetGreen(c) 0xFF&(c>>8)
-#define GetRed(c)   0xFF&(c>>16)
-#define SetRGB(r,g,b)   ((0xFF&r)<<16) | ((0xFF&g)<<8 ) | (0xFF&b)
+#define GetBlue(c)  (0xFF&(c))
+#define GetGreen(c) (0xFF&(c>>8))
+#define GetRed(c)   (0xFF&(c>>16))
+#define SetRGB(r,g,b)   (((0xFF&r)<<16) | ((0xFF&g)<<8 ) | (0xFF&b))
 
 /* ***************************************************************/
 /* *           Global variables                                  */

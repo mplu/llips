@@ -136,3 +136,130 @@ CPU_CHAR search_contrast(CPU_CHAR tolerance, t_img * img_in1,t_img * img_out,CPU
     }
     return ret;
 }
+
+
+/********************************************//**
+ * \brief Search block of predefined color
+ * \warning NOT FINISH, may be for later use
+ * \param img_in1 t_img* - input image
+ * \param img_out t_img* - output image
+ * \param colorvalue CPU_INT32U - pattern to look for
+ * \param colortype CPU_INT32U - color range
+ * \param sizeofsearch CPU_INT08U - size of area
+ * \param areaofsearch t_simplearea - serach area
+ * \return CPU_VOID
+ *
+ * Search in a part "areaofsearch" in "img_in1", a square "sizeofsearch" containing value higher than "colorvalue", on "colortype" only.
+ ***********************************************/
+CPU_VOID analyse_result(t_img * img_in1,t_img * img_out,CPU_INT32U colorvalue, CPU_INT32U colortype,CPU_INT16S sizeofsearch,t_simplearea* areaofsearch)
+{
+    CPU_INT32S i,j,ilocal,jlocal;
+    CPU_INT16S halfsize;
+    CPU_INT16S occurence = 0;
+
+    if(sizeofsearch%2!=1)
+    {
+        sizeofsearch ++;
+    }
+    halfsize = sizeofsearch>>2;
+
+    //Write Header
+    for(i=0;i<img_in1->FileHeader_size;i++)
+    {
+        img_out->FileHeader[i] = img_in1->FileHeader[i];
+    }
+    img_out->signature = img_in1->signature;
+    img_out->depth = img_in1->depth;
+    img_out->wi = img_in1->wi;
+    img_out->he = img_in1->he;
+    img_out->FileHeader_size = img_in1->FileHeader_size;
+
+    if(areaofsearch == NULL)
+    {
+        areaofsearch->BotLeft.x = 0;
+        areaofsearch->BotLeft.y = 0;
+
+        areaofsearch->TopRight.x = img_out->wi;
+        areaofsearch->TopRight.y = img_out->he;
+    }
+
+    for(i=areaofsearch->BotLeft.y ; i< (img_in1->he - areaofsearch->TopRight.y ) ;i=i+halfsize)
+    {
+        for(j=areaofsearch->BotLeft.x ; j< (img_in1->wi -areaofsearch->TopRight.x ) ;j=j+halfsize)
+        {
+            // lets search around pixel
+            for(ilocal= i - halfsize ; ilocal< (i + halfsize ) ;ilocal++)
+            {
+                for(jlocal= j - halfsize ; jlocal< (j + halfsize ) ;jlocal++)
+                {
+
+                    if ((colortype & BLUE)!=0)
+                    {
+                        if(img_in1->Blue[i][j]>GetBlue(colorvalue) )
+                        {
+                            occurence ++;
+                        }
+                    }
+
+                    if ((colortype & GREEN)!=0)
+                    {
+                        if(img_in1->Blue[i][j]>GetBlue(colorvalue) )
+                        {
+                            occurence ++;
+                        }
+                    }
+
+                    if ((colortype & RED)!=0)
+                    {
+                        if(img_in1->Blue[i][j]>GetBlue(colorvalue) )
+                        {
+                            occurence ++;
+                        }
+                    }
+                }
+            }
+
+            if (occurence > sizeofsearch * sizeofsearch)
+            {
+                // color zone if ok
+                for(ilocal= i - halfsize ; ilocal< (i + halfsize ) ;ilocal++)
+                {
+                    for(jlocal= j - halfsize ; jlocal< (j + halfsize ) ;jlocal++)
+                    {
+
+                        if ((colortype & BLUE)!=0)
+                        {
+                            img_out->Blue[i][j] = 200;
+                        }else
+                        {
+                            img_out->Blue[i][j] = 0;
+                        }
+
+                        if ((colortype & GREEN)!=0)
+                        {
+                            img_out->Green[i][j] = 200;
+                        }else
+                        {
+                            img_out->Green[i][j] = 0;
+                        }
+
+                        if ((colortype & RED)!=0)
+                        {
+                            img_out->Red[i][j] = 200;
+                        }else
+                        {
+                            img_out->Red[i][j] = 0;
+                        }
+                    }
+
+                }
+            }
+
+
+
+        }
+
+    }
+
+}
+

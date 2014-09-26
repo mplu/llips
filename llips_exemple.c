@@ -60,17 +60,17 @@ int main(int argc, char *argv[])
 
     filter3 = createTableFP64(3,3);
 
-    filter3[0][0] = 0 ;
-    filter3[0][1] = 1 ;
-    filter3[0][2] = 0 ;
+    filter3[0][0] = -1 ;
+    filter3[0][1] = 0 ;
+    filter3[0][2] = 1 ;
 
-    filter3[1][0] = 1 ;
-    filter3[1][1] = -4 ;
+    filter3[1][0] = -1 ;
+    filter3[1][1] = 0 ;
     filter3[1][2] = 1;
 
-    filter3[2][0] = 0 ;
-    filter3[2][1] = 1 ;
-    filter3[2][2] = 0 ;
+    filter3[2][0] = -1 ;
+    filter3[2][1] = 0 ;
+    filter3[2][2] = 1 ;
 
     apply_linfilter(&img_in1,filter3,3,RED,&img_inter1);
     sprintf((char *)outputfilename,"%s_test%s",IMG_OUT,BMP_EXT);

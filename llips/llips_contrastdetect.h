@@ -21,6 +21,6 @@
 /* *           Prototypes                                        */
 /* ***************************************************************/
 CPU_CHAR search_contrast(CPU_CHAR tolerance, t_img * img_in1,t_img * img_out,CPU_INT32U RGB, CPU_INT32U color,CPU_CHAR direction);
-
+CPU_VOID analyse_result(t_img * img_in1,t_img * img_out,CPU_INT32U colorvalue, CPU_INT32U colortype,CPU_INT16S sizeofsearch,t_simplearea* areaofsearch);
 
 #endif

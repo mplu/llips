@@ -65,5 +65,11 @@ typedef struct s_area
     t_pixel TopRight;
 }t_area;
 
+typedef struct s_simplearea
+{
+    t_pixel BotLeft;
+    t_pixel TopRight;
+}t_simplearea;
+
 
 #endif

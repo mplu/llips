@@ -171,12 +171,53 @@ CPU_VOID display_img_value(t_img * img,CPU_INT16S colors)
  ***********************************************/
 t_vect highlight_line(t_img * img,t_pixel pix1,t_pixel pix2,CPU_INT32U RGB)
 {
-    t_vect move;
+    t_vect v;
+    CPU_FP32 a, b, y_calc;
+    CPU_INT16S i,j;
 
-    move.x = pix2.x - pix1.x ;
-    move.y = pix2.y - pix1.y ;
-    //draw the line... I don't know how...
-    return move;
+    t_simplearea area_of_draw;
+
+    if((pix2.x - pix1.x) != 0)
+    {
+        a = ((CPU_FP32)pix2.y - (CPU_FP32)pix1.y) / (((CPU_FP32)pix2.x - (CPU_FP32)pix1.x));
+    }else
+    {
+        a = 1000000;
+    }
+
+
+    b = (CPU_FP32)pix1.y - a * (CPU_FP32)pix1.x;
+
+    printf("y = %.2f x + %.2f\n",a,b);
+
+    area_of_draw.BotLeft.x = mini(pix1.x,pix2.x);
+    area_of_draw.BotLeft.y = mini(pix1.y,pix2.y);
+    area_of_draw.TopRight.x = maxi(pix1.x,pix2.x);
+    area_of_draw.TopRight.y = maxi(pix1.y,pix2.y);
+
+
+    for(i=area_of_draw.BotLeft.y;i<= area_of_draw.TopRight.y ;i++)
+    {
+        for(j=area_of_draw.BotLeft.x ; (j<= area_of_draw.TopRight.x );j++)
+        {
+                //check if point belong to the line between pix1 and pix 2
+                y_calc = a * j + b;
+                if(((CPU_INT16S)y_calc -abs(a)/1.5 <= i)&&((CPU_INT16S)y_calc +abs(a)/1.5 >= i))
+                {
+                    img->Red[i][j] = GetRed(RGB);
+                    img->Green[i][j] = GetGreen(RGB);
+                    img->Blue[i][j] = GetBlue(RGB);
+                }else
+                {
+                    //nothing
+                }
+
+
+        }
+    }
+    v.x = 5;
+    v.y = a * v.x + b;
+    return v;
 }
 
 
