@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     CPU_INT16S filter1size;
     CPU_INT16S filter2size;
 
-    //CPU_FP64 sigma;
+    CPU_FP64 sigma;
 
     CPU_CHAR outputfilename[32];
 
@@ -60,32 +60,31 @@ int main(int argc, char *argv[])
 
     filter3 = createTableFP64(3,3);
 
-    filter3[0][0] = -1 ;
-    filter3[0][1] = 0 ;
-    filter3[0][2] = 1 ;
+    filter3[0][0] = -3.0 / 15.0  ;
+    filter3[0][1] = -3.0 / 15.0;
+    filter3[0][2] = 5.0 / 15.0;
 
-    filter3[1][0] = -1 ;
-    filter3[1][1] = 0 ;
-    filter3[1][2] = 1;
+    filter3[1][0] = -3.0 / 15.0;
+    filter3[1][1] = 0 / 15.0;
+    filter3[1][2] = 5.0 / 15.0;
 
-    filter3[2][0] = -1 ;
-    filter3[2][1] = 0 ;
-    filter3[2][2] = 1 ;
+    filter3[2][0] = -3.0 / 15.0;
+    filter3[2][1] = -3.0 / 15.0;
+    filter3[2][2] = -3.0 / 15.0;
 
-    apply_linfilter(&img_in1,filter3,3,RED,&img_inter1);
-    sprintf((char *)outputfilename,"%s_test%s",IMG_OUT,BMP_EXT);
-    write_img(outputfilename,&img_inter1);
 
     //ok for RPi-kee
-    create_gauss_filter(filter0,7,1.5);
-    apply_linfilter(&img_in1,filter0,7,GREEN|BLUE|RED,&img_inter1);
+    filter1size = 7;
+    sigma = 2.5;
+    create_gauss_filter(filter0,filter1size,sigma);
+    apply_linfilter(&img_in1,filter0,filter1size,GREEN|BLUE|RED,&img_inter1);
     sprintf((char *)outputfilename,"%s_gauss%s",IMG_OUT,BMP_EXT);
-    write_img(outputfilename,&img_inter1);
+    //write_img(outputfilename,&img_inter1);
     search_contrast(1,&img_inter1,&img_out1,SetRGB(255,255,255),GREEN|BLUE|RED,HOR|VER);
     sprintf((char *)outputfilename,"%s_contdetect%s",IMG_OUT,BMP_EXT);
-    write_img(outputfilename,&img_out1);
+    //write_img(outputfilename,&img_out1);
 
-    // laplace 1
+    /*// laplace 1
     filter1size = create_laplacian_filter(filter1,1);
     apply_linfilter(&img_inter1,filter1,filter1size,GREEN|BLUE|RED,&img_out1);
     sprintf((char *)outputfilename,"%s_lap1%s",IMG_OUT,BMP_EXT);
@@ -107,13 +106,17 @@ int main(int argc, char *argv[])
     filter1size = create_laplacian_filter(filter1,4);
     apply_linfilter(&img_inter1,filter1,filter1size,GREEN|BLUE|RED,&img_out1);
     sprintf((char *)outputfilename,"%s_lap4%s",IMG_OUT,BMP_EXT);
-    write_img(outputfilename,&img_out1);
+    write_img(outputfilename,&img_out1);*/
+
+    apply_linfilter(&img_inter1,filter3,3,GREEN|BLUE|RED,&img_out1);
+    sprintf((char *)outputfilename,"%s_kirchH1%s",IMG_OUT,BMP_EXT);
+    //write_img(outputfilename,&img_out1);
 
     // laplace 5
     filter2size = create_laplacian_filter(filter2,5);
     apply_linfilter(&img_inter1,filter2,filter2size,GREEN|BLUE|RED,&img_out1);
     sprintf((char *)outputfilename,"%s_lap5%s",IMG_OUT,BMP_EXT);
-    write_img(outputfilename,&img_out1);
+    //write_img(outputfilename,&img_out1);
 
 
 
