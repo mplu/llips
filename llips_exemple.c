@@ -22,7 +22,7 @@ CPU_CHAR g_debug_mode = DEF_DISABLED;
 /* ***************************************************************/
 int main(int argc, char *argv[])
 {
-
+	/* test */
     clock_t start, finish;
     double duration;
 
